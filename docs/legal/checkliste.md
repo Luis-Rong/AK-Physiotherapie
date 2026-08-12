@@ -80,6 +80,13 @@ ist das ein reales Risiko, kein theoretisches.
 
 ## Öffentliche Website
 
+- [ ] **Blockierend vor Go-live:** `index.html` enthält drei fiktive Patientenzitate
+      (Abschnitt „Was Patienten berichten", Zeilen ~184–193) mit Attribution wie
+      „Patientin, Reha nach OP" – im Code als Platzhalter kommentiert, aber für
+      Besucher nicht als solche erkennbar. Fabrizierte, als echt dargestellte
+      Testimonials sind eine irreführende geschäftliche Handlung nach **§ 5 UWG**
+      und berühren **§ 11 HWG**. Vor Launch entweder durch echte, schriftlich
+      freigegebene Zitate ersetzen oder explizit als Beispiel kennzeichnen.
 - [ ] Impressum nach § 5 DDG
 - [ ] Datenschutzerklärung
 - [ ] Consent nach TDDDG – keine Google Fonts vom CDN, kein Analytics vor Einwilligung
