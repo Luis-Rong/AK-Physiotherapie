@@ -126,3 +126,84 @@ Datenbanken**. Eine Lücke in der Marketingseite darf die Patientenakte nicht er
 | 4 | Patientenportal | hoch | zusätzlich: Auth-Konzept, Einwilligung |
 
 Phase 3 startet nicht, bevor die Punkte in `docs/legal/checkliste.md` abgehakt sind.
+
+---
+
+## Arbeitsstand und Vorhaben
+
+Stand: 2026-08-12. Die Gliederung stammt aus der Projektübersicht von Luis.
+**⚠ = kollidiert mit einer der Regeln oben und braucht eine Entscheidung (ADR),
+bevor es gebaut wird.** Die Punkte sind nicht verboten – sie sind ungeklärt.
+
+### Website — so gut wie fertig
+
+- Google-Rezensionen einbinden
+- Google Maps einbinden
+
+⚠ Beides sind **Drittanbieter-Einbindungen** und damit consent-pflichtig (TDDDG,
+Art. 6 DSGVO). Maps lädt beim Einbetten Daten zu Google, bevor der Nutzer etwas
+tut – also erst nach aktivem Consent laden, davor eine statische Vorschau.
+Rezensionen zusätzlich unter dem Blickwinkel **§ 11 HWG** (Werbung mit Äußerungen
+Dritter): Rezensionen anzeigen ist üblich, aber die Auswahl darf keine
+Behandlungserfolge bewerben. Gilt nur für `apps/website` – im geschützten Bereich
+bleibt es bei null Drittanbietern ([ADR 0003](docs/decisions/0003-kein-tracking-im-portal.md)).
+
+### PVS-Einbindung — Klärung offen
+
+Zu beantworten, bevor irgendetwas gebaut wird:
+
+- Wie arbeitet er aktuell? (Papier, Software, Mischform — konkreter Tagesablauf)
+- **Welches PVS?** Gibt es ein Exportformat (CSV, GDT, BDT)?
+- Wo liegen Web-Domain und **E-Mail**? Bei welchem Anbieter, in welchem Land?
+- Rechtliche Lage zu Patientenakten, Überweisungen, Verschreibungen
+
+⚠ Zur E-Mail: Falls die Praxis-Kommunikation heute über einen Freemail-Anbieter
+läuft, ist das bereits ohne unser Zutun ein **§ 203-Problem**. Nicht unser Fehler,
+aber sobald wir Mail anfassen, unsere Verantwortung. Vor jeder Mail-Funktion klären.
+
+⚠ „PVS-Einbindung" heißt **Datenübernahme, nicht Anbindung an die TI**. Verordnungen
+werden erfasst oder importiert; das Papier-Original bleibt beim Kunden
+aufbewahrungspflichtig ([ADR 0001](docs/decisions/0001-scope-kein-zugelassenes-pvs.md)).
+
+### Patientenportal
+
+- PDF digitalisieren → Behandlungsplan als strukturierte Daten
+- Übungen / Hausaufgaben, vom Patienten abhakbar
+- Schmerzangabe durch den Patienten
+- Supplement-Plan
+- Follow-up-Mail
+
+⚠ **Schmerzangabe:** Erfassen und anzeigen ist Dokumentation und unkritisch.
+Ein Verlauf mit therapeutischer Aussage — Trend, Ampel, Warnung, „Ihre Werte
+verschlechtern sich" — wäre **MDR Regel 11**
+([ADR 0004](docs/decisions/0004-kein-medizinprodukt.md)). Die Grenze liegt genau
+zwischen „Diagramm der eingegebenen Werte" und „Bewertung dieser Werte".
+
+⚠ **Supplement-Plan:** Rechtlich der unklarste Punkt der Liste. Berührt
+Nahrungsergänzungsmittel-Recht, die Health-Claims-Verordnung (EU 1924/2006) und
+die Frage, ob Supplement-Empfehlungen überhaupt zum Berufsbild des
+Physiotherapeuten gehören. Wenn zusätzlich ein Verkauf oder eine Provision im
+Spiel ist, ändert das die Lage nochmals. **Vor der Umsetzung anwaltlich klären.**
+
+⚠ **Follow-up-Mail:** Standard-E-Mail ist unverschlüsselt. Es darf daher **kein
+Gesundheitsdatum in die Mail** – kein Behandlungsinhalt, keine Diagnose, keine
+Übung, nicht einmal im Betreff. Zulässiges Muster: neutrale Benachrichtigung
+(„Es gibt eine Neuigkeit in Ihrem Portal") plus Login-Link. Zusätzlich zu prüfen:
+Einwilligung nach § 7 UWG, sobald die Mail auch nur am Rand werblich wird, und
+ein Mail-Versender mit EU-Hosting, AV-Vertrag und § 203-Verpflichtung.
+
+### Tech-Stack erweitern
+
+Hosting, Datenbanken, Cloud-Dienste.
+
+⚠ **Google Cloud steht im Konflikt mit Regel 5.** Nicht wegen der Technik –
+GCP hat EU-Regionen und einen EU-AV-Vertrag – sondern wegen der Kombination aus
+**§ 203 StGB** und einem Anbieter mit US-Mutterkonzern. Deutsche Aufsichtsbehörden
+sind bei Gesundheitsdaten auf US-Hyperscalern zurückhaltend, und die nach
+§ 203 Abs. 3 nötige Verschwiegenheitsverpflichtung eines Subunternehmers ist bei
+einem Hyperscaler praktisch nicht individuell verhandelbar.
+
+Das heißt nicht „unmöglich", aber es ist eine **bewusste Entscheidung mit
+Begründung**, keine Nebensache beim Aufsetzen. Zulässige Auflösung: GCP für die
+öffentliche Website (dort keine Gesundheitsdaten), EU-Anbieter für den
+geschützten Bereich. Vor Phase 3 als ADR festhalten.
