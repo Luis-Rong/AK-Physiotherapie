@@ -80,13 +80,16 @@ ist das ein reales Risiko, kein theoretisches.
 
 ## Öffentliche Website
 
-- [ ] **Blockierend vor Go-live:** `index.html` enthält drei fiktive Patientenzitate
-      (Abschnitt „Was Patienten berichten", Zeilen ~184–193) mit Attribution wie
-      „Patientin, Reha nach OP" – im Code als Platzhalter kommentiert, aber für
-      Besucher nicht als solche erkennbar. Fabrizierte, als echt dargestellte
-      Testimonials sind eine irreführende geschäftliche Handlung nach **§ 5 UWG**
-      und berühren **§ 11 HWG**. Vor Launch entweder durch echte, schriftlich
-      freigegebene Zitate ersetzen oder explizit als Beispiel kennzeichnen.
+- [ ] **Korrektur 2026-08-12:** Der erste Eintrag hier war zu scharf formuliert –
+      `index.html` (Abschnitt „Was Patienten berichten") trägt bereits einen
+      sichtbaren Disclaimer („Sinngemäße Beispielstimmen — reale, freigegebene
+      Patientenzitate folgen.", Zeile 195, normal gerenderter Text, keine
+      versteckte Klasse). Damit kein Blocker mehr. Zwei Dinge trotzdem vor
+      Go-live: (1) die drei Zitate durch echte, schriftlich freigegebene
+      Patientenstimmen ersetzen, (2) erwägen, den Disclaimer direkt über statt
+      unter den Zitaten zu platzieren – aktuell liest man erst die als Zitat
+      gesetzten Aussagen mit Attribution („Patientin, Reha nach OP") und erst danach
+      den Hinweis, dass sie beispielhaft sind.
 - [ ] Impressum nach § 5 DDG
 - [ ] Datenschutzerklärung
 - [ ] Consent nach TDDDG – keine Google Fonts vom CDN, kein Analytics vor Einwilligung
