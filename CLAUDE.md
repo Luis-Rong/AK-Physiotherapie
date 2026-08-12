@@ -167,23 +167,43 @@ aufbewahrungspflichtig ([ADR 0001](docs/decisions/0001-scope-kein-zugelassenes-p
 
 ### Patientenportal
 
-- PDF digitalisieren → Behandlungsplan als strukturierte Daten
-- Übungen / Hausaufgaben, vom Patienten abhakbar
-- Schmerzangabe durch den Patienten
-- Supplement-Plan
+Kein reines Einsichtsportal — **bidirektional**. Aktueller Stand: Physio erstellt
+Pläne als PDF, druckt sie aus oder verschickt sie per Mail.
+
+Geplant:
+- Behandlungsplan mit Übungen/Hausaufgaben, digitalisiert statt PDF/Ausdruck
+- Übungen vom Patienten abhakbar (Fortschritt)
+- Schmerzlevel durch den Patienten selbst erfasst
+- Supplement-Plan, vom Physio empfohlen
+- Physio kann Dateien/Inhalte für den Patienten hochladen
 - Follow-up-Mail
 
-⚠ **Schmerzangabe:** Erfassen und anzeigen ist Dokumentation und unkritisch.
-Ein Verlauf mit therapeutischer Aussage — Trend, Ampel, Warnung, „Ihre Werte
-verschlechtern sich" — wäre **MDR Regel 11**
-([ADR 0004](docs/decisions/0004-kein-medizinprodukt.md)). Die Grenze liegt genau
-zwischen „Diagramm der eingegebenen Werte" und „Bewertung dieser Werte".
+**Weil der Patient selbst schreibt (Fortschritt, Schmerzlevel), gilt
+[ADR 0002](docs/decisions/0002-behandlungsdaten-append-only.md) — append-only,
+versioniert, mit Audit-Log — für **beide Richtungen**, nicht nur für das, was
+der Physio einträgt. Ein Patienteneintrag wird Teil der Behandlungsdokumentation,
+sobald der Physio ihn sieht.**
 
-⚠ **Supplement-Plan:** Rechtlich der unklarste Punkt der Liste. Berührt
-Nahrungsergänzungsmittel-Recht, die Health-Claims-Verordnung (EU 1924/2006) und
-die Frage, ob Supplement-Empfehlungen überhaupt zum Berufsbild des
-Physiotherapeuten gehören. Wenn zusätzlich ein Verkauf oder eine Provision im
-Spiel ist, ändert das die Lage nochmals. **Vor der Umsetzung anwaltlich klären.**
+**Schmerzangabe:** Erfassen, speichern und als Verlauf anzeigen ist Dokumentation
+und unkritisch — auch als Diagramm, solange die **Interpretation beim Physio
+bleibt**. Kritisch würde es erst, wenn die Software selbst bewertet: Trend-Pfeil,
+Ampel, automatische Warnung „Ihre Werte verschlechtern sich". Das wäre
+MDR Regel 11 ([ADR 0004](docs/decisions/0004-kein-medizinprodukt.md)). Die Grenze
+liegt zwischen „Diagramm der eingegebenen Werte" und „Bewertung dieser Werte" durch
+das System.
+
+**Supplement-Plan:** Da die Empfehlung vom Physio selbst kommt und die Software nur
+anzeigt, was er einträgt, ist das architektonisch unproblematisch — genau das
+Muster aus Regel 4 (anzeigen, nicht generieren/bewerten). Offen bleibt eine
+**inhaltliche**, keine technische Frage:
+
+⚠ Sobald der Text konkrete Produktnamen oder gesundheitsbezogene Aussagen enthält
+("unterstützt die Regeneration"), greift die **Health-Claims-Verordnung
+(EU 1924/2006)** — nur zugelassene Claims sind zulässig. Betrifft den Inhalt, den
+der Physio schreibt, nicht das System — aber die Redaktion sollte das wissen, bevor
+der erste Plan digitalisiert wird. Falls je ein Verkaufslink oder eine Provision
+dazukommt (Affiliate, eigener Shop), ändert das die rechtliche Kategorie nochmals
+und gehört vorher geklärt.
 
 ⚠ **Follow-up-Mail:** Standard-E-Mail ist unverschlüsselt. Es darf daher **kein
 Gesundheitsdatum in die Mail** – kein Behandlungsinhalt, keine Diagnose, keine

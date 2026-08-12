@@ -28,12 +28,22 @@ Ohne diese Punkte werden keine echten Patientendaten verarbeitet.
 
 ## Vor Phase 4 (Patientenportal) – zusätzlich
 
-- [ ] Einwilligung für die Online-Einsicht: freiwillig, widerrufbar, dokumentiert
+Portal ist bidirektional: Patient trägt Fortschritt/Schmerzlevel ein, Physio lädt
+Pläne/Dateien hoch. Append-only-Pflicht ([ADR 0002](../decisions/0002-behandlungsdaten-append-only.md))
+gilt für beide Richtungen.
+
+- [ ] Einwilligung für die Online-Einsicht **und** -Eingabe: freiwillig, widerrufbar, dokumentiert
 - [ ] Die Praxis muss ohne Portal vollständig funktionieren – kein faktischer Zwang
 - [ ] Auth-Konzept: sichere Erstregistrierung, Identitätsprüfung bei Portalzugang,
       Umgang mit Passwort-Reset
 - [ ] Umsetzung der Betroffenenrechte: Auskunft (Art. 15), Berichtigung (Art. 16),
       Datenübertragbarkeit (Art. 20)
+- [ ] **Supplement-Plan-Inhalte gegen Health-Claims-VO (EU 1924/2006) prüfen**, sobald
+      Produktnamen oder gesundheitsbezogene Aussagen enthalten sind – Redaktionsfrage,
+      keine Softwarefrage. Sobald ein Verkaufslink oder eine Provision dazukommt
+      (Affiliate, eigener Shop), zusätzlich klären: Fernabsatzrecht, Kennzeichnungspflicht
+- [ ] Klären, ob Supplement-Empfehlungen zum Berufsbild des Physiotherapeuten zählen
+      oder eine Grenze zur Heilpraktiker-/Ernährungsberatungstätigkeit berühren
 
 ## Uns betreffend – Rechtsform und Haftung
 

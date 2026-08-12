@@ -41,6 +41,15 @@ dass Software Therapieentscheidungen trifft.
   Im Zweifel: nicht bauen, ADR schreiben, klären.
 - Die Grenze ist bei Übungs-Feedback fließend. „Patient hakt Übung ab" ist Dokumentation.
   „System passt Wiederholungszahl an" wäre es nicht mehr.
+- **Klarstellung Verlaufsdaten (z. B. Schmerzlevel):** Ein Diagramm der vom Patienten
+  selbst eingegebenen Werte ist zulässig, solange die **Interpretation beim Physio
+  bleibt** — reine Darstellung, keine Bewertung. Ein Trend-Pfeil, eine Ampel oder eine
+  automatische Warnung wäre eine Bewertung durch die Software und fiele unter Regel 11.
+- **Klarstellung Supplement-/Behandlungspläne:** Empfiehlt der Physio selbst und trägt
+  er den Inhalt frei ein, ist die Anzeige davon unproblematisch — die Software
+  generiert nichts. Der Inhalt selbst kann trotzdem anderes Recht berühren
+  (Health-Claims-VO bei Produktaussagen); das ist eine Redaktions-, keine
+  Software-Frage. Siehe `docs/legal/checkliste.md`.
 - Gilt ausdrücklich auch für spätere KI-Ideen. Ein Assistent, der Behandlungsverläufe
   zusammenfasst und daraus etwas ableitet, fällt darunter.
 - Diese Abgrenzung gehört in den Kundenvertrag, damit sie nicht als „vergessen"
