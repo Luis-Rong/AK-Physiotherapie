@@ -1,0 +1,286 @@
+# Was uns noch fehlt
+
+Stand: 2026-08-12 · Bestandsaufnahme nach Sichtung des Website-Codes
+
+Diese Liste ist nach **Herkunft** sortiert (wer muss liefern) und am Ende nach
+**Phase** priorisiert (wann blockiert es). Ein Punkt, der hier steht, ist nicht
+zwingend Arbeit — vieles ist eine Frage, die in fünf Minuten beantwortet ist.
+Aber unbeantwortet blockiert sie später Tage.
+
+---
+
+## 0. Kritische Unbekannte
+
+Drei Fragen, deren Antwort das Projekt **umformen** kann. Die gehören zuerst geklärt,
+bevor irgendetwas an Phase 3 geplant wird.
+
+### 0.1 Ist sein PVS TI-fähig?
+
+Ab **01.10.2027** gilt die TI-Anschlusspflicht für Heilmittelerbringer. Das betrifft
+**sein** PVS, nicht unseres — aber es betrifft uns mittelbar: Wenn sein aktuelles
+System nicht gematik-zugelassen ist, muss er bis dahin wechseln. Ein PVS-Wechsel
+mitten in unserem Projekt würde alle Integrationsannahmen entwerten.
+
+→ Vor Phase 3 klären. Wenn ein Wechsel ansteht: erst den Wechsel, dann unsere
+Anbindung. Nicht umgekehrt.
+
+### 0.2 Hat sein PVS einen Datenexport?
+
+Wenn nein, bedeutet unser System **dauerhafte Doppelpflege** — er trägt jeden
+Patienten zweimal ein. Das ist kein technisches Problem, sondern ein
+Akzeptanzproblem: Systeme mit Doppelpflege werden nach drei Monaten nicht mehr
+benutzt.
+
+→ Das muss er wissen und akzeptieren, **bevor** er den Auftrag erteilt. Sonst bauen
+wir etwas, das im Alltag scheitert.
+
+### 0.3 Wie kommuniziert er heute mit Patienten?
+
+Konkret: Läuft heute Patientenkommunikation über WhatsApp, private E-Mail oder einen
+Freemail-Anbieter? Werden Behandlungspläne als PDF-Anhang verschickt?
+
+Das ist verbreitet und in aller Regel bereits ein **§ 203-Problem** — unabhängig von
+uns. Es ist nicht unser Fehler, aber sobald wir Kommunikation anfassen, wird es unsere
+Verantwortung. Und es ist das stärkste Verkaufsargument für das Portal.
+
+→ Ehrlich fragen, nicht vorwurfsvoll. Wir brauchen den Ist-Zustand, nicht den
+Soll-Zustand.
+
+---
+
+## 1. Vom Physio — Betrieb & Technik
+
+### 1.1 Praxisverwaltungssystem
+
+- [ ] **Welches Produkt?** Name, Hersteller, ungefähre Version
+- [ ] Läuft es **lokal** auf einem Praxisrechner oder als Cloud-Dienst?
+- [ ] Vertragslaufzeit, monatliche Kosten, Kündigungsfrist
+- [ ] Wer hat Administratorzugang? Gibt es einen Wartungsvertrag/Ansprechpartner?
+- [ ] **Export möglich?** CSV, GDT, BDT, PDF — und kann er das selbst auslösen oder
+      braucht es den Hersteller (ggf. kostenpflichtig)?
+- [ ] Gibt es eine dokumentierte Schnittstelle/API?
+- [ ] Werden **Termine** dort verwaltet oder separat (Papierkalender, Google Calendar,
+      Doctolib)?
+- [ ] Ist das System **gematik-zugelassen / TI-fähig**? (siehe 0.1)
+- [ ] Was stört ihn am aktuellen System am meisten? *(Die Antwort sagt uns, wo unser
+      Nutzen liegt.)*
+
+### 1.2 Domain & Website
+
+Aus `PRODUCT.md` gibt es einen Hinweis, dass die bestehende Seite auf **Wix** läuft
+(Bilder werden clientseitig lazy-geladen, typisches Wix-Verhalten). Zu bestätigen.
+
+- [ ] Wo ist **akphysiotherapie.de** registriert? (Registrar: Strato, IONOS, United
+      Domains, Wix, GoDaddy …)
+- [ ] **Wer hat die Zugangsdaten?** Er selbst, ein früherer Dienstleister, ein
+      Familienmitglied? *(Häufigster Projektstopper überhaupt.)*
+- [ ] Läuft aktuell ein Wix-Vertrag? Laufzeit, Kündigungsfrist, Kosten
+- [ ] Wo liegen die **Nameserver** / wer verwaltet DNS?
+- [ ] Gibt es Subdomains oder weitere Domains (Tippfehler-Domains, `.com`)?
+- [ ] Soll die alte Seite abgeschaltet oder umgeleitet werden? Gibt es URLs mit
+      Rankings, die wir per Redirect erhalten sollten?
+
+### 1.3 E-Mail
+
+- [ ] Wo liegt das Postfach **info@akphysiotherapie.de**? Bei Wix, beim Registrar,
+      Google Workspace, Microsoft 365?
+- [ ] Wie viele Postfächer/Adressen gibt es?
+- [ ] Wird geschäftlich und privat gemischt (Gmail, GMX, web.de)?
+- [ ] **Wird über E-Mail heute Patientenkommunikation geführt?** Befunde, Pläne,
+      Verordnungen als Anhang? (siehe 0.3)
+- [ ] Muss bei einem Umzug die bestehende Mail-Historie migriert werden?
+
+### 1.4 Aktueller Arbeitsablauf
+
+Der wichtigste und am häufigsten übersprungene Block. Am besten **einmal danebensitzen**
+statt abfragen — eine Stunde Beobachtung ersetzt zehn Rückfragen.
+
+- [ ] Wie kommt ein neuer Patient herein? (Anruf, Mail, Empfehlung, Google)
+- [ ] Wie wird ein Termin vereinbart und **wo notiert**?
+- [ ] Was passiert im Erstgespräch? Was dokumentiert er, worauf (Papier, PVS, Word)?
+- [ ] Wie entsteht ein **Behandlungs-/Trainingsplan**? Word-Vorlage, PDF, handschriftlich?
+- [ ] Wie kommt der Plan zum Patienten? (Ausdruck, Mail, WhatsApp)
+- [ ] Wie dokumentiert er den **Verlauf** über mehrere Sitzungen?
+- [ ] Wie oft sieht er einen Patienten, wie lang ist eine typische Behandlungsserie?
+- [ ] Wie **rechnet** er ab? Selbstzahler-Rechnung selbst geschrieben? Über ein
+      Abrechnungszentrum? Welches?
+- [ ] Wo liegen die **Verordnungen** physisch? Wie werden sie archiviert?
+- [ ] Wie erinnert er an Termine? Erinnert er überhaupt?
+
+### 1.5 Volumen (für Dimensionierung und Preisgestaltung)
+
+- [ ] Wie viele **aktive Patienten** ungefähr?
+- [ ] Wie viele **Behandlungen pro Woche**?
+- [ ] Wie viele **Trainingspläne** pro Woche oder Monat?
+- [ ] Arbeitet er allein oder gibt es Angestellte / weitere Therapeuten?
+- [ ] Plant er zu wachsen? *(Entscheidet, ob wir Mehrbenutzerfähigkeit brauchen.)*
+
+---
+
+## 2. Vom Physio — Inhalte für die Website
+
+Diese Punkte blockieren **Phase 1 Go-live** konkret. Die Platzhalter stehen wörtlich
+im Code.
+
+### 2.1 Rechtspflichtige Angaben (Impressum & Datenschutz)
+
+- [ ] **Vollständiger Name** der Praxisinhaberin/des Praxisinhabers
+      → `impressum.html:29`, `datenschutz.html:28`
+- [ ] **Umsatzsteuer-IdNr.** → `impressum.html:46`
+- [ ] **Zuständige Aufsichtsbehörde** (vermutlich Gesundheitsamt Frankfurt am Main,
+      zu bestätigen) → `impressum.html:43`
+- [ ] Verantwortlicher nach § 18 Abs. 2 MStV → `impressum.html:49`
+- [ ] Rechtsform der Praxis (Einzelunternehmen, GbR, GmbH?) — beeinflusst Impressum
+- [ ] Entscheidung zur EU-Streitschlichtungsklausel → `impressum.html:52`
+
+### 2.2 Fachliche Angaben
+
+- [ ] **Fortbildungen / Zertifikate** mit Jahren → `ueber-uns.html:138`
+- [ ] **Berufserfahrung**: Jahre und Schwerpunkte → `ueber-uns.html:139`
+- [ ] **Mitgliedschaften** in Fachverbänden → `ueber-uns.html:140`
+- [ ] **Parken / ÖPNV-Anbindung** → `ueber-uns.html:168`
+- [ ] **Öffnungszeiten** — laut `PRODUCT.md` auf der alten Seite nicht veröffentlicht.
+      Will er welche nennen oder bewusst auf Kontaktaufnahme lenken?
+- [ ] **Preise** — bisher keine gefunden. Nennen oder auf Erstgespräch verweisen?
+      *(Bei Premium-Positionierung ist beides vertretbar, aber es sollte eine
+      Entscheidung sein.)*
+
+### 2.3 Medien
+
+- [ ] **Echte Praxis- und Behandlungsfotografie** — aktuell sind zwei Bilder im
+      Einsatz, laut Code-Kommentaren als Platzhalter markiert
+      (`index.html:57`, `ueber-uns.html:50`)
+- [ ] **Logo als Vektor (SVG)** — aktuell nur `logo.png`
+- [ ] **Weiße/invertierte Logo-Variante** für dunkle Flächen (in `PRODUCT.md` als
+      Bedarf notiert)
+- [ ] Portraitfoto des Therapeuten für „Über uns"
+
+### 2.4 Texte & Testimonials
+
+- [ ] **Echte Patientenzitate** mit **schriftlicher Freigabe** — oder die Entscheidung,
+      den Abschnitt bis dahin zu entfernen. Aktuell stehen dort gekennzeichnete
+      Beispielstimmen (`index.html:184–195`, siehe `legal/checkliste.md`)
+- [ ] **Google-Rezensionen**: Zugang zum Google-Business-Profil, damit wir echte
+      Bewertungen einbinden können — löst das Testimonial-Problem elegant
+- [ ] **Blog-Texte**: Es steht ein Redaktionsplan mit sechs Titeln, aber keine Inhalte
+      (`blog.html`, bewusst nicht verlinkt). Wer schreibt die? Er selbst, wir, extern?
+      *(Bei Gesundheitsthemen muss er fachlich freigeben — HWG.)*
+- [ ] Freigabe der bestehenden Website-Texte durch ihn (Tonalität, fachliche Richtigkeit)
+
+---
+
+## 3. Vom Physio — Rechtliches & Organisatorisches
+
+- [ ] Hat er einen **Datenschutzbeauftragten**? Bei Gesundheitsdaten und geplantem
+      Online-Portal dringend anzuraten, auch wenn die Benennungspflicht nach § 38 BDSG
+      bei einer kleinen Praxis strittig ist
+- [ ] Existiert ein **Verzeichnis von Verarbeitungstätigkeiten** (Art. 30)?
+- [ ] Gibt es bestehende **Patienteneinwilligungen** und eine Datenschutzerklärung
+      für die Praxis (offline)?
+- [ ] Hat er eine **Berufshaftpflicht**? Deckt sie digitale Angebote ab?
+- [ ] Hat er einen **Anwalt** für Medizin-/IT-Recht — oder brauchen wir eine Empfehlung?
+- [ ] Wer ist **entscheidungsbefugt** und unterschreibt? Er allein?
+- [ ] **Budget** und **Wunschtermin** für Phase 1 Go-live
+- [ ] Bereitschaft zu **laufenden Kosten** (Hosting, Wartung, Domain) — die Höhe hängt
+      von der Hosting-Entscheidung ab, die Bereitschaft muss aber vorher da sein
+
+---
+
+## 4. Von uns zu klären (nicht vom Physio)
+
+Diese Punkte hängen nicht an ihm, sondern an uns. Sie stehen ausführlicher in
+`legal/checkliste.md`.
+
+### 4.1 Geschäftlich
+
+- [ ] **Rechtsform**: GbR entsteht automatisch mit persönlicher Haftung — UG erwägen
+- [ ] Gesellschaftsvertrag zwischen Luis und Roko
+- [ ] **Vermögensschadenhaftpflicht** mit Cyber-/Datenschutzbaustein
+- [ ] Kundenvertrag inkl. Leistungsabgrenzung, Nutzungsrechte, Exit-Klausel
+- [ ] **Preismodell**, besonders die monatliche Betriebspauschale
+
+### 4.2 Technisch — Phase 1/2 (Website)
+
+- [ ] **Hosting-Entscheidung** für die Website (EU-Anbieter)
+      → füllt auch den Platzhalter in `datenschutz.html:31`
+- [ ] **Consent-Lösung** für Google Maps — aktuell lädt der iFrame ungefragt
+      (`index.html:212–217`). Empfehlung: Klick-zum-Laden statt Cookie-Banner
+- [ ] **Formular-Backend**: `mailto:` ist eine Übergangslösung und schlägt auf vielen
+      Geräten still fehl (`script.js:157–171`). Für eine conversion-orientierte Seite
+      ein echtes Leck
+- [ ] **Buchungstool**: ja/nein, welches? Platz ist im Code vorgesehen
+      (`index.html:224`). Bei Gesundheitsdaten AV-Vertrag zwingend
+- [ ] Deployment-Weg und Domain-Umschaltung planen (inkl. Redirects von der alten Seite)
+
+### 4.3 Technisch — Phase 3/4 (Portal)
+
+- [ ] **Tech-Stack-Entscheidung**: Die Website ist statisches HTML/CSS/JS. Für das
+      Portal brauchen wir Backend, Datenbank, Auth — das ist eine eigene Anwendung,
+      keine Erweiterung
+- [ ] **Auth-Konzept**: Erstregistrierung, Identitätsprüfung, Passwort-Reset, 2FA
+      für die Praxisseite
+- [ ] **Datenmodell** mit Append-only und Audit-Log von Anfang an (ADR 0002)
+- [ ] **PDF-Import**: Wie kommen die bestehenden Pläne ins System? Manuell abtippen,
+      als PDF anhängen, oder strukturiert erfassen?
+- [ ] Backup- und Wiederherstellungskonzept, dokumentiert und **getestet**
+
+---
+
+## 5. Extern benötigt
+
+- [ ] **Fachanwalt für IT-/Medizinrecht** — Prüfung von AV-Vertrag,
+      Verschwiegenheitsverpflichtung, Kundenvertrag, Impressum, Datenschutzerklärung
+- [ ] Ggf. **externer Datenschutzbeauftragter** für die Praxis
+- [ ] **Steuerberater** — Rechtsformwahl und Gründung
+- [ ] **Fotograf** für Praxis-/Behandlungsbilder
+
+---
+
+## 6. Priorisierung nach Phase
+
+| Prio | Blockiert | Punkte |
+|---|---|---|
+| **P0** | Phase 1 Go-live (Website) | Impressum-Daten (2.1), echte Fotos (2.3), Testimonial-Entscheidung (2.4), Domain-Zugang (1.2), Hosting-Entscheidung (4.2), Maps-Consent (4.2), Formular-Backend (4.2) |
+| **P1** | Planung Phase 3 | PVS-Klärung (0.1, 0.2, 1.1), Arbeitsablauf (1.4), Ist-Kommunikation (0.3), Volumen (1.5) |
+| **P2** | Bau Phase 3 | AV-Vertrag, § 203-Verpflichtung, DSFA, Hosting geschützter Bereich, Rechtsform (4.1), Tech-Stack (4.3) |
+| **P3** | Phase 4 (Portal) | Patienteneinwilligungen, Auth-Konzept, PDF-Import-Weg |
+
+**P0 ist realistisch in ein bis zwei Gesprächen erledigt** — das meiste sind Angaben,
+die er im Kopf oder in einer Schublade hat. Damit kann die Website live gehen, während
+Phase 3 noch geklärt wird.
+
+---
+
+## 7. Fragenkatalog zum Weitergeben
+
+Kompakte Fassung für ein erstes Gespräch — bewusst ohne Fachjargon.
+
+**Zur aktuellen Software**
+1. Welches Programm nutzt du für Patientenverwaltung und Dokumentation?
+2. Läuft das auf einem Rechner bei dir in der Praxis oder im Internet?
+3. Kannst du aus dem Programm Daten exportieren — und weißt du, wie?
+4. Weißt du, ob dein Programm für die Telematikinfrastruktur (TI) vorbereitet ist?
+
+**Zu Website und E-Mail**
+5. Wo ist deine Domain akphysiotherapie.de registriert, und wer hat die Zugangsdaten?
+6. Läuft die aktuelle Seite bei Wix? Wie lange läuft der Vertrag noch?
+7. Wo liegt dein E-Mail-Postfach info@akphysiotherapie.de?
+8. Schickst du Patienten heute schon Pläne oder Befunde per E-Mail oder WhatsApp?
+
+**Zum Arbeitsalltag**
+9. Wie läuft ein typischer Erstkontakt bis zum ersten Termin ab?
+10. Wie erstellst du einen Trainingsplan, und wie bekommt der Patient ihn?
+11. Wie viele Patienten betreust du aktuell ungefähr, wie viele Termine pro Woche?
+12. Was nervt dich an deinem jetzigen Ablauf am meisten?
+
+**Für die Website**
+13. Vollständiger Name, USt-IdNr., zuständiges Gesundheitsamt
+14. Deine Fortbildungen, Berufserfahrung, Fachverbandsmitgliedschaften
+15. Sollen Öffnungszeiten und Preise auf die Seite?
+16. Haben wir echte Fotos aus der Praxis — oder sollen wir einen Fotografen anfragen?
+17. Gibt es Patienten, die schriftlich einer Nennung als Referenz zustimmen würden?
+18. Bekommen wir Zugang zu deinem Google-Business-Profil (für Bewertungen und Karte)?
+
+**Organisatorisch**
+19. Hast du einen Datenschutzbeauftragten oder einen Anwalt, mit dem du arbeitest?
+20. Bis wann soll die neue Seite live sein?

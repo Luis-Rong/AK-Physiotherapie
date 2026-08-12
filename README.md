@@ -31,6 +31,12 @@ docs/legal/      Verträge, Datenschutz, Checklisten
 docs/marketing/  Kampagnen, Tracking-Konzept
 ```
 
+## Was als Nächstes fehlt
+
+[docs/offene-punkte.md](docs/offene-punkte.md) — alles, was wir noch vom Physio
+brauchen und was wir selbst klären müssen, priorisiert nach Phase. Enthält am Ende
+einen kompakten Fragenkatalog fürs erste Gespräch.
+
 Der Anwendungscode kommt noch – das hier ist zunächst das Gerüst mit den Leitplanken.
 
 ## Setup
