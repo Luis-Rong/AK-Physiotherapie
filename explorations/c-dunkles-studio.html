@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richtung C — Dunkles Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#080A0A; --raise:#101414; --raise2:#161C1B;
+  --on:#F2F5F4; --on-mid:rgba(242,245,244,.72); --on-soft:rgba(242,245,244,.5);
+  --line:rgba(242,245,244,.1); --line2:rgba(242,245,244,.22);
+  --mint:#5FE3C6; --mint-dim:rgba(95,227,198,.14);
+  --d:'Space Grotesk',system-ui,sans-serif; --s:'Plus Jakarta Sans',system-ui,sans-serif;
+  --e:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--void);color:var(--on);font-family:var(--s);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--mint);text-decoration:none}
+a:hover{color:var(--on)}
+h1,h2,h3{margin:0;font-family:var(--d);font-weight:600;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
+p{margin:0;color:var(--on-mid);text-wrap:pretty}
+.wrap{max-width:82rem;margin:0 auto;padding:0 clamp(1.25rem,4vw,3rem)}
+.kick{font-family:var(--d);font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mint)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:30;background:rgba(8,10,10,.72);backdrop-filter:blur(20px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:1.5rem}
+.brand{display:flex;align-items:center;gap:.7rem;color:var(--on);font-family:var(--d);font-weight:600;font-size:1rem;letter-spacing:-.02em}
+.brand img{height:24px;width:auto;display:block;filter:invert(1) brightness(2)}
+.links{display:flex;gap:.3rem;align-items:center}
+.links a{display:inline-flex;align-items:center;min-height:44px;padding:0 .9rem;font-size:.9rem;font-weight:500;color:var(--on-mid)}
+.links a:hover{color:var(--on)}
+.cta{border:1px solid var(--line2);border-radius:99px;padding:0 1.3rem!important;color:var(--on)!important}
+.cta:hover{background:var(--mint);color:var(--void)!important;border-color:var(--mint)}
+
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding:8rem 0 clamp(3rem,6vw,5rem);overflow:hidden}
+.glow{position:absolute;inset:0;pointer-events:none;background:
+  radial-gradient(45rem 30rem at 18% 8%,rgba(95,227,198,.18),transparent 70%),
+  radial-gradient(35rem 28rem at 88% 78%,rgba(95,227,198,.09),transparent 70%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:3px 3px}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(2rem,5vw,4rem);align-items:end}
+.hero h1{font-size:clamp(2.8rem,7vw,6rem);max-width:18ch}
+.hero h1 span{color:var(--mint)}
+.hero .sub{margin-top:1.8rem;font-size:clamp(1.05rem,.8vw+.9rem,1.25rem);max-width:38ch;color:var(--on-mid)}
+.hero .row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:2.4rem}
+.btn{display:inline-flex;align-items:center;gap:.7rem;min-height:54px;padding:0 1.8rem;border-radius:99px;font-weight:600;font-size:.98rem;transition:transform .32s var(--e),background-color .18s var(--e),box-shadow .32s var(--e)}
+.btn-a{background:var(--mint);color:var(--void)}
+.btn-a:hover{transform:translateY(-2px);box-shadow:0 16px 40px -16px rgba(95,227,198,.55);color:var(--void)}
+.btn-b{border:1px solid var(--line2);color:var(--on)}
+.btn-b:hover{border-color:var(--on);color:var(--on)}
+
+.panel{background:var(--raise);border:1px solid var(--line);border-radius:24px;padding:1.7rem;display:flex;flex-direction:column;gap:1.2rem}
+.panel .r{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;padding-bottom:1.1rem;border-bottom:1px solid var(--line)}
+.panel .r:last-child{padding-bottom:0;border-bottom:none}
+.panel .k{font-size:.78rem;color:var(--on-soft);letter-spacing:.04em}
+.panel .v{font-family:var(--d);font-size:1.5rem;font-weight:700;letter-spacing:-.02em}
+.panel .v.on{color:var(--mint)}
+
+section{padding:clamp(4.5rem,9vw,8rem) 0}
+.head{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.head h2{font-size:clamp(2rem,4vw,3.2rem)}
+.head .kick{display:block;margin-bottom:1rem}
+.head p{font-size:1.08rem;max-width:44ch}
+
+.stack{display:flex;flex-direction:column;gap:1rem}
+.row-card{display:grid;grid-template-columns:5rem 1fr 1fr;gap:clamp(1rem,3vw,2.5rem);align-items:center;background:var(--raise);border:1px solid var(--line);border-radius:20px;padding:clamp(1.4rem,2.5vw,2rem);transition:background-color .3s var(--e),border-color .3s var(--e),transform .3s var(--e)}
+.row-card:hover{background:var(--raise2);border-color:var(--line2);transform:translateX(6px)}
+.row-card .n{font-family:var(--d);font-size:2.4rem;font-weight:700;line-height:1;color:var(--line2);letter-spacing:-.04em}
+.row-card:hover .n{color:var(--mint)}
+.row-card h3{font-size:1.35rem;margin-bottom:.4rem}
+.row-card p{font-size:.93rem}
+.row-card ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.4rem}
+.row-card li{font-size:.72rem;font-weight:600;color:var(--mint);background:var(--mint-dim);padding:.32rem .7rem;border-radius:99px}
+
+.ph{border-radius:24px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/8;display:grid;place-items:center;background:repeating-linear-gradient(135deg,#121716 0 14px,#0D1211 14px 28px)}
+.ph span{font:500 .76rem/1.4 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,245,244,.35)}
+
+.band{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--raise)}
+.band .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px}
+.band .i{padding:2rem 1.5rem 2rem 0}
+.band b{display:block;font-family:var(--d);font-size:1.05rem;font-weight:700;margin-bottom:.3rem}
+.band span{font-size:.85rem;color:var(--on-soft)}
+
+@media(max-width:900px){
+  .links a:not(.cta){display:none}
+  .hero .wrap,.head{grid-template-columns:1fr}
+  .row-card{grid-template-columns:3rem 1fr;gap:1rem}
+  .row-card ul{grid-column:1/-1}
+  .band .wrap{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#"><img src="../images/logo.png" alt="">AK Physiotherapie</a>
+  <div class="links">
+    <a href="#">Leistungen</a><a href="#">Privatpraxis</a><a href="#">Über uns</a><a href="#">Blog</a>
+    <a href="#" class="cta">Termin anfragen</a>
+  </div>
+</div></nav>
+
+<header class="hero">
+  <div class="glow"></div><div class="grain"></div>
+  <div class="wrap">
+    <div>
+      <span class="kick">Privatpraxis · Frankfurt am Main</span>
+      <h1 style="margin-top:1.4rem">Regeneration auf <span>Leistungsniveau</span>.</h1>
+      <p class="sub">1:1-Betreuung für Berufstätige und Sportler. Volle Behandlungszeit, ein Therapeut über den ganzen Verlauf, moderne Regenerationstechnik.</p>
+      <div class="row">
+        <a href="#" class="btn btn-a">Termin anfragen →</a>
+        <a href="#" class="btn btn-b">Leistungen ansehen</a>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="r"><span class="k">Behandlungsdauer</span><span class="v on">45–60<span style="font-size:.8rem;margin-left:.3rem">Min</span></span></div>
+      <div class="r"><span class="k">Betreuung</span><span class="v">1:1</span></div>
+      <div class="r"><span class="k">Kassen-Warteschlange</span><span class="v">0</span></div>
+      <div class="r"><span class="k">Zugang</span><span class="v" style="font-size:.95rem;font-weight:600">Rezept / Selbstzahler</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="band"><div class="wrap">
+  <div class="i"><b>100 % Privatpraxis</b><span>keine Kassenwarteschlange</span></div>
+  <div class="i"><b>Volle Zeit</b><span>45–60 Min. 1:1</span></div>
+  <div class="i"><b>Ein Therapeut</b><span>durchgehende Betreuung</span></div>
+  <div class="i"><b>Regeneration</b><span>Nahinfrarot &amp; Kompression</span></div>
+</div></div>
+
+<section><div class="wrap">
+  <div class="head">
+    <div><span class="kick">Leistungen</span><h2>Drei Säulen, ein Ziel.</h2></div>
+    <p>Vorbeugen, wiederherstellen, regenerieren — individuell abgestimmt auf Ihre Belastung im Alltag oder im Training.</p>
+  </div>
+  <div class="stack">
+    <article class="row-card">
+      <span class="n">01</span>
+      <div><h3>Prävention</h3><p>Bewegungsanalyse und gezielte Intervention, bevor aus einer Dysbalance eine Verletzung wird.</p></div>
+      <ul><li>Bewegungsanalyse</li><li>Dysbalancen</li><li>Mikronährstoffe</li><li>Trainingstherapie</li></ul>
+    </article>
+    <article class="row-card">
+      <span class="n">02</span>
+      <div><h3>Rehabilitation</h3><p>Strukturierter Weg zurück zu voller Funktion — nach Verletzung, Operation oder chronischer Belastung.</p></div>
+      <ul><li>Manuelle Therapie</li><li>Trainingstherapie</li><li>Sportphysiotherapie</li></ul>
+    </article>
+    <article class="row-card">
+      <span class="n">03</span>
+      <div><h3>Regeneration</h3><p>Moderne Erholungstechnik, die Ihrem Körper hilft, schneller wieder belastbar zu sein.</p></div>
+      <ul><li>Nahinfrarot</li><li>Kompression</li></ul>
+    </article>
+  </div>
+</div></section>
+
+<div class="wrap"><div class="ph"><span>Vollbreites Praxis- / Bewegungsmotiv · 16:8</span></div></div>
+
+<section><div class="wrap">
+  <div class="head">
+    <div><span class="kick">Warum Privatpraxis</span><h2>Weil 20 Minuten nicht reichen.</h2></div>
+    <p>AK Physiotherapie arbeitet bewusst außerhalb des Kassensystems — auf privatärztliche Verordnung oder als Selbstzahler. Keine Taktung im Fünf-Minuten-Rhythmus, kein Therapeutenwechsel, keine Wartezimmer-Schlange.</p>
+  </div>
+  <div class="stack">
+    <article class="row-card" style="opacity:.55">
+      <span class="n">—</span>
+      <div><h3 style="text-decoration:line-through">~20 Min.</h3><p>Kassenpraxis: getaktet, wechselnde Therapeuten.</p></div>
+      <div></div>
+    </article>
+    <article class="row-card" style="border-color:var(--mint);background:var(--mint-dim)">
+      <span class="n" style="color:var(--mint)">✓</span>
+      <div><h3 style="color:var(--mint)">45–60 Min.</h3><p>AK Physiotherapie: ein Therapeut, ein Plan, Ihr Kalender.</p></div>
+      <div><a href="#" class="btn btn-b" style="min-height:46px">Erstgespräch anfragen</a></div>
+    </article>
+  </div>
+</div></section>
+
+</body>
+</html>

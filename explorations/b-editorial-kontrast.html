@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richtung B — Editorial Kontrast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EFEDE7; --ink:#0D0D0C; --soft:#3E3E3A; --muted:#77776F;
+  --line:rgba(13,13,12,.16); --acid:#C8FF3D;
+  --d:'Space Grotesk',system-ui,sans-serif; --m:'IBM Plex Mono',ui-monospace,monospace;
+  --e:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--d);line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:var(--ink);text-decoration:none}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.04em;line-height:.92;text-transform:uppercase;text-wrap:balance}
+p{margin:0;color:var(--soft);line-height:1.55;text-wrap:pretty}
+.wrap{max-width:96rem;margin:0 auto;padding:0 clamp(1rem,3vw,2.5rem)}
+.mono{font-family:var(--m);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+nav{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--ink)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:1rem}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:700;letter-spacing:-.03em;text-transform:uppercase;font-size:.95rem}
+.brand img{height:22px;width:auto;display:block}
+.links{display:flex;gap:0;align-items:stretch;height:64px}
+.links a{display:inline-flex;align-items:center;min-height:44px;padding:0 1rem;font-family:var(--m);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;border-left:1px solid var(--line);transition:background-color .16s var(--e)}
+.links a:hover{background:var(--ink);color:var(--paper)}
+.links a.cta{background:var(--ink);color:var(--paper)}
+.links a.cta:hover{background:var(--acid);color:var(--ink)}
+
+.hero{border-bottom:1px solid var(--ink);padding:clamp(1.5rem,3vw,3rem) 0 0}
+.meta{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:.8rem}
+.hero h1{font-size:clamp(3rem,12.5vw,11rem);margin:clamp(1.5rem,3vw,2.5rem) 0}
+.hero h1 em{font-style:normal;-webkit-text-stroke:1.5px var(--ink);color:transparent}
+.hero h1 mark{background:var(--acid);color:var(--ink);padding:0 .06em}
+.herofoot{display:grid;grid-template-columns:1.1fr 1fr .8fr;gap:clamp(1.5rem,4vw,4rem);border-top:1px solid var(--line);padding:1.5rem 0 clamp(2rem,4vw,3rem);align-items:start}
+.herofoot p{font-size:clamp(1rem,.6vw+.9rem,1.15rem);max-width:38ch}
+.btn{display:inline-flex;align-items:center;gap:.7rem;min-height:52px;padding:0 1.5rem;background:var(--ink);color:var(--paper);font-family:var(--m);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;transition:background-color .18s var(--e),color .18s var(--e)}
+.btn:hover{background:var(--acid);color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+
+.ticker{border-bottom:1px solid var(--ink);background:var(--ink);color:var(--paper);overflow:hidden}
+.ticker .in{display:flex;gap:3rem;padding:.7rem 0;white-space:nowrap;font-family:var(--m);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;animation:slide 26s linear infinite}
+.ticker span{opacity:.75}
+.ticker b{color:var(--acid);font-weight:500}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);border-bottom:1px solid var(--ink)}
+.cell{grid-column:span 4;border-left:1px solid var(--line);padding:clamp(1.5rem,3vw,2.5rem);min-height:clamp(20rem,32vw,26rem);display:flex;flex-direction:column;justify-content:space-between;gap:2rem;transition:background-color .3s var(--e)}
+.cell:first-child{border-left:none}
+.cell:hover{background:var(--ink);color:var(--paper)}
+.cell:hover p,.cell:hover .mono{color:rgba(239,237,231,.7)}
+.cell:hover .num{color:var(--acid)}
+.num{font-size:clamp(3rem,5vw,4.5rem);line-height:.85;letter-spacing:-.05em;font-weight:700;color:var(--line)}
+.cell h3{font-size:clamp(1.5rem,2.4vw,2.1rem);margin-bottom:.7rem}
+.cell p{font-size:.92rem}
+.cell ul{list-style:none;padding:0;margin:1rem 0 0;display:flex;flex-wrap:wrap;gap:.35rem}
+.cell li{font-family:var(--m);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid currentColor;padding:.25rem .5rem;opacity:.7}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--ink)}
+.compare>div{padding:clamp(2rem,5vw,4rem) clamp(1rem,3vw,2.5rem);border-left:1px solid var(--line)}
+.compare>div:first-child{border-left:none;opacity:.5}
+.compare .big{font-size:clamp(4rem,11vw,9rem);line-height:.82;letter-spacing:-.05em;font-weight:700}
+.compare .u{font-size:clamp(1rem,1.6vw,1.5rem);letter-spacing:-.02em}
+.compare>div:last-child .big{color:var(--ink)}
+.compare>div:last-child{background:var(--acid)}
+.compare>div:last-child p,.compare>div:last-child .mono{color:rgba(13,13,12,.65)}
+
+.ph{aspect-ratio:21/9;display:grid;place-items:center;background:repeating-linear-gradient(90deg,#E4E1DA 0 10px,#DCD8D0 10px 20px);border-bottom:1px solid var(--ink)}
+.ph span{font-family:var(--m);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:#8C8A82}
+
+@media(max-width:900px){
+  .links a:not(.cta){display:none}
+  .herofoot{grid-template-columns:1fr}
+  .cell{grid-column:span 12;border-left:none;border-top:1px solid var(--line);min-height:0}
+  .compare{grid-template-columns:1fr}
+  .compare>div{border-left:none;border-top:1px solid var(--line)}
+}
+@media(prefers-reduced-motion:reduce){.ticker .in{animation:none}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <a class="brand" href="#"><img src="../images/logo.png" alt="">AK Physiotherapie</a>
+  <div class="links">
+    <a href="#">Leistungen</a><a href="#">Privatpraxis</a><a href="#">Über uns</a><a href="#">Blog</a>
+    <a href="#" class="cta">Termin anfragen</a>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <div class="meta">
+    <span class="mono">Privatpraxis für Physiotherapie</span>
+    <span class="mono">Seckbacher Landstr. 74 — 60389 Frankfurt a. M.</span>
+    <span class="mono">Selbstzahler / Privatärztl. Verordnung</span>
+  </div>
+  <h1>Ihr Tempo<br><em>ist der</em><br><mark>Maßstab</mark></h1>
+  <div class="herofoot">
+    <p>1:1-Betreuung für Berufstätige und Sportler, die ihre Leistungsfähigkeit nicht dem Zufall überlassen. Volle Behandlungszeit, ein Therapeut, keine Kassen-Warteschlange.</p>
+    <div>
+      <p class="mono" style="margin-bottom:.5rem">Behandlungsdauer</p>
+      <div style="font-size:clamp(2.4rem,4vw,3.4rem);line-height:.9;letter-spacing:-.04em;font-weight:700">45–60<span style="font-size:.9rem;letter-spacing:.1em;font-family:var(--m);margin-left:.5rem">MIN</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.6rem">
+      <a href="#" class="btn">Termin anfragen →</a>
+      <a href="#" class="btn ghost">Leistungen</a>
+    </div>
+  </div>
+</div></header>
+
+<div class="ticker"><div class="in">
+  <span>Volle Behandlungszeit</span><b>◆</b><span>Ein Therapeut</span><b>◆</b><span>Nahinfrarot</span><b>◆</b><span>Kompression</span><b>◆</b><span>Keine Warteschlange</span><b>◆</b><span>Bewegungsanalyse</span><b>◆</b>
+  <span>Volle Behandlungszeit</span><b>◆</b><span>Ein Therapeut</span><b>◆</b><span>Nahinfrarot</span><b>◆</b><span>Kompression</span><b>◆</b><span>Keine Warteschlange</span><b>◆</b><span>Bewegungsanalyse</span><b>◆</b>
+</div></div>
+
+<div class="ph"><span>Vollbreites Praxis-/Bewegungsmotiv · 21:9</span></div>
+
+<div class="grid">
+  <div class="cell">
+    <span class="num">01</span>
+    <div>
+      <p class="mono" style="margin-bottom:.6rem">Prävention</p>
+      <h3>Bevor es<br>reißt</h3>
+      <p>Bewegungsanalyse und gezielte Intervention, bevor aus einer Dysbalance eine Verletzung wird.</p>
+      <ul><li>Bewegungsanalyse</li><li>Dysbalancen</li><li>Mikronährstoffe</li></ul>
+    </div>
+  </div>
+  <div class="cell">
+    <span class="num">02</span>
+    <div>
+      <p class="mono" style="margin-bottom:.6rem">Rehabilitation</p>
+      <h3>Zurück zur<br>Belastung</h3>
+      <p>Strukturierter Weg zurück zu voller Funktion — nach Verletzung, Operation oder chronischer Belastung.</p>
+      <ul><li>Manuelle Therapie</li><li>Trainingstherapie</li><li>Sportphysio</li></ul>
+    </div>
+  </div>
+  <div class="cell">
+    <span class="num">03</span>
+    <div>
+      <p class="mono" style="margin-bottom:.6rem">Regeneration</p>
+      <h3>Schneller<br>wieder da</h3>
+      <p>Moderne Erholungstechnik, die Ihrem Körper hilft, schneller wieder belastbar zu sein.</p>
+      <ul><li>Nahinfrarot</li><li>Kompression</li></ul>
+    </div>
+  </div>
+</div>
+
+<div class="compare">
+  <div>
+    <p class="mono" style="margin-bottom:1rem">Kassenpraxis</p>
+    <div class="big">~20<span class="u">MIN</span></div>
+    <p style="margin-top:1rem">Getaktet, wechselnde Therapeuten, Wartezimmer.</p>
+  </div>
+  <div>
+    <p class="mono" style="margin-bottom:1rem">AK Physiotherapie</p>
+    <div class="big">45–60<span class="u">MIN</span></div>
+    <p style="margin-top:1rem">Ein Therapeut, ein Plan, Ihr Kalender.</p>
+  </div>
+</div>
+
+</body>
+</html>
