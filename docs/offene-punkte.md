@@ -1,6 +1,14 @@
 # Was uns noch fehlt
 
-Stand: 2026-08-12 · Bestandsaufnahme nach Sichtung des Website-Codes
+Stand: 2026-08-15 · Bestandsaufnahme nach Sichtung des Website-Codes
+
+> **Update 15.08.2026.** Drei Blöcke haben sich verschoben:
+> Das PVS ist bekannt (**thevea**) — Auswertung in [`pvs-thevea.md`](pvs-thevea.md).
+> Der Abgleich mit der alten Website liegt vor — [`marketing/alte-website-abgleich.md`](marketing/alte-website-abgleich.md).
+> Das Rehabilitationstagebuch des Physios liegt vor und ist faktisch die Spezifikation
+> für das Portal — Bewertung in [`portal-konzept.md`](portal-konzept.md). Beides
+> beantwortet Punkte unten und wirft neue auf (fehlende AGB, fehlende Preise,
+> MDR-Abgrenzung bei der Schmerzampel).
 
 Diese Liste ist nach **Herkunft** sortiert (wer muss liefern) und am Ende nach
 **Phase** priorisiert (wann blockiert es). Ein Punkt, der hier steht, ist nicht
@@ -14,22 +22,32 @@ Aber unbeantwortet blockiert sie später Tage.
 Drei Fragen, deren Antwort das Projekt **umformen** kann. Die gehören zuerst geklärt,
 bevor irgendetwas an Phase 3 geplant wird.
 
-### 0.1 Ist sein PVS TI-fähig?
+### 0.1 Ist sein PVS TI-fähig? — weitgehend entschärft
 
 Ab **01.10.2027** gilt die TI-Anschlusspflicht für Heilmittelerbringer. Das betrifft
 **sein** PVS, nicht unseres — aber es betrifft uns mittelbar: Wenn sein aktuelles
 System nicht gematik-zugelassen ist, muss er bis dahin wechseln. Ein PVS-Wechsel
 mitten in unserem Projekt würde alle Integrationsannahmen entwerten.
 
-→ Vor Phase 3 klären. Wenn ein Wechsel ansteht: erst den Wechsel, dann unsere
-Anbindung. Nicht umgekehrt.
+→ **thevea wirbt mit TI-Anschluss und E-Verordnung.** Ein Wechsel vor 10/2027 ist
+damit unwahrscheinlich. Rest: den Zulassungsstatus schriftlich bestätigen lassen,
+„TI-ready" ist keine Zusage. Siehe [`pvs-thevea.md`](pvs-thevea.md).
 
-### 0.2 Hat sein PVS einen Datenexport?
+### 0.2 Hat sein PVS einen Datenexport? — weiter offen, aber präziser
 
 Wenn nein, bedeutet unser System **dauerhafte Doppelpflege** — er trägt jeden
 Patienten zweimal ein. Das ist kein technisches Problem, sondern ein
 Akzeptanzproblem: Systeme mit Doppelpflege werden nach drei Monaten nicht mehr
 benutzt.
+
+→ Für thevea belegt sind nur DATEV-Export und Abrechnungsschnittstellen; ein Export
+von **Patientenstammdaten** ist nicht dokumentiert. Konkrete Frage an ihn: „Kannst du
+deine Patientendaten aus thevea selbst exportieren, in welchem Format?"
+
+→ Entwarnung an anderer Stelle: thevea hat **kein Patientenportal und keine
+Trainingsplan-Funktion**. Termine und Terminerinnerung liegen dagegen bereits dort —
+den Kalender bauen wir nicht nach. Damit ist die Doppelpflege auf Stammdaten begrenzt,
+nicht auf den Alltagsbetrieb.
 
 → Das muss er wissen und akzeptieren, **bevor** er den Auftrag erteilt. Sonst bauen
 wir etwas, das im Alltag scheitert.
@@ -52,9 +70,15 @@ Soll-Zustand.
 
 ### 1.1 Praxisverwaltungssystem
 
-- [ ] **Welches Produkt?** Name, Hersteller, ungefähre Version
-- [ ] Läuft es **lokal** auf einem Praxisrechner oder als Cloud-Dienst?
-- [ ] Vertragslaufzeit, monatliche Kosten, Kündigungsfrist
+- [x] **Welches Produkt?** → **thevea**, ein Unternehmen der opta data. Auswertung in
+      [`pvs-thevea.md`](pvs-thevea.md)
+- [x] Läuft es **lokal** oder als Cloud-Dienst? → **Cloud** (Web-App, `mein.thevea.de`).
+      Auf dem Praxisrechner liegt nichts, was wir anfassen könnten
+- [ ] Vertragslaufzeit, monatliche Kosten (Starter 39,90 € / Pro 69,90 € netto),
+      Kündigungsfrist
+- [ ] **Kopie des AV-Vertrags** Praxis ↔ thevea/opta data — Vorlage und Präzedenzfall
+      für unsere eigene Vertragsgestaltung
+- [ ] Was steht in der automatischen Terminerinnerungs-Mail? (Gesundheitsdaten? siehe 0.3)
 - [ ] Wer hat Administratorzugang? Gibt es einen Wartungsvertrag/Ansprechpartner?
 - [ ] **Export möglich?** CSV, GDT, BDT, PDF — und kann er das selbst auslösen oder
       braucht es den Hersteller (ggf. kostenpflichtig)?
@@ -124,14 +148,25 @@ im Code.
 
 ### 2.1 Rechtspflichtige Angaben (Impressum & Datenschutz)
 
-- [ ] **Vollständiger Name** der Praxisinhaberin/des Praxisinhabers
-      → `impressum.html:29`, `datenschutz.html:28`
-- [ ] **Umsatzsteuer-IdNr.** → `impressum.html:46`
-- [ ] **Zuständige Aufsichtsbehörde** (vermutlich Gesundheitsamt Frankfurt am Main,
-      zu bestätigen) → `impressum.html:43`
-- [ ] Verantwortlicher nach § 18 Abs. 2 MStV → `impressum.html:49`
+Aus dem alten Impressum liegen mehrere Angaben inzwischen vor — **vor Übernahme
+gegenlesen und bestätigen lassen**, Details in
+[`marketing/alte-website-abgleich.md`](marketing/alte-website-abgleich.md) Abschnitt 3.
+
+- [~] **Vollständiger Name** → laut altem Impressum **Alexander Koetter**, bestätigen
+      lassen → `impressum.html:29`, `datenschutz.html:28`
+- [ ] **Umsatzsteuer-IdNr.** — fehlt auch auf der alten Seite → `impressum.html:46`
+- [~] **Zuständige Aufsichtsbehörde** → altes Impressum nennt **Regierungspräsidium
+      Darmstadt**, nicht das Gesundheitsamt Frankfurt wie hier vermutet →
+      `impressum.html:43`
+- [~] Verantwortlicher nach § 18 Abs. 2 MStV → Alexander Koetter → `impressum.html:49`
+- [ ] **Welche Anschrift gehört ins Impressum?** Das alte Impressum nennt
+      Wiesenstraße 5, 64546 Mörfelden-Walldorf — nicht die Praxisadresse in Frankfurt
 - [ ] Rechtsform der Praxis (Einzelunternehmen, GbR, GmbH?) — beeinflusst Impressum
 - [ ] Entscheidung zur EU-Streitschlichtungsklausel → `impressum.html:52`
+- [ ] **AGB-Seite fehlt komplett.** Die alte Seite hat AGB mit Ausfallhonorar
+      (100 € zzgl. MwSt. bei Absage < 24 h), Zahlungsziel 14 Tage und Rezeptregel.
+      Ohne veröffentlichte AGB ist das Ausfallhonorar nicht durchsetzbar — und der
+      Bestandstext gehört anwaltlich angesehen
 
 ### 2.2 Fachliche Angaben
 
@@ -141,9 +176,16 @@ im Code.
 - [ ] **Parken / ÖPNV-Anbindung** → `ueber-uns.html:168`
 - [ ] **Öffnungszeiten** — laut `PRODUCT.md` auf der alten Seite nicht veröffentlicht.
       Will er welche nennen oder bewusst auf Kontaktaufnahme lenken?
-- [ ] **Preise** — bisher keine gefunden. Nennen oder auf Erstgespräch verweisen?
-      *(Bei Premium-Positionierung ist beides vertretbar, aber es sollte eine
-      Entscheidung sein.)*
+- [ ] **Preise** — Korrektur: Die alte Seite **hat** eine vollständige Preisliste
+      (41–90 € je Leistung, 3er-Pakete mit ~10 % Rabatt). `PRODUCT.md` hielt fest, es
+      gebe keine — das war ein 404 beim damaligen Abruf. Entscheidung nötig: übernehmen
+      oder bewusst weglassen. Liste in
+      [`marketing/alte-website-abgleich.md`](marketing/alte-website-abgleich.md) 2.1
+- [ ] **Widerspruch klären:** Die neue Seite verspricht durchgängig „45–60 Minuten",
+      die alte Preisliste führt „Physiotherapie 30'" als reguläres Angebot. Solange das
+      ungeklärt ist, ist das zentrale Versprechen der Seite nicht belegt
+- [ ] **Fachlicher Schwerpunkt** — die alte Seite nennt orthopädische, chirurgische und
+      traumatische Beschwerden. Auf der neuen Seite steht nirgends, *was* er behandelt
 
 ### 2.3 Medien
 
@@ -162,9 +204,19 @@ im Code.
       Beispielstimmen (`index.html:184–195`, siehe `legal/checkliste.md`)
 - [ ] **Google-Rezensionen**: Zugang zum Google-Business-Profil, damit wir echte
       Bewertungen einbinden können — löst das Testimonial-Problem elegant
-- [ ] **Blog-Texte**: Es steht ein Redaktionsplan mit sechs Titeln, aber keine Inhalte
-      (`blog.html`, bewusst nicht verlinkt). Wer schreibt die? Er selbst, wir, extern?
-      *(Bei Gesundheitsthemen muss er fachlich freigeben — HWG.)*
+- [x] **Blog-Texte**: erledigt am 15.08.2026 — die vier bestehenden Beiträge sind im
+      Originalwortlaut übernommen (`blog-ernaehrung-operation.html`,
+      `blog-nahinfrarot-therapie.html`, `blog-koerper-anpassung.html`,
+      `blog-halswirbelsaeule.html`), der erfundene Redaktionsplan ist raus
+- [ ] **Fachliche Freigabe der Blogtexte durch den Autor (HWG).** Besonders der
+      Nahinfrarot-Beitrag: Er bewirbt eine Leistung, die die Praxis verkauft, mit
+      Wirkaussagen. § 3 HWG verbietet irreführende Angaben über die therapeutische
+      Wirkung — der Text war vorher schon online, aber beim Neubau ist der richtige
+      Zeitpunkt, ihn einmal prüfen zu lassen
+- [ ] **Veröffentlichungsdaten** von zwei Beiträgen bestätigen: „Ernährung vor und nach
+      einer Operation" und „Nahinfrarot-Therapie" sind auf der alten Seite ohne
+      Jahresangabe ausgewiesen. Steht als Platzhalter im Code
+- [ ] **Instagram-Profil** — auf der alten Seite verlinkt, im neuen Footer nicht
 - [ ] Freigabe der bestehenden Website-Texte durch ihn (Tonalität, fachliche Richtigkeit)
 
 ---
@@ -214,6 +266,15 @@ Diese Punkte hängen nicht an ihm, sondern an uns. Sie stehen ausführlicher in
 
 ### 4.3 Technisch — Phase 3/4 (Portal)
 
+Ausführlich in [`portal-konzept.md`](portal-konzept.md). Die drei folgenreichsten Punkte:
+
+- [ ] **Steht bei thevea/opta data ein Patientenportal auf der Roadmap?** Kostet eine
+      E-Mail und entscheidet über die Wirtschaftlichkeit des ganzen Vorhabens
+- [ ] **ADR zur MDR-Abgrenzung** — die Schmerzampel aus dem Rehabilitationstagebuch ist
+      die Grenze zwischen Dokumentations-App und zulassungspflichtigem Medizinprodukt
+- [ ] **ADR zum Zugangskonzept** — ein dauerhafter Magic Link auf Gesundheitsdaten ist
+      nach Art. 32 nicht haltbar; Erstzugang einmalig, danach echte Sitzung
+
 - [ ] **Tech-Stack-Entscheidung**: Die Website ist statisches HTML/CSS/JS. Für das
       Portal brauchen wir Backend, Datenbank, Auth — das ist eine eigene Anwendung,
       keine Erweiterung
@@ -240,8 +301,8 @@ Diese Punkte hängen nicht an ihm, sondern an uns. Sie stehen ausführlicher in
 
 | Prio | Blockiert | Punkte |
 |---|---|---|
-| **P0** | Phase 1 Go-live (Website) | Impressum-Daten (2.1), echte Fotos (2.3), Testimonial-Entscheidung (2.4), Domain-Zugang (1.2), Hosting-Entscheidung (4.2), Maps-Consent (4.2), Formular-Backend (4.2) |
-| **P1** | Planung Phase 3 | PVS-Klärung (0.1, 0.2, 1.1), Arbeitsablauf (1.4), Ist-Kommunikation (0.3), Volumen (1.5) |
+| **P0** | Phase 1 Go-live (Website) | Impressum-Daten (2.1), **AGB-Seite (2.1)**, **Preis-Entscheidung (2.2)**, **Widerspruch 45–60 Min. (2.2)**, echte Fotos (2.3), Testimonial-Entscheidung (2.4), Domain-Zugang (1.2), Hosting-Entscheidung (4.2), Maps-Consent (4.2), Formular-Backend (4.2) |
+| **P1** | Planung Phase 3 | Export-Frage (0.2), AV-Vertrag thevea (1.1), Arbeitsablauf (1.4), Ist-Kommunikation (0.3), Volumen (1.5) |
 | **P2** | Bau Phase 3 | AV-Vertrag, § 203-Verpflichtung, DSFA, Hosting geschützter Bereich, Rechtsform (4.1), Tech-Stack (4.3) |
 | **P3** | Phase 4 (Portal) | Patienteneinwilligungen, Auth-Konzept, PDF-Import-Weg |
 
@@ -255,11 +316,14 @@ Phase 3 noch geklärt wird.
 
 Kompakte Fassung für ein erstes Gespräch — bewusst ohne Fachjargon.
 
-**Zur aktuellen Software**
-1. Welches Programm nutzt du für Patientenverwaltung und Dokumentation?
-2. Läuft das auf einem Rechner bei dir in der Praxis oder im Internet?
-3. Kannst du aus dem Programm Daten exportieren — und weißt du, wie?
-4. Weißt du, ob dein Programm für die Telematikinfrastruktur (TI) vorbereitet ist?
+**Zur aktuellen Software** *(1, 2 und 4 sind beantwortet: thevea, Cloud, TI-fähig)*
+1. ~~Welches Programm nutzt du für Patientenverwaltung und Dokumentation?~~ → thevea
+2. ~~Läuft das auf einem Rechner bei dir in der Praxis oder im Internet?~~ → Cloud
+3. Kannst du aus thevea deine **Patientendaten exportieren** — und in welchem Format?
+4. ~~Ist dein Programm für die TI vorbereitet?~~ → ja laut Hersteller, bestätigen lassen
+4a. Hast du den **Vertrag mit thevea/opta data** greifbar (Auftragsverarbeitung)?
+4b. Kannst du mir mal eine **Terminerinnerungs-Mail** zeigen, die thevea verschickt?
+4c. Nutzt du Starter oder Pro, und wie lange läuft der Vertrag?
 
 **Zu Website und E-Mail**
 5. Wo ist deine Domain akphysiotherapie.de registriert, und wer hat die Zugangsdaten?
@@ -274,7 +338,12 @@ Kompakte Fassung für ein erstes Gespräch — bewusst ohne Fachjargon.
 12. Was nervt dich an deinem jetzigen Ablauf am meisten?
 
 **Für die Website**
-13. Vollständiger Name, USt-IdNr., zuständiges Gesundheitsamt
+13. USt-IdNr., Rechtsform — und welche Anschrift gehört ins Impressum, Frankfurt oder
+    Mörfelden-Walldorf? *(Name und Aufsichtsbehörde stehen im alten Impressum,
+    nur bestätigen lassen.)*
+13a. Sollen die Preise von der alten Seite mit rüber? Sind sie noch aktuell?
+13b. Gibt es die 30-Minuten-Einheit noch? *(Widerspruch zum 45–60-Minuten-Versprechen.)*
+13c. Deine vier Blogbeiträge — sollen wir die übernehmen?
 14. Deine Fortbildungen, Berufserfahrung, Fachverbandsmitgliedschaften
 15. Sollen Öffnungszeiten und Preise auf die Seite?
 16. Haben wir echte Fotos aus der Praxis — oder sollen wir einen Fotografen anfragen?

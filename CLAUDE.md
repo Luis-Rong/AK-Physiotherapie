@@ -148,12 +148,18 @@ Dritter): Rezensionen anzeigen ist üblich, aber die Auswahl darf keine
 Behandlungserfolge bewerben. Gilt nur für `apps/website` – im geschützten Bereich
 bleibt es bei null Drittanbietern ([ADR 0003](docs/decisions/0003-kein-tracking-im-portal.md)).
 
-### PVS-Einbindung — Klärung offen
+### PVS-Einbindung — teilweise geklärt
+
+**Das PVS ist bekannt: [thevea](docs/pvs-thevea.md)** (Cloud-Anwendung, ein Unternehmen
+der opta data, TI-Anschluss vorhanden, kein Patientenportal und keine
+Trainingsplan-Funktion). Das entschärft das Wechselrisiko vor der TI-Pflicht 10/2027 und
+grenzt unser Portal sauber ab: Verwaltung, Termine und Abrechnung bleiben in thevea, wir
+bauen die Patientenschnittstelle davor.
 
 Zu beantworten, bevor irgendetwas gebaut wird:
 
 - Wie arbeitet er aktuell? (Papier, Software, Mischform — konkreter Tagesablauf)
-- **Welches PVS?** Gibt es ein Exportformat (CSV, GDT, BDT)?
+- Gibt es aus thevea ein **Exportformat** für Patientenstammdaten (CSV, GDT, BDT)?
 - Wo liegen Web-Domain und **E-Mail**? Bei welchem Anbieter, in welchem Land?
 - Rechtliche Lage zu Patientenakten, Überweisungen, Verschreibungen
 

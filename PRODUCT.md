@@ -33,7 +33,9 @@ Three confirmed service pillars:
 - **Rehabilitation:** Manuelle Therapie, Physiotherapie, Trainingstherapie, Sportphysiotherapie.
 - **Regeneration:** Nahinfrarot-Therapie, Kompressionstherapie.
 
-No published price list found (source pricing page returned 404 at fetch time) — do not invent prices; site should route pricing questions to direct contact/consultation. No team/practitioner bios found on source site.
+**Correction (2026-08-15):** a published price list *does* exist on the source site (`/services-7`); the earlier 404 was a fetch artefact. Prices range from 41 € (Krankengymnastik) to 90 € (Personaltraining), with 3-session packages at roughly 10 % off. Full list and the resulting decision in `docs/marketing/alte-website-abgleich.md`. Prices are still not shown on the new site — that is now an open decision, not a missing source. No team/practitioner bios found on source site.
+
+**Conflict to resolve (2026-08-15):** the build promises "45–60 Minuten" throughout, while the source price list sells "Physiotherapie 30'" as a regular option. Confirm before go-live.
 
 ## Brand Commitments
 
