@@ -163,10 +163,18 @@ gegenlesen und bestätigen lassen**, Details in
       Wiesenstraße 5, 64546 Mörfelden-Walldorf — nicht die Praxisadresse in Frankfurt
 - [ ] Rechtsform der Praxis (Einzelunternehmen, GbR, GmbH?) — beeinflusst Impressum
 - [ ] Entscheidung zur EU-Streitschlichtungsklausel → `impressum.html:52`
-- [ ] **AGB-Seite fehlt komplett.** Die alte Seite hat AGB mit Ausfallhonorar
-      (100 € zzgl. MwSt. bei Absage < 24 h), Zahlungsziel 14 Tage und Rezeptregel.
-      Ohne veröffentlichte AGB ist das Ausfallhonorar nicht durchsetzbar — und der
-      Bestandstext gehört anwaltlich angesehen
+- [x] **AGB-Seite** angelegt am 15.08.2026 (`agb.html`, im Footer aller Seiten
+      verlinkt). Regelungen aus dem Bestandstext übernommen, die reinen
+      Formularsätze („Bitte bestätigen Sie …") entfallen — die alte Fassung war ein
+      Einwilligungsformular, keine AGB
+- [ ] **AGB anwaltlich prüfen und von der Praxis freigeben lassen.** Drei Punkte
+      konkret ansehen: das pauschale Ausfallhonorar von 100 € zzgl. MwSt. bei
+      Behandlungspreisen von 41–90 €; die Beschränkung von Absagen auf
+      ausschließlich E-Mail (§ 309 Nr. 13 BGB lässt Textform zu, der Ausschluss
+      aller anderen Textform-Wege ist angreifbar); die im Bestandstext genannte
+      Anspruchsgrundlage § 252 BGB — für ein Ausfallhonorar wird üblicherweise
+      § 615 BGB herangezogen. Im Zweifel Formulierung der Praxis belassen und
+      anwaltlich klären, nicht eigenmächtig ändern
 
 ### 2.2 Fachliche Angaben
 
@@ -199,11 +207,18 @@ gegenlesen und bestätigen lassen**, Details in
 
 ### 2.4 Texte & Testimonials
 
-- [ ] **Echte Patientenzitate** mit **schriftlicher Freigabe** — oder die Entscheidung,
-      den Abschnitt bis dahin zu entfernen. Aktuell stehen dort gekennzeichnete
-      Beispielstimmen (`index.html:184–195`, siehe `legal/checkliste.md`)
-- [ ] **Google-Rezensionen**: Zugang zum Google-Business-Profil, damit wir echte
-      Bewertungen einbinden können — löst das Testimonial-Problem elegant
+- [x] **Fiktive Testimonials entfernt** am 15.08.2026. Der Abschnitt `#stimmen` ist
+      durch `#rezensionen` ersetzt — Struktur für echte Google-Rezensionen, bewusst
+      mit leeren Platzhaltern statt Beispieltexten. Damit ist der Go-live-Blocker
+      aus `legal/checkliste.md` entschärft
+- [ ] **Google-Rezensionen: Zugang zum Google-Business-Profil.** Korrektur zur
+      bisherigen Annahme — auf der **alten Website stehen keine Rezensionen**
+      (komplette Seite geprüft, kein Treffer). Sie liegen nur im Google-Profil.
+      Ohne Zugang bleibt der Abschnitt leer; erfundene Bewertungen kommen nicht in
+      Frage (§ 5 UWG, Anhang zu § 3 Abs. 3 Nr. 23b UWG)
+- [ ] **Auswahl der Rezensionen unter § 11 HWG prüfen.** Bewertungen anzeigen ist
+      üblich; die Auswahl darf aber keine Behandlungserfolge bewerben. Neutral
+      übernehmen, nicht nach Wirkungsaussagen kuratieren
 - [x] **Blog-Texte**: erledigt am 15.08.2026 — die vier bestehenden Beiträge sind im
       Originalwortlaut übernommen (`blog-ernaehrung-operation.html`,
       `blog-nahinfrarot-therapie.html`, `blog-koerper-anpassung.html`,

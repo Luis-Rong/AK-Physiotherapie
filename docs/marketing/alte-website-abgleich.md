@@ -67,7 +67,7 @@ Seite ist archiviert und auffindbar.
 → **Angebotsstruktur:** Die 3er-Pakete sind ein fertiges Verkaufsinstrument. Auf der neuen
 Seite kommen sie nicht vor.
 
-### 2.2 AGB — P0, rechtlich
+### 2.2 AGB — P0, rechtlich · **umgesetzt am 15.08.2026** (`agb.html`)
 
 Die alte Seite hat AGB mit vier Regelungen, die alle Geld oder Haftung betreffen:
 
@@ -161,6 +161,19 @@ bereits Texte, die nur übernommen und ggf. redaktionell nachgezogen werden müs
 → Vorschlag: bestehende vier Beiträge übernehmen, Redaktionsplan auf die Titel eindampfen,
 die wirklich noch fehlen. Zwei der geplanten Titel überschneiden sich thematisch mit
 bestehenden (Nahinfrarot, Kompression).
+
+### 2.9a Google-Rezensionen — Annahme korrigiert
+
+Zur Klarstellung, weil im Projekt zeitweise angenommen wurde, die Rezensionen stünden
+bereits auf der alten Seite: **Das ist nicht der Fall.** Die alte Website wurde am
+15.08.2026 vollständig durchgescrollt und geprüft — kein Treffer für „Rezension",
+„Bewertung", „Google", „Stern" oder „Review". Eingebunden sind dort nur ein
+Google-Maps-iframe und ein Wix-Chat-Widget.
+
+Etwaige Bewertungen liegen also ausschließlich im **Google-Business-Profil**. Für die
+neue Seite ist der Abschnitt `#rezensionen` als Struktur angelegt, aber bewusst leer:
+Rezensionen werden erst eingesetzt, wenn der Zugang zum Profil vorliegt und der
+Originalwortlaut übernommen werden kann.
 
 ### 2.9 Instagram — P2
 

@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="images/logo.png" type="image/png">
 <link rel="apple-touch-icon" href="images/logo.png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260815">
 </head>
 <body>
 
@@ -169,27 +169,51 @@
     </div>
   </section>
 
-  <section id="stimmen" aria-labelledby="stimmen-title">
+  <!-- Google-Rezensionen: bewusst als statischer Inhalt, NICHT als Google-Widget.
+       Ein eingebettetes Widget lädt Drittanbieter-Ressourcen und wäre nach TDDDG
+       einwilligungspflichtig; abgetippte Zitate mit Quellenangabe sind es nicht.
+       Die Karten unten sind Struktur ohne Inhalt — echte Rezensionstexte werden aus
+       dem Google-Business-Profil übernommen, sobald wir Zugang haben.
+       Siehe docs/marketing/alte-website-abgleich.md und offene-punkte.md 2.4. -->
+  <section id="rezensionen" aria-labelledby="rezensionen-title">
     <div class="wrap">
       <div class="head head--split">
         <div>
-          <span class="tag reveal">Stimmen</span>
-          <h2 id="stimmen-title" class="reveal">Was Patienten berichten.</h2>
+          <span class="tag reveal">Rezensionen</span>
+          <h2 id="rezensionen-title" class="reveal">Was Patienten bei Google schreiben.</h2>
         </div>
-        <p class="reveal">Wie sich volle Behandlungszeit und durchgehende Betreuung im Alltag anfühlen.</p>
+        <p class="reveal">Unverändert übernommen aus dem Google-Profil der Praxis — nachlesbar und überprüfbar, nicht von uns ausgewählt formuliert.</p>
       </div>
-      <div class="quotes">
-        <blockquote class="quote-lead reveal">
-          <p style="color: #181A19">„Endlich Physiotherapie, die sich meinem Trainingsplan anpasst und nicht umgekehrt.“</p>
-          <cite>Patient, Ausdauersportler</cite>
-        </blockquote>
-        <div class="quote-stack">
-          <blockquote class="reveal"><p>„Volle 60 Minuten, ein Therapeut, spürbarer Fortschritt nach der Schulter-OP.“</p><cite>Patientin, Reha nach OP</cite></blockquote>
-          <blockquote class="reveal"><p>„Termine passen sich meinem Kalender an, nicht der Praxis. Genau das habe ich gesucht.“</p><cite>Patient, Berufstätiger</cite></blockquote>
-        </div>
+
+      <div class="reviews stagger">
+        <figure class="review">
+          <div class="review-stars" role="img" aria-label="Bewertung folgt">
+            <span class="placeholder">[★★★★★]</span>
+          </div>
+          <blockquote><p><span class="placeholder">[Rezensionstext 1 aus dem Google-Profil einsetzen]</span></p></blockquote>
+          <figcaption><span class="review-name placeholder">[Name]</span><span class="review-src">Google-Rezension</span></figcaption>
+        </figure>
+        <figure class="review">
+          <div class="review-stars" role="img" aria-label="Bewertung folgt">
+            <span class="placeholder">[★★★★★]</span>
+          </div>
+          <blockquote><p><span class="placeholder">[Rezensionstext 2 aus dem Google-Profil einsetzen]</span></p></blockquote>
+          <figcaption><span class="review-name placeholder">[Name]</span><span class="review-src">Google-Rezension</span></figcaption>
+        </figure>
+        <figure class="review">
+          <div class="review-stars" role="img" aria-label="Bewertung folgt">
+            <span class="placeholder">[★★★★★]</span>
+          </div>
+          <blockquote><p><span class="placeholder">[Rezensionstext 3 aus dem Google-Profil einsetzen]</span></p></blockquote>
+          <figcaption><span class="review-name placeholder">[Name]</span><span class="review-src">Google-Rezension</span></figcaption>
+        </figure>
       </div>
-      <!-- Vor Go-live: durch reale, schriftlich freigegebene Patientenzitate ersetzen. -->
-      <p class="disclaimer reveal">Sinngemäße Beispielstimmen — reale, freigegebene Patientenzitate folgen.</p>
+
+      <div class="review-foot reveal">
+        <p class="disclaimer">Noch keine Rezensionen übernommen. Sobald der Zugang zum Google-Business-Profil vorliegt, werden hier echte Bewertungen im Originalwortlaut eingesetzt — bis dahin bleibt der Abschnitt bewusst leer statt mit Beispieltexten gefüllt.</p>
+        <!-- Vor Go-live: Link auf das Google-Business-Profil der Praxis eintragen. -->
+        <p class="disclaimer"><span class="placeholder">[Link zum Google-Profil ergänzen]</span></p>
+      </div>
     </div>
   </section>
 
@@ -256,6 +280,7 @@
       <a href="blog.html">Blog</a>
       <a href="impressum.html">Impressum</a>
       <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">AGB</a>
     </nav>
     <p class="footer-meta">© 2026 AK Physiotherapie · Behandlung auf privatärztliche Verordnung oder als Selbstzahler.</p>
   </div>
@@ -290,6 +315,6 @@
   </button>
 </div>
 
-<script src="script.js"></script>
+<script src="script.js?v=20260815"></script>
 </body>
 </html>
