@@ -266,14 +266,16 @@ Diese Punkte hängen nicht an ihm, sondern an uns. Sie stehen ausführlicher in
 
 ### 4.3 Technisch — Phase 3/4 (Portal)
 
-Ausführlich in [`portal-konzept.md`](portal-konzept.md). Die drei folgenreichsten Punkte:
+Ausführlich in [`portal-konzept.md`](portal-konzept.md). Zugangs-, Namens- und
+Ampel-Frage sind inzwischen als [ADR 0005](decisions/0005-zugangskonzept-portal.md),
+[0006](decisions/0006-echte-namen-im-portal.md) und
+[0007](decisions/0007-schmerzampel-mdr-abgrenzung.md) entschieden. Offen:
 
 - [ ] **Steht bei thevea/opta data ein Patientenportal auf der Roadmap?** Kostet eine
       E-Mail und entscheidet über die Wirtschaftlichkeit des ganzen Vorhabens
-- [ ] **ADR zur MDR-Abgrenzung** — die Schmerzampel aus dem Rehabilitationstagebuch ist
-      die Grenze zwischen Dokumentations-App und zulassungspflichtigem Medizinprodukt
-- [ ] **ADR zum Zugangskonzept** — ein dauerhafter Magic Link auf Gesundheitsdaten ist
-      nach Art. 32 nicht haltbar; Erstzugang einmalig, danach echte Sitzung
+- [ ] **Fachanwaltliche Bestätigung zu ADR 0007** vor dem Bau der Schmerzampel — das ADR
+      akzeptiert das MDR-Risiko bewusst, löst es aber nicht ab
+- [ ] KRS-Stufensystem: dieselbe Abwägung wie bei der Ampel, noch nicht entschieden
 
 - [ ] **Tech-Stack-Entscheidung**: Die Website ist statisches HTML/CSS/JS. Für das
       Portal brauchen wir Backend, Datenbank, Auth — das ist eine eigene Anwendung,

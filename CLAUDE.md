@@ -198,6 +198,12 @@ MDR Regel 11 ([ADR 0004](docs/decisions/0004-kein-medizinprodukt.md)). Die Grenz
 liegt zwischen „Diagramm der eingegebenen Werte" und „Bewertung dieser Werte" durch
 das System.
 
+**Ausnahme, bewusst entschieden:** Die Schmerzampel aus dem Rehabilitationstagebuch
+des Physios (Grün/Gelb/Rot nach NPRS) bleibt automatisiert, nur die Formulierung wird
+abgeschwächt — [ADR 0007](docs/decisions/0007-schmerzampel-mdr-abgrenzung.md) dazu
+ausdrücklich: Das löst die MDR-Frage **nicht** auf, es ist ein akzeptiertes Risiko mit
+Fachanwalts-Vorbehalt vor dem Bau, keine Klarstellung, dass es unkritisch wäre.
+
 **Supplement-Plan:** Da die Empfehlung vom Physio selbst kommt und die Software nur
 anzeigt, was er einträgt, ist das architektonisch unproblematisch — genau das
 Muster aus Regel 4 (anzeigen, nicht generieren/bewerten). Offen bleibt eine

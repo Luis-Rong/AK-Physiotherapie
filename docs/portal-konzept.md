@@ -90,8 +90,9 @@ vergessenes Passwort. Das lässt sich erhalten:
 - **Widerruf und Übersicht:** Sitzungsablauf, aktive Geräte einsehbar, Zugang durch den
   Physio jederzeit sperrbar.
 
-→ Gehört als **ADR 0005 (Zugangs- und Authentifizierungskonzept)** festgehalten, bevor
-gebaut wird.
+→ Entschieden als [ADR 0005](decisions/0005-zugangskonzept-portal.md): Link **und**
+temporäres Passwort statt reinem Magic Link, Konten werden ausschließlich vom Physio
+angelegt und verwaltet, erste Anmeldung erzwingt Passwortänderung.
 
 ---
 
@@ -159,7 +160,10 @@ löst nebenbei das Doppelpflege-Problem, weil wir keine zweite Stammdatenhaltung
 Portal den Ruheumsatz *rechnet*. Trägt der Physio die Zielwerte ein, brauchen wir sie
 nicht. Siehe dazu 5.3.
 
-→ Gehört als **ADR 0006 (Datenmodell und Pseudonymisierung im Portal)** festgehalten.
+→ **Entschieden als [ADR 0006](decisions/0006-echte-namen-im-portal.md), abweichend vom
+Vorschlag hier:** Das Konto trägt den echten Namen, keine Pseudonymkennung. Der Wunsch
+nach Personalisierung wiegt schwerer als der Dämpfungseffekt bei einem Datenleck. Die
+übrige Datensparsamkeit (Größe, Geburtsdatum nur bei Bedarf) bleibt davon unberührt.
 
 ---
 
@@ -191,8 +195,13 @@ Dokumentation, klinische Bewertung, QM-System nach ISO 13485.
 | Den Patienten selbst zuordnen lassen | Automatische Meldung an den Physio bei Schwellwert |
 
 Das ist im Code eine Entscheidung von wenigen Zeilen — und rechtlich der Unterschied
-zwischen einer Dokumentations-App und einem zulassungspflichtigen Medizinprodukt. **Vor
-der ersten Zeile Code als ADR festhalten.**
+zwischen einer Dokumentations-App und einem zulassungspflichtigen Medizinprodukt.
+
+→ **Entschieden als [ADR 0007](decisions/0007-schmerzampel-mdr-abgrenzung.md):** Die
+automatische Zuordnung bleibt, nur die Formulierung wird abgeschwächt (kein „sofort
+abbrechen" mehr). Das ADR hält ausdrücklich fest, dass dies die MDR-Frage **nicht löst**,
+sondern ein bewusst akzeptiertes Risiko mit Fachanwalts-Vorbehalt vor dem Bau ist — die
+in der rechten Spalte oben beschriebene sichere Variante bleibt die Rückfalloption.
 
 ### 5.2 Das KRS-System
 
@@ -282,9 +291,14 @@ Zwischenstufe spart Produktkomplexität, keine Rechtsarbeit.
 
 **Vor der ersten Zeile Code:**
 
-- [ ] **ADR 0005** — Zugangs- und Authentifizierungskonzept (Abschnitt 3)
-- [ ] **ADR 0006** — Datenmodell und Pseudonymisierung (Abschnitt 4.5)
-- [ ] **ADR 0007** — Abgrenzung zur MDR: Schmerzampel, KRS, Ruheumsatz (Abschnitt 5)
+- [x] **[ADR 0005](decisions/0005-zugangskonzept-portal.md)** — Zugang: Link + temporäres
+      Passwort, Konten ausschließlich physio-verwaltet (Abschnitt 3)
+- [x] **[ADR 0006](decisions/0006-echte-namen-im-portal.md)** — echter Name statt
+      Pseudonym, Rest der Datensparsamkeit bleibt (Abschnitt 4.5)
+- [x] **[ADR 0007](decisions/0007-schmerzampel-mdr-abgrenzung.md)** — Ampel bleibt
+      automatisiert, Formulierung abgeschwächt, MDR-Risiko bewusst offen (Abschnitt 5.1)
+- [ ] Fachanwaltliche Bestätigung zu ADR 0007 einholen, **bevor** die Ampel gebaut wird
+- [ ] KRS-Stufensystem: dieselbe Abwägung wie ADR 0007 treffen, noch offen
 - [ ] Entscheidung: volles Portal oder Dokumentenablage zuerst (Abschnitt 8)
 
 **Vor Inbetriebnahme:**

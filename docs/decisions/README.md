@@ -29,3 +29,6 @@ der Punkt.
 | [0002](0002-behandlungsdaten-append-only.md) | Behandlungsdaten append-only | akzeptiert |
 | [0003](0003-kein-tracking-im-portal.md) | Keine Drittanbieter im geschützten Bereich | akzeptiert |
 | [0004](0004-kein-medizinprodukt.md) | Bewusst außerhalb der MDR bleiben | akzeptiert |
+| [0005](0005-zugangskonzept-portal.md) | Zugang zum Patientenportal: provisioniertes Konto statt Selbstregistrierung | akzeptiert |
+| [0006](0006-echte-namen-im-portal.md) | Patientenkonten mit echtem Namen, kein Pseudonym | akzeptiert |
+| [0007](0007-schmerzampel-mdr-abgrenzung.md) | Schmerzampel bleibt automatisiert, Formulierung wird abgeschwächt | akzeptiert |
