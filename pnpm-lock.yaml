@@ -16,6 +16,9 @@ importers:
       '@ak-physio/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tiptap/core':
+        specifier: 3.31.0
+        version: 3.31.0(@tiptap/pm@3.31.0)
       '@tiptap/extension-image':
         specifier: 3.31.0
         version: 3.31.0(@tiptap/core@3.31.0(@tiptap/pm@3.31.0))

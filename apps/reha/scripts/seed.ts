@@ -9,6 +9,7 @@ import { auth } from "../src/lib/auth/auth";
 import { db, withActor } from "../src/db/client";
 import * as t from "../src/db/schema";
 import { CONSENT_KEY, CONSENT_VERSION } from "../src/lib/consent/document";
+import { seedContent } from "../content-seed";
 
 function mondayOfWeek(offsetWeeks: number): string {
   const d = new Date();
@@ -127,6 +128,17 @@ async function main() {
       { patientId: mara.id, name: "Kniebeugung (Goniometer)", assessedOn: mondayOfWeek(-1), side: "links", score: "95°", createdBy: physio.id },
       { patientId: mara.id, name: "Kniebeugung (Goniometer)", assessedOn: mondayOfWeek(-1), side: "rechts", score: "135°", createdBy: physio.id },
     ]);
+  });
+
+  // Wissensinhalte aus dem PDF: als Entwurf (ADR 0009); lokal/staging zusätzlich eine
+  // veröffentlichte Fassung, damit der Patientenbereich etwas zu zeigen hat
+  await withActor(actor, async (tx) => {
+    for (const c of seedContent) {
+      await tx.insert(t.contentVersions).values({ slug: c.slug, version: 1, title: c.title, category: c.category, position: c.position, body: c.body, status: "draft", authorId: physio.id });
+      if (process.env.SEED_PUBLISH_CONTENT !== "false") {
+        await tx.insert(t.contentVersions).values({ slug: c.slug, version: 2, title: c.title, category: c.category, position: c.position, body: c.body, status: "published", authorId: physio.id });
+      }
+    }
   });
 
   // Ein paar Patienteneinträge von Mara aus der Vorwoche

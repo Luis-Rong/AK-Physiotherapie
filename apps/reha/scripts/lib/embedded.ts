@@ -32,6 +32,8 @@ export async function startEmbedded(opts: EmbeddedOptions): Promise<EmbeddedHand
     password: "postgres",
     port: opts.port,
     persistent: true,
+    // UTF-8 erzwingen: Windows-initdb nimmt sonst WIN1252, und Zeichen wie „≥“ scheitern
+    initdbFlags: ["--encoding=UTF8", "--locale=C", "--lc-messages=C"],
     // Logs des Servers nur bei Bedarf: onLog/onError bleiben still
     onLog: () => {},
     onError: () => {},
