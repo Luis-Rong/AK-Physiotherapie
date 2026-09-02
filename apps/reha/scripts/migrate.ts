@@ -2,7 +2,7 @@
  * `pnpm db:migrate` – wendet ausstehende Migrationen mit DATABASE_URL_OWNER an.
  * In Docker läuft das als Einmal-Container vor dem App-Start.
  */
-import "dotenv/config";
+import "./lib/env";
 import { runMigrations } from "./lib/migrate";
 
 const url = process.env.DATABASE_URL_OWNER;

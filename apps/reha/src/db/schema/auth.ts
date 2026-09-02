@@ -4,7 +4,7 @@
  * snake_case. Diese Tabellen sind Stammdaten (änderbar), Änderungen werden per
  * Audit-Trigger protokolliert (ADR 0002, "Stammdatenänderungen werden protokolliert").
  */
-import { boolean, index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, index, integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 
 export const user = pgTable(
   "user",
@@ -53,6 +53,7 @@ export const account = pgTable(
   "account",
   {
     id: text("id").primaryKey(),
+    issuer: text("issuer").notNull(),
     accountId: text("account_id").notNull(),
     providerId: text("provider_id").notNull(),
     userId: text("user_id")
@@ -93,6 +94,9 @@ export const twoFactor = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    verified: boolean("verified").notNull().default(true),
+    failedVerificationCount: integer("failed_verification_count").notNull().default(0),
+    lockedUntil: timestamp("locked_until", { withTimezone: true }),
   },
   (t) => [index("two_factor_user_id_idx").on(t.userId)],
 );

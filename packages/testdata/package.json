@@ -1,0 +1,8 @@
+{
+  "name": "@ak-physio/testdata",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ausschließlich synthetische Testdaten (CLAUDE.md Regel 1). Keine echten Personen, keine echten Befunde.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts"
+}

@@ -51,6 +51,6 @@ export function trafficLight(nprs: number): TrafficLight {
 }
 
 /** Serverseitig auswerten; im Client nur den Wert weiterreichen. */
-export function trafficLightEnabled(env: NodeJS.ProcessEnv = process.env): boolean {
+export function trafficLightEnabled(env: Record<string, string | undefined> = process.env): boolean {
   return (env.PAIN_TRAFFIC_LIGHT ?? "on").toLowerCase() !== "off";
 }
