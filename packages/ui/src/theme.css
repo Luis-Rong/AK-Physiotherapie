@@ -1,0 +1,38 @@
+/* Tailwind-v4-Anbindung der Tokens. Wird in der App nach tailwindcss importiert:
+   @import "tailwindcss";
+   @import "@ak-physio/ui/theme.css";
+*/
+@import "./tokens.css";
+
+@theme inline {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-sand: var(--color-sand);
+  --color-sand-deep: var(--color-sand-deep);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-muted: var(--color-muted);
+  --color-bark: var(--color-bark);
+  --color-bark-deep: var(--color-bark-deep);
+  --color-bark-soft: var(--color-bark-soft);
+  --color-clay: var(--color-clay);
+  --color-clay-deep: var(--color-clay-deep);
+  --color-clay-soft: var(--color-clay-soft);
+  --color-moss: var(--color-moss);
+  --color-moss-soft: var(--color-moss-soft);
+  --color-ampel-gruen: var(--color-ampel-gruen);
+  --color-ampel-gruen-soft: var(--color-ampel-gruen-soft);
+  --color-ampel-gelb: var(--color-ampel-gelb);
+  --color-ampel-gelb-soft: var(--color-ampel-gelb-soft);
+  --color-ampel-rot: var(--color-ampel-rot);
+  --color-ampel-rot-soft: var(--color-ampel-rot-soft);
+  --color-danger: var(--color-danger);
+  --color-danger-soft: var(--color-danger-soft);
+  --color-line: var(--color-line);
+  --color-line-strong: var(--color-line-strong);
+  --font-sans: var(--font-sans);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --shadow-card: var(--shadow-card);
+}

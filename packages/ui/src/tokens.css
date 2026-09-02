@@ -1,0 +1,60 @@
+/* ==========================================================================
+   AK Physio – Design-Tokens (erdige Farbwelt), gültig für Reha-Plattform und Website
+   Quelle der Wahrheit für Farben, Schrift und Radien. Framework-neutral: reine
+   CSS-Variablen. Tailwind-Anbindung in theme.css.
+   ========================================================================== */
+
+:root {
+  /* Flächen */
+  --color-bg: #FBF8F3;          /* Creme, Seitenhintergrund */
+  --color-surface: #FFFFFF;     /* Karten */
+  --color-sand: #F3EBDF;        /* zweite Fläche, Abschnitte */
+  --color-sand-deep: #E8DCCB;   /* Hover auf Sand, Trennflächen */
+
+  /* Text */
+  --color-ink: #2A211B;         /* Haupttext, fast schwarz mit Braunstich */
+  --color-ink-soft: #55463C;    /* Fließtext auf Sand */
+  --color-muted: #7B6C60;       /* Nebentext, Labels */
+
+  /* Marke */
+  --color-bark: #5B3F2E;        /* Primär: Rinde */
+  --color-bark-deep: #46301F;   /* Primär hover/aktiv */
+  --color-bark-soft: #EFE6DC;   /* Primär als Hintergrund (Badges, aktive Nav) */
+  --color-clay: #B5643C;        /* Akzent: Ton/Terrakotta, für Handlungen */
+  --color-clay-deep: #96502E;
+  --color-clay-soft: #F6E4D8;
+  --color-moss: #5F7A4E;        /* Erledigt, positiv */
+  --color-moss-soft: #E6EDDF;
+
+  /* Schmerzampel – semantisch, in die Palette eingebettet (ADR 0007/0011) */
+  --color-ampel-gruen: #4C7A3F;
+  --color-ampel-gruen-soft: #E3EDDD;
+  --color-ampel-gelb: #C28F1F;
+  --color-ampel-gelb-soft: #F7EBCD;
+  --color-ampel-rot: #B23A2F;
+  --color-ampel-rot-soft: #F5DDD9;
+
+  /* Status */
+  --color-danger: #A63A2B;
+  --color-danger-soft: #F5DDD9;
+  --color-focus: #B5643C;
+
+  /* Linien */
+  --color-line: rgba(42, 33, 27, 0.10);
+  --color-line-strong: rgba(42, 33, 27, 0.20);
+
+  /* Diagramme – reine Anzeige, keine Bewertung */
+  --color-chart-1: #5B3F2E;
+  --color-chart-2: #B5643C;
+  --color-chart-3: #8C7B6B;
+  --color-chart-grid: rgba(42, 33, 27, 0.08);
+
+  /* Typografie */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Radien und Schatten */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 1px 2px rgba(42, 33, 27, 0.06), 0 4px 16px rgba(42, 33, 27, 0.06);
+}
