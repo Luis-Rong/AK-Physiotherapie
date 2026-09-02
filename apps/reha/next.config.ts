@@ -15,6 +15,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  outputFileTracingExcludes: { "*": ["./data/**", "./tests/**", "./scripts/**", "./content-seed/**", "./docker/**"] },
   poweredByHeader: false,
   reactStrictMode: true,
   images: { unoptimized: true },

@@ -1,0 +1,94 @@
+# Produktion auf Hetzner (ADR 0008). Aufruf vom Repo-Root:
+#   docker compose -f apps/reha/docker/compose.prod.yml --env-file /etc/reha/prod.env up -d
+# Secrets liegen in /etc/reha/prod.env (nicht im Repo): POSTGRES_PASSWORD,
+# REHA_OWNER_PASSWORD, REHA_APP_PASSWORD, BETTER_AUTH_SECRET, PORTAL_HOST.
+name: reha-prod
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PORTAL_HOST: ${PORTAL_HOST}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+
+  app:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    build:
+      context: ../../..
+      dockerfile: apps/reha/docker/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://reha_app:${REHA_APP_PASSWORD}@db:5432/reha
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: https://${PORTAL_HOST}
+      PAIN_TRAFFIC_LIGHT: ${PAIN_TRAFFIC_LIGHT:-on}
+      UPLOAD_DIR: /data/uploads
+    volumes:
+      - uploads:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    # Kein Port nach außen: nur Caddy spricht mit der App
+    expose:
+      - "3000"
+
+  migrate:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    command: ["node", "migrate.mjs"]
+    environment:
+      DATABASE_URL_OWNER: postgres://reha_owner:${REHA_OWNER_PASSWORD}@db:5432/reha
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      REHA_OWNER_PASSWORD: ${REHA_OWNER_PASSWORD}
+      REHA_APP_PASSWORD: ${REHA_APP_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Kein Port nach außen
+
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_PASSPHRASE: ${BACKUP_PASSPHRASE}
+    volumes:
+      - ./backup.sh:/backup.sh:ro
+      - uploads:/data/uploads:ro
+      - backups:/backups
+    entrypoint: ["/bin/sh", "-c", "apk add --no-cache gnupg >/dev/null && while true; do /backup.sh; sleep 86400; done"]
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  uploads:
+  backups:
+  caddy_data:
+  caddy_config:

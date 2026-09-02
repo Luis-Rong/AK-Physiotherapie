@@ -19,7 +19,6 @@ type Initial = { title: string; category: string; position: number; body: Doc; s
 
 export function ContentEditor({ slug, initial }: { slug: string | null; initial: Initial }) {
   const [state, action, pending] = useActionState(saveContentAction, {} as ContentState);
-  const [status, setStatus] = useState(initial.status === "archived" ? "draft" : initial.status);
   const bodyRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -62,7 +61,6 @@ export function ContentEditor({ slug, initial }: { slug: string | null; initial:
     >
       {slug && <input type="hidden" name="slug" value={slug} />}
       <input type="hidden" name="body" ref={bodyRef} />
-      <input type="hidden" name="status" value={status} />
       <Card className="grid gap-3 md:grid-cols-6">
         <Field label="Titel" htmlFor="title" className="md:col-span-3"><Input id="title" name="title" required maxLength={160} defaultValue={initial.title} /></Field>
         <Field label="Kategorie" htmlFor="category" className="md:col-span-2">
@@ -113,10 +111,11 @@ export function ContentEditor({ slug, initial }: { slug: string | null; initial:
       {state.error && <Alert tone="danger">{state.error}</Alert>}
       {state.saved && <Alert tone="success">Gespeichert als Fassung {state.saved.version} ({state.saved.status === "published" ? "veröffentlicht" : state.saved.status === "draft" ? "Entwurf" : "archiviert"}).</Alert>}
       <div className="flex flex-wrap gap-2">
-        <Button type="submit" variant="secondary" disabled={pending} onClick={() => setStatus("draft")}>Als Entwurf speichern</Button>
-        <Button type="submit" disabled={pending} onClick={() => setStatus("published")}>Veröffentlichen</Button>
+        {/* Der Status kommt aus dem geklickten Button; ein Hidden-Feld wäre beim Submit noch veraltet */}
+        <Button type="submit" name="status" value="draft" variant="secondary" disabled={pending}>Als Entwurf speichern</Button>
+        <Button type="submit" name="status" value="published" disabled={pending}>Veröffentlichen</Button>
         {slug && initial.status !== "archived" && (
-          <Button type="submit" variant="outline" disabled={pending} onClick={() => setStatus("archived")}>Archivieren (aus dem Portal nehmen)</Button>
+          <Button type="submit" name="status" value="archived" variant="outline" disabled={pending}>Archivieren (aus dem Portal nehmen)</Button>
         )}
       </div>
     </form>
