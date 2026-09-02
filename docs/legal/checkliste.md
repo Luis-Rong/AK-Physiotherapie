@@ -44,6 +44,13 @@ gilt für beide Richtungen.
       (Affiliate, eigener Shop), zusätzlich klären: Fernabsatzrecht, Kennzeichnungspflicht
 - [ ] Klären, ob Supplement-Empfehlungen zum Berufsbild des Physiotherapeuten zählen
       oder eine Grenze zur Heilpraktiker-/Ernährungsberatungstätigkeit berühren
+- [ ] **Fachanwaltliche Prüfung der automatischen Schmerzampel** (MDR Regel 11) vor
+      Produktivbetrieb. Sie wird nach [ADR 0011](../decisions/0011-schmerzampel-bau-freigegeben.md)
+      ohne vorherige Bestätigung gebaut; fällt die Prüfung negativ aus, wird
+      `PAIN_TRAFFIC_LIGHT=off` gesetzt. Das Risiko muss im Kundenvertrag benannt sein
+- [ ] Health-Claims-Redaktion der Wissensinhalte liegt beim Physio als Autor
+      ([ADR 0009](../decisions/0009-wissensinhalte-editierbar.md)); Erstinhalte aus dem
+      PDF bleiben Entwurf, bis er sie geprüft hat. Ins Onboarding aufnehmen
 
 ## Uns betreffend – Rechtsform und Haftung
 

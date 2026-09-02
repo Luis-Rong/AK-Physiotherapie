@@ -2,6 +2,14 @@
 
 Stand: 2026-08-15 · Bestandsaufnahme nach Sichtung des Website-Codes
 
+> **Update 02.09.2026.** Die Website ist nach der Preisnennung zurückgestellt; die
+> Reha-Plattform hat Vorrang. Damit rutscht alles unter **P0** (Website-Go-live) hinter
+> die Plattform-Punkte. Tech-Stack (4.3) ist entschieden:
+> [ADR 0008](decisions/0008-tech-stack-reha-plattform.md). Neu offen: DNS-Zugang für
+> `portal.akphysiotherapie.de` wird jetzt vor dem Website-Zugang gebraucht, und die
+> Punkte aus [`legal/checkliste.md`](legal/checkliste.md) zur Ampel (ADR 0011) und
+> zu den Wissensinhalten (ADR 0009).
+>
 > **Update 15.08.2026.** Drei Blöcke haben sich verschoben:
 > Das PVS ist bekannt (**thevea**) — Auswertung in [`pvs-thevea.md`](pvs-thevea.md).
 > Der Abgleich mit der alten Website liegt vor — [`marketing/alte-website-abgleich.md`](marketing/alte-website-abgleich.md).

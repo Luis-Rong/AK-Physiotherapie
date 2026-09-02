@@ -1,6 +1,6 @@
 # ADR 0007: Schmerzampel bleibt automatisiert, Formulierung wird abgeschwächt
 
-- **Status:** akzeptiert
+- **Status:** akzeptiert; Anwaltsvorbehalt vor dem Bau aufgehoben durch ADR 0011
 - **Datum:** 2026-08-15
 
 ## Kontext

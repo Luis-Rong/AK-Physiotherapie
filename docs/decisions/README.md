@@ -32,3 +32,7 @@ der Punkt.
 | [0005](0005-zugangskonzept-portal.md) | Zugang zum Patientenportal: provisioniertes Konto statt Selbstregistrierung | akzeptiert |
 | [0006](0006-echte-namen-im-portal.md) | Patientenkonten mit echtem Namen, kein Pseudonym | akzeptiert |
 | [0007](0007-schmerzampel-mdr-abgrenzung.md) | Schmerzampel bleibt automatisiert, Formulierung wird abgeschwächt | akzeptiert |
+| [0008](0008-tech-stack-reha-plattform.md) | Tech-Stack und Zuschnitt der Reha-Plattform | akzeptiert |
+| [0009](0009-wissensinhalte-editierbar.md) | Wissensinhalte vom Physio im Admin editierbar | akzeptiert |
+| [0010](0010-ruheumsatz-rechner.md) | Ruheumsatz-Rechner ohne Speicherung | akzeptiert |
+| [0011](0011-schmerzampel-bau-freigegeben.md) | Schmerzampel-Bau ohne vorherige anwaltliche Bestätigung | akzeptiert |
