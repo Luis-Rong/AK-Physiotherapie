@@ -17,7 +17,7 @@ test("Onboarding mit temporärem Passwort bis zum ersten Tagebucheintrag", async
   const external: string[] = [];
   page.on("request", (req) => {
     const url = new URL(req.url());
-    if (url.host !== "127.0.0.1:3100") external.push(req.url());
+    if (url.host !== "localhost:3100") external.push(req.url());
   });
 
   await login(page, "jonas@example.test", "temp-jonas-1234");

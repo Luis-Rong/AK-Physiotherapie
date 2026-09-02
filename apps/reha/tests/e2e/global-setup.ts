@@ -17,7 +17,7 @@ export default async function globalSetup() {
       DATABASE_URL: handle.appUrl,
       DATABASE_URL_OWNER: handle.ownerUrl,
       BETTER_AUTH_SECRET: "e2e-only-secret-not-for-production-000000",
-      BETTER_AUTH_URL: "http://127.0.0.1:3100",
+      BETTER_AUTH_URL: "http://localhost:3100",
       SEED_PUBLISH_CONTENT: "true",
     },
   });

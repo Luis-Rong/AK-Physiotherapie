@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 
 /** Atemübungen aus dem Tagebuch S. 6: 4-7-8 und Box Breathing. Reiner Timer, keine Messung. */
@@ -14,50 +14,34 @@ type Key = keyof typeof PATTERNS;
 export function AtemTimer() {
   const [key, setKey] = useState<Key>("4-7-8");
   const [running, setRunning] = useState(false);
-  const [step, setStep] = useState<number>(0);
-  const [left, setLeft] = useState<number>(PATTERNS["4-7-8"].steps[0].s);
-  const [round, setRound] = useState<number>(1);
-  const timer = useRef<number | null>(null);
+  // ein Zustand für Schritt, Restsekunden und Runde, damit ein Tick atomar bleibt
+  const [t, setT] = useState<{ step: number; left: number; round: number }>({ step: 0, left: PATTERNS["4-7-8"].steps[0].s, round: 1 });
   const pattern = PATTERNS[key];
 
   useEffect(() => {
     if (!running) return;
-    timer.current = window.setInterval(() => {
-      setLeft((l) => {
-        if (l > 1) return l - 1;
-        setStep((s) => {
-          const next = (s + 1) % pattern.steps.length;
-          if (next === 0) {
-            setRound((r) => {
-              if (r >= pattern.rounds) {
-                setRunning(false);
-                return 1;
-              }
-              return r + 1;
-            });
-          }
-          return next;
-        });
-        return 0;
+    const id = window.setInterval(() => {
+      setT((cur) => {
+        if (cur.left > 1) return { ...cur, left: cur.left - 1 };
+        const nextStep = (cur.step + 1) % pattern.steps.length;
+        const nextRound = nextStep === 0 ? cur.round + 1 : cur.round;
+        if (nextRound > pattern.rounds) {
+          window.setTimeout(() => setRunning(false), 0);
+          return { step: 0, left: pattern.steps[0].s, round: 1 };
+        }
+        return { step: nextStep, left: pattern.steps[nextStep]!.s, round: nextRound };
       });
     }, 1000);
-    return () => {
-      if (timer.current) window.clearInterval(timer.current);
-    };
+    return () => window.clearInterval(id);
   }, [running, pattern]);
-
-  useEffect(() => {
-    if (left === 0) setLeft(pattern.steps[step]?.s ?? 0);
-  }, [left, step, pattern]);
 
   function reset(k: Key = key) {
     setRunning(false);
     setKey(k);
-    setStep(0);
-    setRound(1);
-    setLeft(PATTERNS[k].steps[0].s);
+    setT({ step: 0, left: PATTERNS[k].steps[0].s, round: 1 });
   }
 
+  const { step, left, round } = t;
   const current = pattern.steps[step]!;
   const progress = 1 - left / current.s;
 

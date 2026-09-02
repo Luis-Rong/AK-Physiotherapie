@@ -15,6 +15,8 @@ pnpm dev             # http://localhost:3000
 ```
 
 Weitere Skripte: `pnpm test` (Vitest inkl. DB-Test gegen echtes Postgres),
+`pnpm test:e2e` (Playwright gegen Produktions-Build auf :3100 mit eigenem Postgres auf :5455;
+vorher einmalig `pnpm exec playwright install chromium`),
 `pnpm lint`, `pnpm typecheck`, `pnpm db:reset` (leert alle Tabellen, nie in Prod),
 `pnpm db:migrate` (gegen `DATABASE_URL_OWNER`).
 
