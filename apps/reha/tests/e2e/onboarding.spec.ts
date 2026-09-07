@@ -1,4 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
+import { seedTotpSecret } from "@ak-physio/testdata";
+import { totpCode } from "../../scripts/lib/totp";
 
 /**
  * Der Weg aus ADR 0005 und der Plan-Verifikation:
@@ -32,17 +34,18 @@ test("Onboarding mit temporärem Passwort bis zum ersten Tagebucheintrag", async
   await page.getByRole("button", { name: "Zustimmen und weiter" }).click();
 
   await expect(page).toHaveURL(/\/app$/);
-  await expect(page.getByText("Hallo Jonas")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Guten (Morgen|Tag|Abend), Jonas/ })).toBeVisible();
 
   // Eintrag ohne Plan: nur Schmerzwerte
   await page.goto("/app/tagebuch/eintrag");
   await page.getByRole("group", { name: /Während der Übungen/ }).getByRole("button", { name: "7", exact: true }).click();
   await page.getByRole("group", { name: /^Danach/ }).getByRole("button", { name: "3", exact: true }).click();
-  await page.getByLabel("Bemerkung").fill("erster Eintrag");
+  await page.getByLabel("Was ist Ihnen aufgefallen?").fill("erster Eintrag");
   await page.getByRole("button", { name: "Speichern" }).click();
   await expect(page).toHaveURL(/\/app\/tagebuch$/);
-  await expect(page.getByLabel(/Schmerz 7 von 10, Stufe Rot/)).toBeVisible();
-  await expect(page.getByLabel(/Schmerz 3 von 10, Stufe Grün/)).toBeVisible();
+  // Werte erscheinen in der Liste (Punkt) und ggf. als Ampel („Zuletzt") – mindestens einmal sichtbar
+  await expect(page.getByLabel(/Schmerz 7 von 10, Stufe Rot/).first()).toBeVisible();
+  await expect(page.getByLabel(/Schmerz 3 von 10, Stufe Grün/).first()).toBeVisible();
 
   expect(external, "Alle Requests müssen same-origin sein (ADR 0003)").toEqual([]);
 });
@@ -69,8 +72,30 @@ test("Falsches Passwort wird abgewiesen und protokolliert, Patient kommt nicht i
 });
 
 test("Praxis ohne zweiten Faktor wird zur Einrichtung gezwungen", async ({ page }) => {
-  await login(page, "physio@example.test", "physio-test-passwort");
+  await login(page, "praxis-neu@example.test", "praxis-neu-test-passwort");
   await expect(page).toHaveURL(/\/2fa-einrichten/);
   await page.goto("/praxis");
   await expect(page).toHaveURL(/\/2fa-einrichten/);
+});
+
+test("Praxis mit zweitem Faktor: Passwort, dann TOTP-Code, dann Praxisbereich", async ({ page }) => {
+  // Nur ein Login: /sign-in/email ist auf 5 Versuche pro Minute begrenzt (suite-weit).
+  await login(page, "physio@example.test", "physio-test-passwort");
+  await expect(page).toHaveURL(/\/2fa$/);
+  // Ohne Code keine Sitzung: Praxisbereich bleibt zu
+  await page.goto("/praxis");
+  await expect(page).toHaveURL(/\/login/);
+  await page.goto("/2fa");
+  // Nach dem Vollreload erst hydrieren lassen, sonst landet der Wert nur im DOM, nicht im State
+  await page.waitForLoadState("networkidle");
+  const confirm = page.getByRole("button", { name: "Bestätigen" });
+  await page.getByLabel("Code").fill("000000");
+  await expect(confirm).toBeEnabled();
+  await confirm.click();
+  await expect(page.getByText("nicht gültig")).toBeVisible();
+
+  await page.getByLabel("Code").fill(totpCode(seedTotpSecret));
+  await expect(confirm).toBeEnabled();
+  await confirm.click();
+  await expect(page).toHaveURL(/\/praxis/);
 });

@@ -12,8 +12,17 @@ export type SeedAccount = {
   /** Nur für Test/Staging. In Produktion vergibt der Physio temporäre Passwörter selbst. */
   password: string;
   mustChangePassword: boolean;
+  /** Praxis-Konto bekommt beim Seed den festen TOTP-Schlüssel `seedTotpSecret` (nur lokal/Staging). */
   twoFactorSeeded?: boolean;
 };
+
+/**
+ * Fester TOTP-Schlüssel für geseedete Praxis-Konten. Nur für lokal, Tests und Staging –
+ * in Produktion richtet jeder Praxiszugang seinen zweiten Faktor selbst ein.
+ * `pnpm totp` gibt den aktuellen Code aus; alternativ den Schlüssel (Base32, wird beim
+ * Start von `pnpm dev` angezeigt) einmalig in eine Authenticator-App eintragen.
+ */
+export const seedTotpSecret = "REHA-TEST-TOTP-SECRET-NUR-LOKAL-01";
 
 export const seedAccounts: SeedAccount[] = [
   {
@@ -22,6 +31,16 @@ export const seedAccounts: SeedAccount[] = [
     email: "physio@example.test",
     role: "praxis",
     password: "physio-test-passwort",
+    mustChangePassword: false,
+    twoFactorSeeded: true,
+  },
+  {
+    // Praxiszugang ohne zweiten Faktor: zeigt den Einrichtungszwang (E2E-Test)
+    id: "seed-praxis-2",
+    name: "Neue Praxis-Kraft",
+    email: "praxis-neu@example.test",
+    role: "praxis",
+    password: "praxis-neu-test-passwort",
     mustChangePassword: false,
   },
   {

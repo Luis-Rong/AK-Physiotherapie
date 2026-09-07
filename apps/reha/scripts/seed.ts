@@ -3,13 +3,34 @@
  * packages/testdata. Nur für lokal und Staging. Bricht ab, wenn schon Konten existieren.
  */
 import "./lib/env";
-import { seedAccounts, seedExercises, seedSupplements, seedWeeks } from "@ak-physio/testdata";
+import { seedAccounts, seedExercises, seedSupplements, seedTotpSecret, seedWeeks } from "@ak-physio/testdata";
 import { eq, sql } from "drizzle-orm";
 import { auth } from "../src/lib/auth/auth";
 import { db, withActor } from "../src/db/client";
 import * as t from "../src/db/schema";
 import { CONSENT_KEY, CONSENT_VERSION } from "../src/lib/consent/document";
 import { seedContent } from "../content-seed";
+import { ensureSeededTwoFactor } from "./lib/seed-two-factor";
+import { base32Encode } from "./lib/totp";
+
+/** Für geseedete Praxis-Konten den festen Test-TOTP-Schlüssel setzen (auch nachträglich). */
+async function syncSeededTwoFactor(): Promise<void> {
+  for (const a of seedAccounts.filter((a) => a.twoFactorSeeded)) {
+    const [u] = await db.select({ id: t.user.id }).from(t.user).where(eq(t.user.email, a.email)).limit(1);
+    if (!u) continue;
+    await ensureSeededTwoFactor(u.id);
+    console.log(`2FA-Test-Schlüssel gesetzt für ${a.email} (Code: pnpm totp)`);
+  }
+}
+
+function printAccounts(): void {
+  console.log("Konten:");
+  for (const a of seedAccounts) {
+    const hint = a.mustChangePassword ? "  (temporär)" : a.twoFactorSeeded ? "  (2FA: pnpm totp)" : "";
+    console.log(`  ${a.role.padEnd(8)} ${a.email.padEnd(24)} ${a.password}${hint}`);
+  }
+  console.log(`  2FA-Schlüssel für die Authenticator-App: ${base32Encode(seedTotpSecret)}`);
+}
 
 function mondayOfWeek(offsetWeeks: number): string {
   const d = new Date();
@@ -23,6 +44,8 @@ async function main() {
   const existing = await db.select({ n: sql<number>`count(*)` }).from(t.user);
   if (Number(existing[0]?.n ?? 0) > 0) {
     console.log("Datenbank enthält bereits Konten, Seed übersprungen.");
+    await syncSeededTwoFactor();
+    printAccounts();
     return;
   }
 
@@ -45,8 +68,9 @@ async function main() {
       accountId: created.id,
       password: await ctx.password.hash(a.password),
     });
+    if (a.twoFactorSeeded) await ensureSeededTwoFactor(created.id);
   }
-  const physioSeed = seedAccounts.find((a) => a.role === "praxis")!;
+  const physioSeed = seedAccounts.find((a) => a.id === "seed-praxis-1")!;
   const maraSeed = seedAccounts.find((a) => a.id === "seed-patient-1")!;
   const physio = { id: ids.get(physioSeed.id)! };
   const mara = { id: ids.get(maraSeed.id)! };
@@ -172,8 +196,8 @@ async function main() {
     }
   });
 
-  console.log("Seed fertig. Konten:");
-  for (const a of seedAccounts) console.log(`  ${a.role.padEnd(8)} ${a.email.padEnd(22)} ${a.password}${a.mustChangePassword ? "  (temporär)" : ""}`);
+  console.log("Seed fertig.");
+  printAccounts();
 }
 
 main()

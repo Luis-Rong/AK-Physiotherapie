@@ -13,6 +13,7 @@
     },
     {
       "name": "reha",
+      "autoPort": true,
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [
         "--filter",

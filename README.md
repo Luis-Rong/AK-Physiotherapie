@@ -40,9 +40,11 @@ Siehe [docs/betrieb.md](docs/betrieb.md). Kurzfassung:
 ```bash
 pnpm install
 cd apps/reha && cp .env.example .env.local
-pnpm db:local   # Terminal 1
-pnpm db:seed    # Terminal 2, dann: pnpm dev
+pnpm dev        # startet Postgres, Migrationen, Seed und Next in einem Rutsch
 ```
+
+Die Testzugänge (nur synthetische Daten) stehen beim Start in der Konsole. Das
+Praxis-Konto verlangt einen zweiten Faktor: `pnpm totp` gibt den aktuellen Code aus.
 
 ## Was als Nächstes fehlt
 

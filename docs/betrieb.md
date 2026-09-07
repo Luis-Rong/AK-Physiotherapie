@@ -9,12 +9,17 @@ Stand: 2026-09-02 · gilt für Staging (eigener Server, nur Testdaten) und Produ
 ```bash
 pnpm install
 cd apps/reha && cp .env.example .env.local   # BETTER_AUTH_SECRET setzen
-pnpm db:local        # eingebettetes Postgres auf :5433, Rollen, Migrationen; läuft weiter
-pnpm db:seed         # synthetische Konten und Inhalte (in zweitem Terminal)
-pnpm dev             # http://localhost:3000
+pnpm dev             # Postgres (:5433) + Migrationen + Seed + Next (http://localhost:3000)
 ```
 
-Weitere Skripte: `pnpm test` (Vitest inkl. DB-Test gegen echtes Postgres),
+`pnpm dev` startet das eingebettete Postgres, wendet Migrationen an, seedet bei leerer
+Datenbank die synthetischen Konten und startet dann Next – ein Terminal, ein Befehl.
+Die Zugänge stehen beim Start in der Konsole. Das Praxis-Konto `physio@example.test`
+hat einen festen Test-TOTP-Schlüssel: `pnpm totp` zeigt den aktuellen Code, oder den
+Base32-Schlüssel aus der Startausgabe einmalig in eine Authenticator-App eintragen.
+
+Weitere Skripte: `pnpm dev:next` (nur Next, wenn Postgres schon läuft), `pnpm db:local`
+(nur Postgres), `pnpm db:seed`, `pnpm test` (Vitest inkl. DB-Test gegen echtes Postgres),
 `pnpm test:e2e` (Playwright gegen Produktions-Build auf :3100 mit eigenem Postgres auf :5455;
 vorher einmalig `pnpm exec playwright install chromium`),
 `pnpm lint`, `pnpm typecheck`, `pnpm db:reset` (leert alle Tabellen, nie in Prod),
