@@ -15,6 +15,13 @@ Stand: 2026-08-12
 > festgehalten, Autor sichtbar im Wissensbereich. Benachrichtigung per E-Mail →
 > Mailversender vorher nach Regel 5 prüfen. UG/GmbH und Versicherung bleiben
 > Empfehlung, sind kein Blocker mehr.
+>
+> **Entwürfe liegen vor (2026-09-07, ohne Anwalt):** Vertragspaket in
+> [`vertraege/`](vertraege/README.md) (Kundenvertrag, AV-Vertrag in zwei Varianten,
+> § 203-Verpflichtung, interne Zusammenarbeit) und Betriebsprozesse in
+> [`prozesse/`](prozesse/) (Incident-Prozess, VVT-Zuarbeit, Löschkonzept, TOM). Damit sind
+> die Punkte AV-Vertrag, § 203, Löschkonzept, Incident-Prozess und VVT unten **vorbereitet**,
+> abgehakt werden sie erst mit Unterschrift bzw. Umsetzung.
 
 ---
 

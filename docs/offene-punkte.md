@@ -9,6 +9,13 @@ Stand: 2026-08-15 · Bestandsaufnahme nach Sichtung des Website-Codes
 > und der thevea-Punkt in 4.3 erledigt bzw. gestrichen; offen bleiben Preiszahl und
 > KRS-ADR. Neu: Oberfläche soll bunter werden (Piktogramme, Bilder, keine Emojis).
 >
+> **Abends nachgezogen:** Gestaltung umgesetzt, KRS als [ADR 0013](decisions/0013-krs-stufen-nur-anzeige.md),
+> Plan-Vorlagen, Datei-Upload, Übergabeblatt, Assessment-Kurven und Datenexport gebaut;
+> Vertragspaket ([legal/vertraege](legal/vertraege/README.md)) und Betriebsprozesse
+> ([legal/prozesse](legal/prozesse/)) als Entwürfe; Mailversender als
+> [ADR 0014](decisions/0014-mailversender.md) vorgeschlagen – hängt an Frage 7 (wo liegt
+> das Praxis-Postfach?).
+>
 > **Update 02.09.2026.** Die Website ist nach der Preisnennung zurückgestellt; die
 > Reha-Plattform hat Vorrang. Damit rutscht alles unter **P0** (Website-Go-live) hinter
 > die Plattform-Punkte. Tech-Stack (4.3) ist entschieden:

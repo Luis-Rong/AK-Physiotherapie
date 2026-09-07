@@ -38,3 +38,4 @@ der Punkt.
 | [0011](0011-schmerzampel-bau-freigegeben.md) | Schmerzampel-Bau ohne vorherige anwaltliche Bestätigung | akzeptiert |
 | [0012](0012-geschaeftsrahmen-start.md) | Geschäftsrahmen für den Start: zwei Einzelgewerbe, Code bleibt bei uns, nur AK Physio | akzeptiert |
 | [0013](0013-krs-stufen-nur-anzeige.md) | KRS-Stufen bleiben reine Anzeige | akzeptiert |
+| [0014](0014-mailversender.md) | Mailversender für Benachrichtigungen | vorgeschlagen |

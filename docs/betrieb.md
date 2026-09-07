@@ -18,6 +18,10 @@ Die Zugänge stehen beim Start in der Konsole. Das Praxis-Konto `physio@example.
 hat einen festen Test-TOTP-Schlüssel: `pnpm totp` zeigt den aktuellen Code, oder den
 Base32-Schlüssel aus der Startausgabe einmalig in eine Authenticator-App eintragen.
 
+**Uploads:** `UPLOAD_DIR` enthält Bilder für Wissensinhalte (direkt) und Patientendateien
+unter `patienten/<id>/`. Beides gehört ins Backup; Patientendateien unterliegen dem
+Löschkonzept (`docs/legal/prozesse/loeschkonzept.md`).
+
 **Erstes Praxiskonto auf einem frischen System:** `pnpm praxis:konto --name "Vorname
 Nachname" --email name@praxis.example` (mit den Umgebungsvariablen des Zielsystems).
 Gibt ein temporäres Passwort aus, das persönlich übergeben wird; beim ersten Login
