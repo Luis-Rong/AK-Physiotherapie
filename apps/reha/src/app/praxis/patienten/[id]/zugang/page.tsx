@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { headers } from "next/headers";
+import { PiktoDownload } from "@/components/pikto";
 import { requireViewer } from "@/lib/auth/session";
 import { auth } from "@/lib/auth/auth";
 import { getPatient, listLoginEvents } from "@/lib/data/patients";
@@ -20,6 +22,15 @@ export default async function AccessPage({ params }: { params: Promise<{ id: str
   return (
     <div className="grid gap-5 lg:grid-cols-2">
       <div className="space-y-5">
+        <Card className="border-sun/40 bg-sun-soft/40">
+          <CardTitle>Übergabe am Tresen</CardTitle>
+          <p className="mt-1 text-sm text-ink-soft">
+            Ein Blatt mit QR-Code zum Login und Feld für das handschriftliche Passwort. Ausdrucken, Passwort eintragen, mitgeben.
+          </p>
+          <Link href={`/praxis/patienten/${id}/zugang/ausdruck`} className="mt-3 inline-flex items-center gap-2 rounded-[var(--radius-md)] bg-sun px-4 py-2.5 text-sm font-semibold text-white hover:bg-sun-deep">
+            <PiktoDownload size={16} /> Übergabeblatt öffnen
+          </Link>
+        </Card>
         <Card>
           <CardTitle>Zugang verwalten</CardTitle>
           <p className="mt-1 text-sm text-muted">Reset und Sperre wirken sofort; alle Geräte werden abgemeldet.</p>

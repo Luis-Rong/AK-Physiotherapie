@@ -287,6 +287,54 @@ export const contentAssets = pgTable("content_assets", {
   createdAt: createdAt(),
 });
 
+/** Plan-Vorlagen der Praxis (Stammdaten, änderbar, protokolliert). Wochen als JSON. */
+export const planTemplates = pgTable(
+  "plan_templates",
+  {
+    id: id(),
+    name: text("name").notNull(),
+    description: text("description"),
+    weeks: jsonb("weeks").notNull().$type<TemplateWeek[]>().default([]),
+    active: boolean("active").notNull().default(true),
+    createdBy: createdBy(),
+    createdAt: createdAt(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("plan_templates_active_name_idx").on(t.active, t.name)],
+);
+
+export type TemplateExercise = {
+  section: "warmup" | "main" | "cooldown";
+  exerciseId: string | null;
+  name: string;
+  sets: string;
+  reps: string;
+  weight: string;
+  duration: string;
+  remarks: string;
+};
+export type TemplateWeek = { weekNumber: number; goal: string; notes: string; trainingDays: number[]; exercises: TemplateExercise[] };
+
+/** Dateien, die die Praxis einem Patienten hinterlegt (PDF, Foto). Append-only; Zurückziehen = neue Zeile. */
+export const patientFiles = pgTable(
+  "patient_files",
+  {
+    id: id(),
+    patientId: text("patient_id").notNull().references(() => user.id),
+    filename: text("filename").notNull(),
+    mime: text("mime").notNull(),
+    size: integer("size").notNull(),
+    sha256: text("sha256").notNull(),
+    storedPath: text("stored_path").notNull(),
+    note: text("note"),
+    withdrawn: boolean("withdrawn").notNull().default(false),
+    supersedesId: uuid("supersedes_id"),
+    createdBy: createdBy(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("patient_files_patient_idx").on(t.patientId, t.createdAt)],
+);
+
 /** Audit-Log, per Trigger gefüllt. Anwendung schreibt hier nie direkt. */
 export const auditLog = pgTable(
   "audit_log",

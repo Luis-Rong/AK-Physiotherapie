@@ -12,6 +12,7 @@ export function PatientSubnav({ id }: { id: string }) {
     { href: `${base}/plan`, label: "Trainingsplan" },
     { href: `${base}/supplemente`, label: "Supplemente" },
     { href: `${base}/profil`, label: "Profil & Assessments" },
+    { href: `${base}/dateien`, label: "Dateien" },
     { href: `${base}/zugang`, label: "Zugang" },
   ];
   return (

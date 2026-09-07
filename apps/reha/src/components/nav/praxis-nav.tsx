@@ -5,11 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { Brand } from "@/components/brand";
 import { authClient } from "@/lib/auth/client";
 import { cn } from "@/lib/cn";
-import { PiktoAbmelden, PiktoGruppe, PiktoHantel, PiktoLampe, PiktoZahnrad, type PiktoProps } from "@/components/pikto";
+import { PiktoAbmelden, PiktoGruppe, PiktoHantel, PiktoLampe, PiktoTagebuch, PiktoZahnrad, type PiktoProps } from "@/components/pikto";
 import { TONE_TILE, type Tone } from "@/components/pikto/tile";
 
 const items: { href: string; label: string; icon: (p: PiktoProps) => React.JSX.Element; tone: Tone; exact?: boolean; prefix?: string }[] = [
   { href: "/praxis", label: "Patienten", icon: PiktoGruppe, tone: "bark", exact: true, prefix: "/praxis/patienten" },
+  { href: "/praxis/vorlagen", label: "Vorlagen", icon: PiktoTagebuch, tone: "sun" },
   { href: "/praxis/uebungen", label: "Übungen", icon: PiktoHantel, tone: "clay" },
   { href: "/praxis/wissen", label: "Wissen", icon: PiktoLampe, tone: "sky" },
   { href: "/praxis/konto", label: "Konto", icon: PiktoZahnrad, tone: "moss" },

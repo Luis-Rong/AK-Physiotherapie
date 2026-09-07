@@ -34,7 +34,8 @@ export function TempPasswordReveal({ email, password, expires }: { email: string
         <div className="flex gap-2"><dt className="w-24 text-muted">Gültig bis</dt><dd className="text-ink">{expires}</dd></div>
       </dl>
       <p className="mt-3 text-xs text-ink-soft">
-        Passwort persönlich, per SMS oder auf Papier übergeben, nicht im selben Kanal wie den Link (ADR 0005). Link zum Portal: <span className="font-mono">{typeof window !== "undefined" ? window.location.origin : ""}/login</span>
+        Passwort persönlich, per SMS oder auf Papier übergeben, nicht im selben Kanal wie den Link (ADR 0005). Am einfachsten: das Übergabeblatt
+        unter „Zugang“ drucken und das Passwort dort von Hand eintragen.
       </p>
     </div>
   );

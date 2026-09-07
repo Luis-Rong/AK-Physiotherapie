@@ -25,6 +25,8 @@ secrets/
 # Datenbank-Dumps – siehe CLAUDE.md Regel 1.
 # Produktionsdaten gehören nicht auf einen Entwicklerrechner, erst recht nicht ins Repo.
 *.sql
+# Ausnahme: versionierte Schema-Migrationen enthalten keine Daten
+!apps/reha/src/db/migrations/*.sql
 *.dump
 *.sqlite
 *.sqlite3

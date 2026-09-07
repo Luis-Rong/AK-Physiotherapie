@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/dates";
 import { Card, CardTitle } from "@/components/ui/card";
 import { ProfileForm } from "./profile-form";
 import { AssessmentForm } from "./assessment-form";
+import { AssessmentChart } from "@/components/assessments/assessment-chart";
 
 export default async function ProfilePage({ params }: { params: Promise<{ id: string }> }) {
   await requireViewer("praxis");
@@ -38,6 +39,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
           {assessments.length === 0 ? (
             <p className="mt-2 text-sm text-muted">Noch keine Messung.</p>
           ) : (
+            <>
+            <div className="mt-4">
+              <AssessmentChart rows={assessments.map((a) => ({ name: a.name, side: a.side, assessedOn: a.assessedOn, score: a.score }))} />
+            </div>
             <table className="mt-3 w-full text-sm">
               <thead><tr className="text-left text-xs uppercase tracking-wide text-muted"><th className="pb-2 font-medium">Datum</th><th className="pb-2 font-medium">Assessment</th><th className="pb-2 font-medium">Seite</th><th className="pb-2 text-right font-medium">Wert</th></tr></thead>
               <tbody className="divide-y divide-line">
@@ -46,6 +51,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ id: st
                 ))}
               </tbody>
             </table>
+            </>
           )}
         </Card>
         <Card>

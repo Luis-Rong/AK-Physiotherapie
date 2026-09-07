@@ -6,6 +6,7 @@ import { getCurrentProfile, listAssessments } from "@/lib/data/patients";
 import { getWeekVersion, listCurrentWeeks, listLogsForPatient } from "@/lib/data/plan";
 import { listPain } from "@/lib/data/pain";
 import { getCurrentSupplementPlan } from "@/lib/data/supplements";
+import { listPatientFiles } from "@/lib/data/files";
 
 /**
  * Datenauskunft und -übertragbarkeit (Art. 15 und Art. 20 DSGVO, ADR 0012): Der Patient
@@ -14,7 +15,7 @@ import { getCurrentSupplementPlan } from "@/lib/data/supplements";
  */
 export async function GET() {
   const { user } = await requireViewer("patient");
-  const [profile, weeks, logs, pain, supplements, assessments, consents] = await Promise.all([
+  const [profile, weeks, logs, pain, supplements, assessments, consents, files] = await Promise.all([
     getCurrentProfile(user.id),
     listCurrentWeeks(user.id).then((ws) => Promise.all(ws.map((w) => getWeekVersion(w.id)))),
     listLogsForPatient(user.id, { from: "2000-01-01" }),
@@ -22,6 +23,7 @@ export async function GET() {
     getCurrentSupplementPlan(user.id),
     listAssessments(user.id),
     db.select().from(t.consents).where(eq(t.consents.userId, user.id)),
+    listPatientFiles(user.id, { all: true }),
   ]);
 
   const body = {
@@ -37,6 +39,8 @@ export async function GET() {
     supplementPlan: supplements,
     messungen: assessments,
     einwilligungen: consents,
+    // Dateien: Metadaten; die Inhalte lädt der Patient einzeln unter /api/patient-files/<id>
+    dateien: files.map((f) => ({ id: f.id, filename: f.filename, note: f.note, mime: f.mime, size: f.size, withdrawn: f.withdrawn, createdAt: f.createdAt })),
   };
 
   const stamp = new Date().toISOString().slice(0, 10);

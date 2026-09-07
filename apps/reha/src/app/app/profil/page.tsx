@@ -1,15 +1,17 @@
 import Link from "next/link";
 import { requireViewer } from "@/lib/auth/session";
 import { getCurrentProfile, listAssessments } from "@/lib/data/patients";
+import { listPatientFiles } from "@/lib/data/files";
 import { formatDate } from "@/lib/dates";
 import { Card } from "@/components/ui/card";
 import { PageHeader, SectionTitle } from "@/components/page-header";
 import { PiktoDownload, PiktoLineal, PiktoPerson, PiktoPfeil, PiktoPflanze, PiktoZiel } from "@/components/pikto";
 import { LogoutButton } from "./logout-button";
+import { AssessmentChart } from "@/components/assessments/assessment-chart";
 
 export default async function ProfilePage() {
   const { user } = await requireViewer("patient");
-  const [profile, assessments] = await Promise.all([getCurrentProfile(user.id), listAssessments(user.id)]);
+  const [profile, assessments, files] = await Promise.all([getCurrentProfile(user.id), listAssessments(user.id), listPatientFiles(user.id)]);
 
   return (
     <div className="space-y-4">
@@ -72,11 +74,15 @@ export default async function ProfilePage() {
         <SectionTitle tone="sky" icon={<PiktoLineal size={18} />}>
           Messungen
         </SectionTitle>
-        <p className="mt-1 text-xs text-muted">Aus der Praxis, als Referenz für Ihr Therapieziel.</p>
+        <p className="mt-1 text-xs text-muted">Aus der Praxis, als Referenz für Ihr Therapieziel. Werte wie gemessen, ohne Bewertung.</p>
         {assessments.length === 0 ? (
           <p className="mt-2 text-sm text-muted">Noch keine Messungen.</p>
         ) : (
-          <ul className="mt-3 divide-y divide-line">
+          <>
+            <div className="mt-4">
+              <AssessmentChart rows={assessments.map((a) => ({ name: a.name, side: a.side, assessedOn: a.assessedOn, score: a.score }))} />
+            </div>
+            <ul className="mt-3 divide-y divide-line">
             {assessments.map((a) => (
               <li key={a.id} className="flex items-center justify-between gap-3 py-2.5">
                 <div className="min-w-0">
@@ -87,6 +93,33 @@ export default async function ProfilePage() {
                   <p className="text-xs text-muted">{formatDate(a.assessedOn)}</p>
                 </div>
                 <p className="shrink-0 text-lg font-bold tabular-nums text-ink">{a.score}</p>
+              </li>
+            ))}
+            </ul>
+          </>
+        )}
+      </Card>
+
+      <Card id="dateien">
+        <SectionTitle tone="sun" icon={<PiktoDownload size={18} />}>
+          Dateien von Ihrer Praxis
+        </SectionTitle>
+        {files.length === 0 ? (
+          <p className="mt-2 text-sm text-muted">Noch keine Datei. Wenn Ihre Praxis Ihnen etwas hinterlegt – ein Übungsblatt, ein Foto – erscheint es hier.</p>
+        ) : (
+          <ul className="mt-3 divide-y divide-line">
+            {files.map((f) => (
+              <li key={f.id}>
+                <a href={`/api/patient-files/${f.id}`} target="_blank" rel="noopener" className="flex items-center justify-between gap-3 py-2.5">
+                  <span className="min-w-0">
+                    <span className="block font-medium text-ink">{f.note || f.filename}</span>
+                    <span className="block text-xs text-muted">
+                      {f.note ? `${f.filename} · ` : ""}
+                      {formatDate(f.createdAt.toISOString().slice(0, 10))}
+                    </span>
+                  </span>
+                  <PiktoPfeil size={16} className="shrink-0 text-sun-deep" />
+                </a>
               </li>
             ))}
           </ul>

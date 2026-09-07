@@ -10,7 +10,8 @@ import { Card, Badge } from "@/components/ui/card";
 import { PainValue } from "@/components/pain/traffic-badge";
 import { AmpelHinweis, AmpelKarte } from "@/components/pain/ampel";
 import { IconTile } from "@/components/pikto/tile";
-import { PiktoHaken, PiktoHantel, PiktoKapsel, PiktoMond, PiktoPfeil, PiktoPflanze, PiktoSonne, PiktoTagebuch } from "@/components/pikto";
+import { PiktoDownload, PiktoHaken, PiktoHantel, PiktoKapsel, PiktoMond, PiktoPfeil, PiktoPflanze, PiktoSonne, PiktoTagebuch } from "@/components/pikto";
+import { listPatientFiles } from "@/lib/data/files";
 import { IlluLeer, IlluMorgen, IlluRuhe } from "@/components/pikto/illustrationen";
 import { IntakeChecklist } from "./supplemente/intake-checklist";
 
@@ -50,6 +51,8 @@ export default async function TodayPage() {
     .slice()
     .sort((a, b) => (a.entryDate === b.entryDate ? 0 : a.entryDate < b.entryDate ? 1 : -1))[0];
   const firstName = user.name.split(" ")[0];
+  const cutoff = addDays(date, -14);
+  const recentFiles = (await listPatientFiles(user.id)).filter((f) => f.createdAt.toISOString().slice(0, 10) >= cutoff);
 
   return (
     <div className="space-y-4">
@@ -225,6 +228,26 @@ export default async function TodayPage() {
           </ul>
         )}
       </Card>
+
+      {/* Neue Dateien von der Praxis (letzte 14 Tage) */}
+      {recentFiles.length > 0 && (
+        <Card className="border-sun/40 bg-sun-soft/40">
+          <div className="flex items-center gap-3">
+            <IconTile tone="sun">
+              <PiktoDownload size={22} />
+            </IconTile>
+            <div className="min-w-0 flex-1">
+              <p className="font-semibold text-ink">
+                {recentFiles.length === 1 ? "Ihre Praxis hat Ihnen eine Datei hinterlegt" : `Ihre Praxis hat Ihnen ${recentFiles.length} Dateien hinterlegt`}
+              </p>
+              <p className="truncate text-sm text-ink-soft">{recentFiles.map((f) => f.note || f.filename).join(" · ")}</p>
+            </div>
+            <Link href="/app/profil#dateien" className="inline-flex items-center gap-1 text-sm font-semibold text-sun-deep">
+              Ansehen <PiktoPfeil size={16} />
+            </Link>
+          </div>
+        </Card>
+      )}
 
       {/* Reha-Stufe */}
       {profile?.krsStage && (
