@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, CalendarCheck, Dumbbell, Home, Pill, UserRound } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { PiktoHantel, PiktoKapsel, PiktoLampe, PiktoPerson, PiktoSonne, PiktoTagebuch, type PiktoProps } from "@/components/pikto";
+import { TONE_TILE, TONE_TEXT, type Tone } from "@/components/pikto/tile";
 
-const items = [
-  { href: "/app", label: "Heute", icon: Home, exact: true },
-  { href: "/app/plan", label: "Plan", icon: Dumbbell },
-  { href: "/app/tagebuch", label: "Tagebuch", icon: CalendarCheck },
-  { href: "/app/supplemente", label: "Einnahme", icon: Pill },
-  { href: "/app/wissen", label: "Wissen", icon: BookOpen },
-  { href: "/app/profil", label: "Profil", icon: UserRound },
+const items: { href: string; label: string; icon: (p: PiktoProps) => React.JSX.Element; tone: Tone; exact?: boolean }[] = [
+  { href: "/app", label: "Heute", icon: PiktoSonne, tone: "sun", exact: true },
+  { href: "/app/plan", label: "Plan", icon: PiktoHantel, tone: "clay" },
+  { href: "/app/tagebuch", label: "Tagebuch", icon: PiktoTagebuch, tone: "berry" },
+  { href: "/app/supplemente", label: "Einnahme", icon: PiktoKapsel, tone: "sun" },
+  { href: "/app/wissen", label: "Wissen", icon: PiktoLampe, tone: "sky" },
+  { href: "/app/profil", label: "Profil", icon: PiktoPerson, tone: "bark" },
 ];
 
 export function PatientNav() {
@@ -32,12 +33,12 @@ export function PatientNav() {
                 href={it.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-1 py-2.5 text-[11px] font-medium",
-                  active ? "text-bark" : "text-muted hover:text-ink-soft",
+                  "flex flex-col items-center gap-1 py-2 text-[11px] font-semibold transition-colors",
+                  active ? TONE_TEXT[it.tone] : "text-muted hover:text-ink-soft",
                 )}
               >
-                <span className={cn("grid h-8 w-12 place-items-center rounded-full", active && "bg-bark-soft")}>
-                  <Icon size={20} strokeWidth={active ? 2.4 : 2} aria-hidden />
+                <span className={cn("grid h-8 w-12 place-items-center rounded-full transition-colors", active && TONE_TILE[it.tone])}>
+                  <Icon size={22} strokeWidth={active ? 2.3 : 2} />
                 </span>
                 {it.label}
               </Link>

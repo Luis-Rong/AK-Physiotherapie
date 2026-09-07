@@ -35,12 +35,15 @@ export function Badge({
   tone = "neutral",
   className,
   ...props
-}: React.HTMLAttributes<HTMLSpanElement> & { tone?: "neutral" | "bark" | "clay" | "moss" | "gruen" | "gelb" | "rot" }) {
+}: React.HTMLAttributes<HTMLSpanElement> & { tone?: "neutral" | "bark" | "clay" | "moss" | "sun" | "berry" | "sky" | "gruen" | "gelb" | "rot" }) {
   const tones = {
     neutral: "bg-sand text-ink-soft",
     bark: "bg-bark-soft text-bark",
     clay: "bg-clay-soft text-clay-deep",
     moss: "bg-moss-soft text-moss",
+    sun: "bg-sun-soft text-sun-deep",
+    berry: "bg-berry-soft text-berry-deep",
+    sky: "bg-sky-soft text-sky-deep",
     gruen: "bg-ampel-gruen-soft text-ampel-gruen",
     gelb: "bg-ampel-gelb-soft text-[#7A5A10]",
     rot: "bg-ampel-rot-soft text-ampel-rot",

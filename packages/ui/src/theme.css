@@ -20,6 +20,15 @@
   --color-clay-soft: var(--color-clay-soft);
   --color-moss: var(--color-moss);
   --color-moss-soft: var(--color-moss-soft);
+  --color-sun: var(--color-sun);
+  --color-sun-deep: var(--color-sun-deep);
+  --color-sun-soft: var(--color-sun-soft);
+  --color-berry: var(--color-berry);
+  --color-berry-deep: var(--color-berry-deep);
+  --color-berry-soft: var(--color-berry-soft);
+  --color-sky: var(--color-sky);
+  --color-sky-deep: var(--color-sky-deep);
+  --color-sky-soft: var(--color-sky-soft);
   --color-ampel-gruen: var(--color-ampel-gruen);
   --color-ampel-gruen-soft: var(--color-ampel-gruen-soft);
   --color-ampel-gelb: var(--color-ampel-gelb);

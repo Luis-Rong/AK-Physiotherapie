@@ -15,6 +15,7 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "totp": "tsx scripts/totp.ts",
+    "praxis:konto": "tsx scripts/praxis-konto.ts",
     "db:reset": "tsx scripts/db-reset.ts"
   },
   "dependencies": {

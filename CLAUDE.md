@@ -136,6 +136,12 @@ Phase 3 startet nicht, bevor die Punkte in `docs/legal/checkliste.md` abgehakt s
 
 ## Arbeitsstand und Vorhaben
 
+**Update 2026-09-07:** Geschäftsrahmen entschieden in
+[ADR 0012](docs/decisions/0012-geschaeftsrahmen-start.md): zwei Einzelgewerbe, Code
+bleibt bei uns, nur AK Physio, E-Mail-Benachrichtigung, Verträge ohne Anwalt. Regel 5
+gilt unverändert – auch für den Mailversender. Gestaltungsauftrag: wärmer und bunter,
+eigene Piktogramme, keine Emojis.
+
 **Update 2026-09-02:** Die Website wurde dem Physio gezeigt und nach der Preisnennung
 zurückgestellt. **Die Reha-Plattform hat jetzt Vorrang.** Grundlage ist
 `Rehabilitationstagebuch_ohne_logo.pdf`; Stack und Zuschnitt stehen in

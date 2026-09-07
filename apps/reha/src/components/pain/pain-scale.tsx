@@ -26,7 +26,7 @@ export function PainScale({ name, defaultValue, required = false, label }: { nam
             onClick={() => setValue(value === n && !required ? null : n)}
             className={cn(
               "h-11 rounded-[var(--radius-sm)] border text-sm font-semibold tabular-nums transition-colors",
-              value === n ? "border-bark bg-bark text-[#F7F1E8]" : "border-line-strong bg-surface text-ink hover:bg-sand",
+              value === n ? "border-berry bg-berry text-white shadow-sm" : "border-line-strong bg-surface text-ink hover:bg-berry-soft",
             )}
           >
             {n}

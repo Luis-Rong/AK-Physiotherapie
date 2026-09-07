@@ -23,8 +23,20 @@
   --color-clay: #B5643C;        /* Akzent: Ton/Terrakotta, für Handlungen */
   --color-clay-deep: #96502E;
   --color-clay-soft: #F6E4D8;
-  --color-moss: #5F7A4E;        /* Erledigt, positiv */
+  --color-moss: #5F7A4E;        /* Erledigt, positiv; Bereich Heilung/Stufe */
   --color-moss-soft: #E6EDDF;
+
+  /* Bereichsakzente (ADR 0012, „warm und verspielt"): je Bereich eine Farbe,
+     damit die Oberfläche Orientierung und Wärme bekommt. Alle auf Creme lesbar. */
+  --color-sun: #D9962A;         /* Einnahme, Morgen, Sonne */
+  --color-sun-deep: #B67A1A;
+  --color-sun-soft: #FBEDD0;
+  --color-berry: #9C4B6E;       /* Tagebuch, Schmerzverlauf */
+  --color-berry-deep: #7E3A58;
+  --color-berry-soft: #F5E2EB;
+  --color-sky: #3E7D8A;         /* Wissen */
+  --color-sky-deep: #2F6570;
+  --color-sky-soft: #DCEEF0;
 
   /* Schmerzampel – semantisch, in die Palette eingebettet (ADR 0007/0011) */
   --color-ampel-gruen: #4C7A3F;
@@ -44,9 +56,9 @@
   --color-line-strong: rgba(42, 33, 27, 0.20);
 
   /* Diagramme – reine Anzeige, keine Bewertung */
-  --color-chart-1: #5B3F2E;
-  --color-chart-2: #B5643C;
-  --color-chart-3: #8C7B6B;
+  --color-chart-1: #B5643C;      /* während: Ton */
+  --color-chart-2: #9C4B6E;      /* danach: Beere */
+  --color-chart-3: #3E7D8A;      /* nächster Morgen: Himmel */
   --color-chart-grid: rgba(42, 33, 27, 0.08);
 
   /* Typografie */

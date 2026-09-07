@@ -18,6 +18,11 @@ Die Zugänge stehen beim Start in der Konsole. Das Praxis-Konto `physio@example.
 hat einen festen Test-TOTP-Schlüssel: `pnpm totp` zeigt den aktuellen Code, oder den
 Base32-Schlüssel aus der Startausgabe einmalig in eine Authenticator-App eintragen.
 
+**Erstes Praxiskonto auf einem frischen System:** `pnpm praxis:konto --name "Vorname
+Nachname" --email name@praxis.example` (mit den Umgebungsvariablen des Zielsystems).
+Gibt ein temporäres Passwort aus, das persönlich übergeben wird; beim ersten Login
+folgen Passwortwechsel und 2FA-Einrichtung. Kein SQL von Hand nötig.
+
 Weitere Skripte: `pnpm dev:next` (nur Next, wenn Postgres schon läuft), `pnpm db:local`
 (nur Postgres), `pnpm db:seed`, `pnpm test` (Vitest inkl. DB-Test gegen echtes Postgres),
 `pnpm test:e2e` (Playwright gegen Produktions-Build auf :3100 mit eigenem Postgres auf :5455;

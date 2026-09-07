@@ -6,6 +6,16 @@ IT-/Medizinrecht; der Kunde braucht einen (externen) Datenschutzbeauftragten.
 
 Stand: 2026-08-12
 
+> **Update 2026-09-07 – [ADR 0012](../decisions/0012-geschaeftsrahmen-start.md).**
+> Kein Fachanwalt, keine Gesellschaft: zwei Einzelgewerbe, Verträge schreiben wir
+> selbst. Damit ändern sich unten die Zuständigkeiten, nicht die Pflichten:
+> AV-Vertrag und § 203-Verpflichtung laufen als **zwei Ketten** (AK Physio ↔ Roko,
+> Roko ↔ Luis als Unterauftragnehmer). MDR-Prüfung der Ampel bewusst verschoben,
+> Risiko im Vertrag. Health-Claims-Verantwortung beim Physio als Autor, im Vertrag
+> festgehalten, Autor sichtbar im Wissensbereich. Benachrichtigung per E-Mail →
+> Mailversender vorher nach Regel 5 prüfen. UG/GmbH und Versicherung bleiben
+> Empfehlung, sind kein Blocker mehr.
+
 ---
 
 ## Vor Phase 3 (interne Praxisoberfläche) – blockierend

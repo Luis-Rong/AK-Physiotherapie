@@ -1,34 +1,71 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 import { requireViewer } from "@/lib/auth/session";
-import { getPublishedBySlug, listPublishedContent } from "@/lib/data/content";
+import { getAuthorName, getPublishedBySlug, listPublishedContent } from "@/lib/data/content";
 import { CONTENT_CATEGORY_LABEL, type ContentCategory } from "@/lib/labels";
+import { formatDate } from "@/lib/dates";
 import { ContentBody } from "@/components/content/render";
+import { PageHeader } from "@/components/page-header";
+import { IconTile, TONE_TEXT } from "@/components/pikto/tile";
+import { PiktoPerson, PiktoPfeil, PiktoPfeilLinks } from "@/components/pikto";
+import { CATEGORY_ICON, CATEGORY_TONE } from "@/components/wissen/kategorie";
 
 export default async function KnowledgeArticle({ params }: { params: Promise<{ slug: string }> }) {
   await requireViewer("patient");
   const { slug } = await params;
   const article = await getPublishedBySlug(slug);
   if (!article) notFound();
-  const siblings = (await listPublishedContent()).filter((c) => c.category === article.category);
-  const idx = siblings.findIndex((s) => s.slug === slug);
-  const prev = siblings[idx - 1];
-  const next = siblings[idx + 1];
+  const category = article.category as ContentCategory;
+  const [siblings, author] = await Promise.all([listPublishedContent(), getAuthorName(article.authorId)]);
+  const chapter = siblings.filter((c) => c.category === category);
+  const idx = chapter.findIndex((s) => s.slug === slug);
+  const prev = chapter[idx - 1];
+  const next = chapter[idx + 1];
+  const tone = CATEGORY_TONE[category];
+  const Icon = CATEGORY_ICON[category];
 
   return (
     <article className="space-y-4">
-      <Link href="/app/wissen" className="inline-flex items-center gap-1 text-sm text-muted hover:text-ink"><ArrowLeft size={16} /> Wissen</Link>
-      <header>
-        <p className="text-xs uppercase tracking-wide text-muted">{CONTENT_CATEGORY_LABEL[article.category as ContentCategory]}</p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink">{article.title}</h1>
-      </header>
+      <PageHeader tone={tone} icon={<Icon size={30} />} back={{ href: "/app/wissen", label: "Wissen" }} title={article.title} intro={CONTENT_CATEGORY_LABEL[category]} />
+
+      {/* Autorenzeile: Inhalte kommen von der Praxis, nicht vom Betreiber (ADR 0009, ADR 0012) */}
+      <div className="flex items-center gap-3 rounded-[var(--radius-md)] bg-sand/70 px-4 py-3 text-sm">
+        <IconTile tone="bark" size="sm">
+          <PiktoPerson size={16} />
+        </IconTile>
+        <p className="min-w-0 text-ink-soft">
+          <span className="font-semibold text-ink">{author ? `Von ${author}` : "Von Ihrer Praxis"}</span> · Praxis AK Physiotherapie · Stand{" "}
+          {formatDate(article.createdAt.toISOString().slice(0, 10))}
+        </p>
+      </div>
+
       <div className="rounded-[var(--radius-lg)] border border-line bg-surface px-5 py-2">
         <ContentBody doc={article.body} />
       </div>
-      <nav className="flex justify-between gap-3 text-sm" aria-label="Weitere Kapitel">
-        {prev ? <Link href={`/app/wissen/${prev.slug}`} className="text-bark">← {prev.title}</Link> : <span />}
-        {next ? <Link href={`/app/wissen/${next.slug}`} className="text-right text-bark">{next.title} →</Link> : <span />}
+
+      <p className="text-xs text-muted">
+        Dieser Text stammt von Ihrer Praxis und ersetzt kein persönliches Gespräch. Bei Fragen zu Ihrer Situation wenden Sie sich an Ihre Therapeutin oder
+        Ihren Therapeuten.
+      </p>
+
+      <nav className="grid gap-2 text-sm sm:grid-cols-2" aria-label="Weitere Kapitel">
+        {prev ? (
+          <Link href={`/app/wissen/${prev.slug}`} className={`flex items-center gap-2 rounded-[var(--radius-md)] border border-line bg-surface px-4 py-3 font-semibold ${TONE_TEXT[tone]}`}>
+            <PiktoPfeilLinks size={16} /> <span className="min-w-0 truncate">{prev.title}</span>
+          </Link>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <Link
+            href={`/app/wissen/${next.slug}`}
+            className={`flex items-center justify-end gap-2 rounded-[var(--radius-md)] border border-line bg-surface px-4 py-3 text-right font-semibold ${TONE_TEXT[tone]}`}
+          >
+            <span className="min-w-0 truncate">{next.title}</span> <PiktoPfeil size={16} />
+          </Link>
+        ) : (
+          <span />
+        )}
       </nav>
     </article>
   );

@@ -36,3 +36,5 @@ der Punkt.
 | [0009](0009-wissensinhalte-editierbar.md) | Wissensinhalte vom Physio im Admin editierbar | akzeptiert |
 | [0010](0010-ruheumsatz-rechner.md) | Ruheumsatz-Rechner ohne Speicherung | akzeptiert |
 | [0011](0011-schmerzampel-bau-freigegeben.md) | Schmerzampel-Bau ohne vorherige anwaltliche Bestätigung | akzeptiert |
+| [0012](0012-geschaeftsrahmen-start.md) | Geschäftsrahmen für den Start: zwei Einzelgewerbe, Code bleibt bei uns, nur AK Physio | akzeptiert |
+| [0013](0013-krs-stufen-nur-anzeige.md) | KRS-Stufen bleiben reine Anzeige | akzeptiert |

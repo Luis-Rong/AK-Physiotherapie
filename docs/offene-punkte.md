@@ -2,6 +2,13 @@
 
 Stand: 2026-08-15 · Bestandsaufnahme nach Sichtung des Website-Codes
 
+> **Update 07.09.2026.** Geschäftsrahmen entschieden –
+> [ADR 0012](decisions/0012-geschaeftsrahmen-start.md): zwei Einzelgewerbe statt
+> Gesellschaft, Code bleibt bei uns (einfaches Nutzungsrecht), nur AK Physio, keine
+> thevea-Anfrage, Benachrichtigung per E-Mail, Verträge ohne Anwalt. Damit sind 4.1
+> und der thevea-Punkt in 4.3 erledigt bzw. gestrichen; offen bleiben Preiszahl und
+> KRS-ADR. Neu: Oberfläche soll bunter werden (Piktogramme, Bilder, keine Emojis).
+>
 > **Update 02.09.2026.** Die Website ist nach der Preisnennung zurückgestellt; die
 > Reha-Plattform hat Vorrang. Damit rutscht alles unter **P0** (Website-Go-live) hinter
 > die Plattform-Punkte. Tech-Stack (4.3) ist entschieden:

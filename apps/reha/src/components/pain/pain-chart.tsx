@@ -23,15 +23,15 @@ export function PainChart({ data }: { data: PainPoint[] }) {
             formatter={(v, name) => [String(v), name === "during" ? "Während" : name === "after" ? "Danach" : "Nächster Morgen"]}
             contentStyle={{ borderRadius: 10, border: "1px solid var(--color-line)", fontSize: 12 }}
           />
-          <Line type="monotone" dataKey="during" name="during" stroke="var(--color-chart-1)" strokeWidth={2} dot={{ r: 3 }} connectNulls />
-          <Line type="monotone" dataKey="after" name="after" stroke="var(--color-chart-2)" strokeWidth={2} dot={{ r: 3 }} connectNulls />
-          <Line type="monotone" dataKey="next_morning" name="next_morning" stroke="var(--color-chart-3)" strokeWidth={2} strokeDasharray="4 3" dot={{ r: 3 }} connectNulls />
+          <Line type="monotone" dataKey="during" name="during" stroke="var(--color-chart-1)" strokeWidth={2.5} dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-1)" }} connectNulls />
+          <Line type="monotone" dataKey="after" name="after" stroke="var(--color-chart-2)" strokeWidth={2.5} dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-2)" }} connectNulls />
+          <Line type="monotone" dataKey="next_morning" name="next_morning" stroke="var(--color-chart-3)" strokeWidth={2.5} strokeDasharray="5 4" dot={{ r: 4, strokeWidth: 0, fill: "var(--color-chart-3)" }} connectNulls />
         </LineChart>
       </ResponsiveContainer>
-      <ul className="mt-1 flex gap-4 text-[11px] text-muted">
-        <li><span className="mr-1 inline-block h-2 w-3 rounded-sm" style={{ background: "var(--color-chart-1)" }} />Während</li>
-        <li><span className="mr-1 inline-block h-2 w-3 rounded-sm" style={{ background: "var(--color-chart-2)" }} />Danach</li>
-        <li><span className="mr-1 inline-block h-2 w-3 rounded-sm" style={{ background: "var(--color-chart-3)" }} />Nächster Morgen</li>
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-ink-soft">
+        <li><span className="mr-1.5 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ background: "var(--color-chart-1)" }} />Während</li>
+        <li><span className="mr-1.5 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ background: "var(--color-chart-2)" }} />Danach</li>
+        <li><span className="mr-1.5 inline-block h-2.5 w-2.5 rounded-full align-middle" style={{ background: "var(--color-chart-3)" }} />Nächster Morgen</li>
       </ul>
     </div>
   );
