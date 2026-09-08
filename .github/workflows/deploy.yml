@@ -13,9 +13,6 @@ on:
         required: true
         default: staging
 
-env:
-  IMAGE: ghcr.io/${{ github.repository_owner }}/reha
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,7 +30,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - id: meta
-        run: echo "tag=${IMAGE}:${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+        # Docker-Image-Namen müssen durchgehend klein geschrieben sein; github.repository_owner
+        # ist es nicht zwingend (hier "Luis-Rong").
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "image=ghcr.io/${OWNER}/reha" >> "$GITHUB_OUTPUT"
+          echo "tag=ghcr.io/${OWNER}/reha:${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
       - uses: docker/build-push-action@v6
         with:
           context: .
@@ -41,7 +43,7 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tag }}
-            ${{ env.IMAGE }}:latest
+            ${{ steps.meta.outputs.image }}:latest
 
   deploy:
     needs: build
