@@ -1,0 +1,75 @@
+# Staging auf dem vorhandenen eigenen Server: nur synthetische Daten (Regel 1).
+# Wie Produktion, aber ohne Backup-Dienst und mit Seed nach der Migration.
+#   docker compose -f apps/reha/docker/compose.staging.yml --env-file /etc/reha/staging.env up -d
+name: reha-staging
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PORTAL_HOST: ${PORTAL_HOST}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+
+  app:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    build:
+      context: ../../..
+      dockerfile: apps/reha/docker/Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://reha_app:${REHA_APP_PASSWORD}@db:5432/reha
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: https://${PORTAL_HOST}
+      PAIN_TRAFFIC_LIGHT: ${PAIN_TRAFFIC_LIGHT:-on}
+      UPLOAD_DIR: /data/uploads
+    volumes:
+      - uploads:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    expose:
+      - "3000"
+
+  migrate:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    command: ["node", "migrate.mjs"]
+    environment:
+      DATABASE_URL_OWNER: postgres://reha_owner:${REHA_OWNER_PASSWORD}@db:5432/reha
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      REHA_OWNER_PASSWORD: ${REHA_OWNER_PASSWORD}
+      REHA_APP_PASSWORD: ${REHA_APP_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata:
+  uploads:
+  caddy_data:
+  caddy_config:

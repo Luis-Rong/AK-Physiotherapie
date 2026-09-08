@@ -95,13 +95,18 @@ Siehe [ADR 0001](docs/decisions/0001-scope-kein-zugelassenes-pvs.md).
 ## Repo-Struktur (Zielbild)
 
 ```
-apps/website     öffentlich, Marketing – Tracking nach Consent erlaubt
-apps/portal      Patientenportal – geschützt, keine Drittanbieter
-apps/praxis      interne Oberfläche für den Therapeuten
-apps/api         Backend
-packages/ui      geteilte Komponenten & Design-Tokens (Quelle: Claude Design)
+apps/website     öffentlich, Marketing – Tracking nach Consent erlaubt (statisches HTML)
+apps/reha        Reha-Plattform – geschützt, keine Drittanbieter
+                   /app     Patientenbereich
+                   /praxis  Physio/Admin-Bereich
+packages/ui      geteilte Design-Tokens (erdige Farbwelt) und Komponenten
+packages/testdata synthetische Testdaten – die einzigen, die außerhalb Prod existieren
 docs/            Entscheidungen, rechtliche Unterlagen, Marketing
 ```
+
+Patient und Praxis sind **eine** App mit Rollentrennung, keine zwei Deployments –
+Begründung in [ADR 0008](docs/decisions/0008-tech-stack-reha-plattform.md). Stack:
+Next.js + TypeScript, PostgreSQL + Drizzle, better-auth, Hetzner.
 
 Öffentliche Website und geschützter Bereich haben **getrennte Deployments und getrennte
 Datenbanken**. Eine Lücke in der Marketingseite darf die Patientenakte nicht erreichen.
@@ -130,6 +135,23 @@ Phase 3 startet nicht, bevor die Punkte in `docs/legal/checkliste.md` abgehakt s
 ---
 
 ## Arbeitsstand und Vorhaben
+
+**Update 2026-09-07:** Geschäftsrahmen entschieden in
+[ADR 0012](docs/decisions/0012-geschaeftsrahmen-start.md): zwei Einzelgewerbe, Code
+bleibt bei uns, nur AK Physio, E-Mail-Benachrichtigung, Verträge ohne Anwalt. Regel 5
+gilt unverändert – auch für den Mailversender. Gestaltungsauftrag: wärmer und bunter,
+eigene Piktogramme, keine Emojis.
+
+**Update 2026-09-02:** Die Website wurde dem Physio gezeigt und nach der Preisnennung
+zurückgestellt. **Die Reha-Plattform hat jetzt Vorrang.** Grundlage ist
+`Rehabilitationstagebuch_ohne_logo.pdf`; Stack und Zuschnitt stehen in
+[ADR 0008](docs/decisions/0008-tech-stack-reha-plattform.md), Wissensinhalte in
+[ADR 0009](docs/decisions/0009-wissensinhalte-editierbar.md), Ruheumsatz-Rechner in
+[ADR 0010](docs/decisions/0010-ruheumsatz-rechner.md), Schmerzampel-Bau in
+[ADR 0011](docs/decisions/0011-schmerzampel-bau-freigegeben.md). **Farbwelt ab jetzt
+braun/erdig**, Tokens in `packages/ui`; die Website übernimmt sie, sobald sie wieder
+aktiv wird. Der Rest dieses Abschnitts ist der Stand vom 12.08. und gilt weiter, soweit
+nicht durch die ADRs überholt.
 
 Stand: 2026-08-12. Die Gliederung stammt aus der Projektübersicht von Luis.
 **⚠ = kollidiert mit einer der Regeln oben und braucht eine Entscheidung (ADR),
@@ -238,4 +260,8 @@ einem Hyperscaler praktisch nicht individuell verhandelbar.
 Das heißt nicht „unmöglich", aber es ist eine **bewusste Entscheidung mit
 Begründung**, keine Nebensache beim Aufsetzen. Zulässige Auflösung: GCP für die
 öffentliche Website (dort keine Gesundheitsdaten), EU-Anbieter für den
-geschützten Bereich. Vor Phase 3 als ADR festhalten.
+geschützten Bereich.
+
+→ **Entschieden am 2026-09-02** ([ADR 0008](docs/decisions/0008-tech-stack-reha-plattform.md)):
+geschützter Bereich auf Hetzner Cloud, Staging auf einem vorhandenen eigenen Server mit
+ausschließlich synthetischen Daten. Kein Google Cloud im geschützten Bereich.

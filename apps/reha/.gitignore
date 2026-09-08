@@ -1,0 +1,4 @@
+# Nur das lokale Datenverzeichnis der App (Postgres, Uploads), nicht src/lib/data
+/data/
+.env.local
+.env

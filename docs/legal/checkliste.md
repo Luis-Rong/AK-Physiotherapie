@@ -6,6 +6,23 @@ IT-/Medizinrecht; der Kunde braucht einen (externen) Datenschutzbeauftragten.
 
 Stand: 2026-08-12
 
+> **Update 2026-09-07 – [ADR 0012](../decisions/0012-geschaeftsrahmen-start.md).**
+> Kein Fachanwalt, keine Gesellschaft: zwei Einzelgewerbe, Verträge schreiben wir
+> selbst. Damit ändern sich unten die Zuständigkeiten, nicht die Pflichten:
+> AV-Vertrag und § 203-Verpflichtung laufen als **zwei Ketten** (AK Physio ↔ Roko,
+> Roko ↔ Luis als Unterauftragnehmer). MDR-Prüfung der Ampel bewusst verschoben,
+> Risiko im Vertrag. Health-Claims-Verantwortung beim Physio als Autor, im Vertrag
+> festgehalten, Autor sichtbar im Wissensbereich. Benachrichtigung per E-Mail →
+> Mailversender vorher nach Regel 5 prüfen. UG/GmbH und Versicherung bleiben
+> Empfehlung, sind kein Blocker mehr.
+>
+> **Entwürfe liegen vor (2026-09-07, ohne Anwalt):** Vertragspaket in
+> [`vertraege/`](vertraege/README.md) (Kundenvertrag, AV-Vertrag in zwei Varianten,
+> § 203-Verpflichtung, interne Zusammenarbeit) und Betriebsprozesse in
+> [`prozesse/`](prozesse/) (Incident-Prozess, VVT-Zuarbeit, Löschkonzept, TOM). Damit sind
+> die Punkte AV-Vertrag, § 203, Löschkonzept, Incident-Prozess und VVT unten **vorbereitet**,
+> abgehakt werden sie erst mit Unterschrift bzw. Umsetzung.
+
 ---
 
 ## Vor Phase 3 (interne Praxisoberfläche) – blockierend
@@ -44,6 +61,13 @@ gilt für beide Richtungen.
       (Affiliate, eigener Shop), zusätzlich klären: Fernabsatzrecht, Kennzeichnungspflicht
 - [ ] Klären, ob Supplement-Empfehlungen zum Berufsbild des Physiotherapeuten zählen
       oder eine Grenze zur Heilpraktiker-/Ernährungsberatungstätigkeit berühren
+- [ ] **Fachanwaltliche Prüfung der automatischen Schmerzampel** (MDR Regel 11) vor
+      Produktivbetrieb. Sie wird nach [ADR 0011](../decisions/0011-schmerzampel-bau-freigegeben.md)
+      ohne vorherige Bestätigung gebaut; fällt die Prüfung negativ aus, wird
+      `PAIN_TRAFFIC_LIGHT=off` gesetzt. Das Risiko muss im Kundenvertrag benannt sein
+- [ ] Health-Claims-Redaktion der Wissensinhalte liegt beim Physio als Autor
+      ([ADR 0009](../decisions/0009-wissensinhalte-editierbar.md)); Erstinhalte aus dem
+      PDF bleiben Entwurf, bis er sie geprüft hat. Ins Onboarding aufnehmen
 
 ## Uns betreffend – Rechtsform und Haftung
 

@@ -2,6 +2,28 @@
 
 Stand: 2026-08-15 · Bestandsaufnahme nach Sichtung des Website-Codes
 
+> **Update 07.09.2026.** Geschäftsrahmen entschieden –
+> [ADR 0012](decisions/0012-geschaeftsrahmen-start.md): zwei Einzelgewerbe statt
+> Gesellschaft, Code bleibt bei uns (einfaches Nutzungsrecht), nur AK Physio, keine
+> thevea-Anfrage, Benachrichtigung per E-Mail, Verträge ohne Anwalt. Damit sind 4.1
+> und der thevea-Punkt in 4.3 erledigt bzw. gestrichen; offen bleiben Preiszahl und
+> KRS-ADR. Neu: Oberfläche soll bunter werden (Piktogramme, Bilder, keine Emojis).
+>
+> **Abends nachgezogen:** Gestaltung umgesetzt, KRS als [ADR 0013](decisions/0013-krs-stufen-nur-anzeige.md),
+> Plan-Vorlagen, Datei-Upload, Übergabeblatt, Assessment-Kurven und Datenexport gebaut;
+> Vertragspaket ([legal/vertraege](legal/vertraege/README.md)) und Betriebsprozesse
+> ([legal/prozesse](legal/prozesse/)) als Entwürfe; Mailversender als
+> [ADR 0014](decisions/0014-mailversender.md) vorgeschlagen – hängt an Frage 7 (wo liegt
+> das Praxis-Postfach?).
+>
+> **Update 02.09.2026.** Die Website ist nach der Preisnennung zurückgestellt; die
+> Reha-Plattform hat Vorrang. Damit rutscht alles unter **P0** (Website-Go-live) hinter
+> die Plattform-Punkte. Tech-Stack (4.3) ist entschieden:
+> [ADR 0008](decisions/0008-tech-stack-reha-plattform.md). Neu offen: DNS-Zugang für
+> `portal.akphysiotherapie.de` wird jetzt vor dem Website-Zugang gebraucht, und die
+> Punkte aus [`legal/checkliste.md`](legal/checkliste.md) zur Ampel (ADR 0011) und
+> zu den Wissensinhalten (ADR 0009).
+>
 > **Update 15.08.2026.** Drei Blöcke haben sich verschoben:
 > Das PVS ist bekannt (**thevea**) — Auswertung in [`pvs-thevea.md`](pvs-thevea.md).
 > Der Abgleich mit der alten Website liegt vor — [`marketing/alte-website-abgleich.md`](marketing/alte-website-abgleich.md).

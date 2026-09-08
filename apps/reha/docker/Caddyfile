@@ -1,0 +1,30 @@
+# TLS über Let's Encrypt (einzige ausgehende Verbindung des Servers, keine Patientendaten).
+# Cookies bleiben host-only auf dieser Subdomain (portal-konzept.md Abschnitt 7).
+{$PORTAL_HOST} {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		-Server
+	}
+
+	reverse_proxy app:3000 {
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Real-IP {remote_host}
+	}
+
+	log {
+		output file /data/access.log {
+			roll_size 20mb
+			roll_keep 5
+		}
+		# keine Query-Strings im Log
+		format filter {
+			request>uri query delete
+		}
+	}
+}

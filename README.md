@@ -1,15 +1,15 @@
 # AK Physio
 
-Website und ergänzendes Praxissystem für eine physiotherapeutische Praxis.
+Website und Reha-Plattform für eine physiotherapeutische Praxis.
 
 ## Worum es geht
 
-- **Neue öffentliche Website** – ersetzt die veraltete bestehende Seite
-- **Interne Praxisoberfläche** – Termine, Stammdaten, Behandlungsdokumentation
-- **Patientenportal** – digitale Einsicht in Behandlungs- und Trainingspläne
-- **Laufendes Marketing** – Kampagnen, Landingpages, Ads
+- **Reha-Plattform** (`apps/reha`, in Arbeit, hat Vorrang): Digitalisierung des
+  Rehabilitationstagebuchs. Patientenbereich (Trainingsplan, Tagebuch mit Schmerzampel,
+  Supplemente, Wissen) und Praxisbereich (Konten, Pläne, Inhalte, Zugang).
+- **Öffentliche Website** (`apps/website`, statisch, zurückgestellt seit 2026-09-02).
 
-Das System **ergänzt** das vorhandene, zugelassene PVS. Es ersetzt es nicht.
+Das System **ergänzt** das vorhandene, zugelassene PVS (thevea). Es ersetzt es nicht.
 Warum, steht in [ADR 0001](docs/decisions/0001-scope-kein-zugelassenes-pvs.md).
 
 ## Bevor du hier etwas änderst
@@ -24,21 +24,29 @@ und schon gar nicht in einen KI-Prompt.**
 ## Struktur
 
 ```
-apps/            Anwendungen (website, portal, praxis, api)
-packages/        geteilter Code (ui, testdata)
-docs/decisions/  Architecture Decision Records
-docs/legal/      Verträge, Datenschutz, Checklisten
-docs/marketing/  Kampagnen, Tracking-Konzept
+apps/reha/         Next.js-App: /app Patient, /praxis Praxis, Postgres + Drizzle, better-auth
+apps/website/      statische Marketing-Website
+packages/ui/       Design-Tokens (erdige Farbwelt)
+packages/testdata/ synthetische Testdaten
+docs/decisions/    Architecture Decision Records (0001–0011)
+docs/legal/        Checklisten, rechtliche Unterlagen
+docs/betrieb.md    Setup, Deploy, Backup, Restore
 ```
-
-## Was als Nächstes fehlt
-
-[docs/offene-punkte.md](docs/offene-punkte.md) — alles, was wir noch vom Physio
-brauchen und was wir selbst klären müssen, priorisiert nach Phase. Enthält am Ende
-einen kompakten Fragenkatalog fürs erste Gespräch.
-
-Der Anwendungscode kommt noch – das hier ist zunächst das Gerüst mit den Leitplanken.
 
 ## Setup
 
-Wird ergänzt, sobald das Grundgerüst der Anwendung eingecheckt ist.
+Siehe [docs/betrieb.md](docs/betrieb.md). Kurzfassung:
+
+```bash
+pnpm install
+cd apps/reha && cp .env.example .env.local
+pnpm dev        # startet Postgres, Migrationen, Seed und Next in einem Rutsch
+```
+
+Die Testzugänge (nur synthetische Daten) stehen beim Start in der Konsole. Das
+Praxis-Konto verlangt einen zweiten Faktor: `pnpm totp` gibt den aktuellen Code aus.
+
+## Was als Nächstes fehlt
+
+[docs/offene-punkte.md](docs/offene-punkte.md) und die Blocker vor Produktivbetrieb in
+[docs/legal/checkliste.md](docs/legal/checkliste.md).

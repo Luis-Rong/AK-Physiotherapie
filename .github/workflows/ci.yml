@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm --filter reha lint
+      - name: Typecheck
+        run: pnpm --filter reha typecheck
+      - name: Unit- und DB-Tests (eingebettetes Postgres)
+        run: pnpm --filter reha test
+      - name: Build
+        run: pnpm --filter reha build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          DATABASE_URL: postgres://x:x@127.0.0.1:1/x
+          BETTER_AUTH_SECRET: ci-only-secret-not-for-production-0000
