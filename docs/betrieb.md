@@ -37,26 +37,84 @@ vorher einmalig `pnpm exec playwright install chromium`),
 Seed-Konten stehen in `packages/testdata`. Es gibt keine echten Daten außerhalb der
 Produktion (Regel 1).
 
-## Server vorbereiten (Staging wie Prod)
+## Server und Domain live schalten (Anleitung für Roko)
 
-1. Docker Engine + Compose-Plugin, `ufw` mit nur 22/80/443, SSH nur mit Schlüssel.
-2. `/opt/reha` anlegen; die Deploy-Pipeline kopiert `apps/reha/docker/*` dorthin.
-3. `/etc/reha/<staging|prod>.env` mit `chmod 600` und den Werten:
+Ziel: dein Server unter deiner (Sub-)Domain erreichbar, GitHub deployt automatisch bei
+jedem Push auf `main`. Staging läuft ausschließlich mit synthetischen Daten (Regel 1) –
+für Produktion gilt derselbe Ablauf auf dem Hetzner-Server, zusätzlich Backup (Schritt 4).
+
+**Voraussetzung:** ein Server mit Root- oder Sudo-Zugriff und öffentlicher IPv4-Adresse,
+eine (Sub-)Domain, die du auf diesen Server zeigen lassen kannst.
+
+**0. DNS.** Bei deinem Domain-Anbieter einen **A-Record** der (Sub-)Domain (z. B.
+`staging.deine-domain.de`) auf die Server-IP setzen. Nichts weiter konfigurieren – Caddy
+im Compose-Stack holt sich das TLS-Zertifikat beim ersten Start selbst (Let's Encrypt,
+einzige ausgehende Verbindung des Servers, keine Patientendaten). DNS-Änderungen
+brauchen oft ein paar Minuten bis Stunden, bis sie überall ankommen.
+
+**1. Server vorbereiten** (einmalig, per SSH auf dem Server):
+
+```bash
+apt update && apt install -y docker.io docker-compose-plugin ufw
+ufw allow 22/tcp && ufw allow 80/tcp && ufw allow 443/tcp && ufw --force enable
+mkdir -p /opt/reha /etc/reha
+```
+
+**2. Eigenen SSH-Schlüssel für GitHub Actions erzeugen** (auf deinem eigenen Rechner,
+**nicht** auf dem Server – dieser Schlüssel gehört gleich als Secret zu GitHub):
+
+```bash
+ssh-keygen -t ed25519 -f deploy_reha -N ""
+ssh-copy-id -i deploy_reha.pub DEIN_USER@DEIN_SERVER
+```
+
+Kein `ssh-copy-id` zur Hand? Inhalt von `deploy_reha.pub` per Hand ans Ende von
+`~/.ssh/authorized_keys` auf dem Server anhängen.
+
+**3. Geheimnisse erzeugen und in `/etc/reha/staging.env` eintragen** (auf dem Server,
+danach `chmod 600 /etc/reha/staging.env`):
+
+```bash
+openssl rand -base64 24   # → POSTGRES_PASSWORD
+openssl rand -base64 24   # → REHA_OWNER_PASSWORD
+openssl rand -base64 24   # → REHA_APP_PASSWORD
+openssl rand -base64 48   # → BETTER_AUTH_SECRET
+```
+
+Datei-Inhalt (jeweils den erzeugten Wert einsetzen):
 
 ```
-PORTAL_HOST=portal.akphysiotherapie.de
-POSTGRES_PASSWORD=…            # Superuser des Containers, nur für Backups
-REHA_OWNER_PASSWORD=…          # Migrationen
-REHA_APP_PASSWORD=…            # Anwendung (eingeschränkte Rolle, ADR 0002)
-BETTER_AUTH_SECRET=…           # openssl rand -base64 48
-BACKUP_PASSPHRASE=…            # nur Prod; Verlust = Backups wertlos, im Tresor ablegen
-PAIN_TRAFFIC_LIGHT=on          # off = Rückfall nach ADR 0007
+PORTAL_HOST=staging.deine-domain.de
+POSTGRES_PASSWORD=…
+REHA_OWNER_PASSWORD=…
+REHA_APP_PASSWORD=…
+BETTER_AUTH_SECRET=…
+PAIN_TRAFFIC_LIGHT=on
 ```
 
-4. DNS: A/AAAA-Record der Subdomain auf den Server. Caddy holt das TLS-Zertifikat
-   selbst (einzige ausgehende Verbindung, keine Patientendaten).
-5. GitHub-Environment `staging` bzw. `prod` mit Secrets `DEPLOY_HOST`, `DEPLOY_USER`,
-   `DEPLOY_SSH_KEY`. Produktion nur per manuellem Workflow-Start nach Abnahme.
+**4. Nur für Produktion zusätzlich:** `BACKUP_PASSPHRASE` (`openssl rand -base64 48`) in
+`/etc/reha/prod.env` – Verlust dieser Passphrase macht alle Backups wertlos, also an
+einem zweiten Ort sicher ablegen (Passwort-Manager, Tresor), nicht nur auf dem Server.
+
+**5. Secrets in GitHub hinterlegen:** Repo auf github.com → **Settings → Environments →
+New environment**, Name exakt `staging` (für Produktion später zusätzlich `prod`).
+Darin unter „Environment secrets" drei Secrets anlegen:
+
+| Name | Wert |
+|---|---|
+| `DEPLOY_HOST` | Server-IP oder Domain des Servers |
+| `DEPLOY_USER` | dein SSH-Benutzername auf dem Server |
+| `DEPLOY_SSH_KEY` | kompletter Inhalt von `deploy_reha` (der **private** Schlüssel aus Schritt 2, nicht `.pub`) |
+
+**6. Fertig.** Der nächste Push auf `main` baut das Image und deployt automatisch auf
+Staging (Workflow „Deploy" unter dem Actions-Tab des Repos). Für einen manuellen Lauf:
+Actions → Deploy → „Run workflow" → `target: staging`. Produktion läuft **nie**
+automatisch, sondern nur über denselben manuellen Start mit `target: prod`, nach
+Abnahme auf Staging.
+
+**Fehlersuche:** Schlägt der `deploy`-Job mit „can't connect without a private SSH key
+or password" fehl, fehlt eines der drei Secrets oder der öffentliche Schlüssel steht
+nicht auf dem Server. Log steht unter Actions → der fehlgeschlagene Lauf → Job `deploy`.
 
 Erster Start legt über `docker/init/01-roles.sql` Rollen und Datenbank an; der
 Dienst `migrate` wendet die SQL-Migrationen an, danach startet `app`.
