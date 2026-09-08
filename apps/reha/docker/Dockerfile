@@ -16,6 +16,11 @@ RUN pnpm install --frozen-lockfile
 FROM deps AS build
 COPY packages ./packages
 COPY apps/reha ./apps/reha
+# db/client.ts baut den Verbindungspool beim Modul-Import auf und wirft ohne DATABASE_URL;
+# next build importiert Routen wie /api/assets/[id] zum Sammeln der Seiten-Daten, auch ohne
+# echte Datenbank. Platzhalter wie in ci.yml, werden zur Laufzeit von compose.*.yml überschrieben.
+ENV DATABASE_URL=postgres://x:x@127.0.0.1:1/x \
+    BETTER_AUTH_SECRET=docker-build-only-not-for-production-000000
 RUN pnpm --filter reha build
 
 # Laufzeit: nur das Standalone-Bundle, kein pnpm, keine Dev-Abhängigkeiten
