@@ -34,6 +34,19 @@ COPY --from=build --chown=reha:reha /repo/apps/reha/public ./apps/reha/public
 # Migrationen und Skripte für den Einmal-Container
 COPY --from=build --chown=reha:reha /repo/apps/reha/src/db/migrations ./migrations
 COPY --chown=reha:reha apps/reha/docker/migrate.mjs ./migrate.mjs
+
+# Next kopiert bei serverExternalPackages (next.config.ts) den pnpm-Ordner
+# node_modules/.pnpm/pg@* ins Bundle, legt aber den Auflösungs-Symlink
+# node_modules/pg nicht an. Ohne ihn findet weder apps/reha/server.js noch
+# migrate.mjs den Postgres-Treiber (MODULE_NOT_FOUND). Die pg-* Unterabhängigkeiten
+# liegen als Geschwister in .pnpm/pg@*/node_modules/ und werden von dort aufgelöst.
+# embedded-postgres ist ebenfalls extern, wird aber nur von Dev-Skripten gebraucht.
+RUN cd node_modules \
+ && ln -sfn "$(ls -d .pnpm/pg@*/node_modules/pg | head -1)" pg \
+ && cd /app \
+ && node -e "require('module').createRequire('/app/apps/reha/server.js').resolve('pg')" \
+ && echo "pg aus server.js auflösbar"
+
 USER reha
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD wget -qO- http://127.0.0.1:3000/login >/dev/null || exit 1

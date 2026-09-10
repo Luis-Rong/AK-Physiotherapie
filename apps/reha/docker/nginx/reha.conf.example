@@ -1,0 +1,46 @@
+# Beispiel-vhost für einen Server, auf dem Nginx schon läuft und die Reha-App als
+# zusätzliche Subdomain hinter dem vorhandenen Webserver bedient werden soll (ADR 0015).
+#
+#   1. Datei nach /etc/nginx/sites-available/reha.<domain> kopieren, <domain> ersetzen.
+#   2. ln -s ../sites-available/reha.<domain> /etc/nginx/sites-enabled/
+#   3. nginx -t && systemctl reload nginx
+#   4. certbot --nginx -d reha.<domain>   (fügt den 443-Block und die Zertifikate hinzu)
+#
+# Der Compose-Stack (compose.staging-shared.yml) veröffentlicht die App auf
+# 127.0.0.1:3000 – nur dieser vhost spricht mit ihr.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name reha.example.com;
+
+    # Patientendateien und Wissensbilder: großzügig genug für PDFs/Fotos.
+    client_max_body_size 25M;
+
+    # Kein Drittanbieter-Kontext hier, aber ein paar Header schaden nie.
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy no-referrer always;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # WebSocket / SSE (better-auth und Next.js nutzen beides stellenweise)
+        proxy_set_header Upgrade    $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+
+        proxy_read_timeout 300s;
+    }
+}
+
+# In die http{}-Ebene gehört einmalig (z. B. /etc/nginx/conf.d/upgrade-map.conf):
+#
+#   map $http_upgrade $connection_upgrade {
+#       default upgrade;
+#       ''      close;
+#   }

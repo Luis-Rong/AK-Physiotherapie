@@ -1,6 +1,6 @@
 /**
  * Eingebettetes Postgres für lokale Entwicklung und Tests (kein Docker nötig).
- * Legt dieselben Rollen an wie docker/init/01-roles.sql, damit Rechte und
+ * Legt dieselben Rollen an wie docker/init/01-roles.sh, damit Rechte und
  * Append-only-Erzwingung lokal genauso greifen wie in Produktion.
  */
 import EmbeddedPostgres from "embedded-postgres";

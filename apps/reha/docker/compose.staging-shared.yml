@@ -1,0 +1,65 @@
+# Staging auf einem Server, auf dem schon ein Webserver (Nginx/Apache) die Ports 80/443
+# hält – z. B. Rokos Hetzner-VPS mit der bestehenden Laravel-Website. Siehe ADR 0015.
+#
+# Unterschied zu compose.staging.yml: kein Caddy. Die App lauscht nur auf 127.0.0.1:3000,
+# der vorhandene Nginx terminiert TLS (Certbot) und leitet reha.<domain> an die App weiter
+# (Beispiel-vhost: nginx/reha.conf.example).
+#
+# Aufruf vom Repo-Root:
+#   docker compose -f apps/reha/docker/compose.staging-shared.yml --env-file /etc/reha/staging.env up -d
+#
+# Nur synthetische Daten (Regel 1). Kein Backup-Dienst (Staging).
+name: reha-staging
+
+services:
+  app:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://reha_app:${REHA_APP_PASSWORD}@db:5432/reha
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: https://${PORTAL_HOST}
+      PAIN_TRAFFIC_LIGHT: ${PAIN_TRAFFIC_LIGHT:-on}
+      UPLOAD_DIR: /data/uploads
+    volumes:
+      - uploads:/data/uploads
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    # Nur an den Loopback des Hosts binden – der vorhandene Nginx ist das einzige,
+    # was von außen mit der App spricht.
+    ports:
+      - "127.0.0.1:3000:3000"
+
+  migrate:
+    image: ${REHA_IMAGE:-ghcr.io/ak-physio/reha:latest}
+    command: ["node", "migrate.mjs"]
+    environment:
+      DATABASE_URL_OWNER: postgres://reha_owner:${REHA_OWNER_PASSWORD}@db:5432/reha
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      REHA_OWNER_PASSWORD: ${REHA_OWNER_PASSWORD}
+      REHA_APP_PASSWORD: ${REHA_APP_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Kein Port nach außen – nur im Compose-Netz erreichbar.
+
+volumes:
+  pgdata:
+  uploads:

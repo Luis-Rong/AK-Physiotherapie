@@ -323,6 +323,11 @@ Ampel-Frage sind inzwischen als [ADR 0005](decisions/0005-zugangskonzept-portal.
 - [ ] **PDF-Import**: Wie kommen die bestehenden Pläne ins System? Manuell abtippen,
       als PDF anhängen, oder strukturiert erfassen?
 - [ ] Backup- und Wiederherstellungskonzept, dokumentiert und **getestet**
+- [ ] **Erstes Praxiskonto im Docker-Deploy**: `scripts/praxis-konto.ts` läuft nur mit
+      `tsx` + Dev-Deps + TS-Quellcode, die nicht im Standalone-Image sind. Braucht einen
+      `konto`-Unterbefehl im Image oder ein mitgeliefertes SQL-Skript (Owner-Rolle,
+      `mustChangePassword`). Bis dahin nur über einen vollen Repo-Checkout auf dem Server
+      (`betrieb.md`, Abschnitt „Staging auf einem Server mit vorhandenem Webserver")
 
 ---
 
