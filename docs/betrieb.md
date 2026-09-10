@@ -116,12 +116,95 @@ Abnahme auf Staging.
 or password" fehl, fehlt eines der drei Secrets oder der öffentliche Schlüssel steht
 nicht auf dem Server. Log steht unter Actions → der fehlgeschlagene Lauf → Job `deploy`.
 
-Erster Start legt über `docker/init/01-roles.sql` Rollen und Datenbank an; der
+Erster Start legt über `docker/init/01-roles.sh` Rollen und Datenbank an; der
 Dienst `migrate` wendet die SQL-Migrationen an, danach startet `app`.
 
 Erstes Praxiskonto: `docker compose exec app node -e` ist bewusst nicht vorgesehen.
 Stattdessen einmalig ein Konto per SQL-Skript anlegen (Owner-Rolle), Passwort mit
 `mustChangePassword = true`; danach legt die Praxis alle weiteren Konten im Portal an.
+
+## Staging auf einem Server mit vorhandenem Webserver (ADR 0015)
+
+Rokos Server hat schon Nginx auf 80/443 (bestehende Website). Dort läuft die Reha-App
+**ohne den gebündelten Caddy**: `compose.staging-shared.yml` bindet die App an
+`127.0.0.1:3000`, der vorhandene Nginx terminiert TLS und leitet die Subdomain weiter.
+`ufw` wird auf diesem Server **nicht** aktiviert (Schritt 1 der Anleitung oben überspringen).
+
+**0. DNS.** A-Record `reha.<domain>` → Server-IP.
+
+**1. Server vorbereiten** (einmalig, per SSH):
+
+```bash
+apt install -y docker.io docker-compose-v2
+systemctl enable --now docker
+mkdir -p /opt/reha /etc/reha
+# 4 GB RAM sind mit MySQL/PHP-FPM knapp – 2 GB Swap als Puffer:
+fallocate -l 2G /swapfile && chmod 600 /swapfile && mkswap /swapfile && swapon /swapfile
+echo '/swapfile none swap sw 0 0' >> /etc/fstab
+```
+
+**2. Secrets** nach `/etc/reha/staging.env` (danach `chmod 600`):
+
+```bash
+openssl rand -base64 24   # POSTGRES_PASSWORD
+openssl rand -base64 24   # REHA_OWNER_PASSWORD
+openssl rand -base64 24   # REHA_APP_PASSWORD
+openssl rand -base64 48   # BETTER_AUTH_SECRET
+```
+
+```
+PORTAL_HOST=reha.deine-domain.de
+POSTGRES_PASSWORD=…
+REHA_OWNER_PASSWORD=…
+REHA_APP_PASSWORD=…
+BETTER_AUTH_SECRET=…
+PAIN_TRAFFIC_LIGHT=on
+```
+
+**3. Image aus der Registry holen.** Nicht auf dem Server bauen (RAM). GitHub Actions
+baut bei jedem Push auf `main` und legt das Image in `ghcr.io` ab. Auf dem Server ein
+GitHub-Token mit Scope `read:packages` hinterlegen und einloggen:
+
+```bash
+echo "GHCR_PAT_MIT_read:packages" | docker login ghcr.io -u DEIN_GITHUB_USER --password-stdin
+```
+
+**4. Compose-Dateien auf den Server.** Ordner `apps/reha/docker/` (mit `init/`,
+`compose.staging-shared.yml`) nach `/opt/reha` kopieren – per `scp`, oder das Repo nach
+`/opt/reha` klonen.
+
+**5. Stack starten:**
+
+```bash
+cd /opt/reha
+export REHA_IMAGE=ghcr.io/DEIN_ORG/reha:latest
+docker compose -f compose.staging-shared.yml --env-file /etc/reha/staging.env pull
+docker compose -f compose.staging-shared.yml --env-file /etc/reha/staging.env up -d
+docker compose -f compose.staging-shared.yml ps
+curl -sI http://127.0.0.1:3000/login | head -1   # sollte 200 sein
+```
+
+**6. Nginx-vhost.** `apps/reha/docker/nginx/reha.conf.example` als Vorlage nach
+`/etc/nginx/sites-available/reha.<domain>`, `server_name` anpassen, die `map`-Zeile
+einmalig in ein `conf.d`-Snippet. Dann:
+
+```bash
+ln -s ../sites-available/reha.<domain> /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+certbot --nginx -d reha.<domain> --non-interactive --agree-tos -m DEINE-MAIL
+```
+
+**7. Erstes Praxiskonto — noch offen.** `scripts/praxis-konto.ts` braucht `tsx`, die
+Dev-Abhängigkeiten und den TypeScript-Quellcode; das Standalone-Image enthält keins
+davon. Für Staging mit synthetischen Daten aktuell: das Repo auf dem Server auschecken,
+`pnpm install`, dann `DATABASE_URL=… BETTER_AUTH_SECRET=… pnpm --filter reha praxis:konto`
+gegen die Container-DB (dafür in `compose.staging-shared.yml` vorübergehend
+`ports: ["127.0.0.1:5432:5432"]` beim `db`-Dienst ergänzen). Sauberer Weg (ein
+`konto`-Unterbefehl im Image oder ein mitgeliefertes SQL-Skript) siehe
+`docs/offene-punkte.md`.
+
+**Update später:** `docker compose … pull && docker compose … up -d`. Migrationen laufen
+im `migrate`-Dienst automatisch mit.
 
 ## Backup und Wiederherstellung (nur Prod)
 

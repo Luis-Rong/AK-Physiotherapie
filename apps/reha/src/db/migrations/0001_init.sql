@@ -2,7 +2,7 @@
 -- 0001_init: Grundschema der Reha-Plattform
 --
 -- Läuft als reha_owner. Die Rollen reha_owner und reha_app werden vorher vom
--- Superuser angelegt (docker/init/01-roles.sql bzw. scripts/db-local.ts).
+-- Superuser angelegt (docker/init/01-roles.sh bzw. scripts/lib/embedded.ts).
 --
 -- Append-only (ADR 0002) wird hier doppelt erzwungen:
 --   1. reha_app bekommt auf den Dokumentationstabellen nur SELECT und INSERT.

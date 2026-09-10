@@ -39,3 +39,4 @@ der Punkt.
 | [0012](0012-geschaeftsrahmen-start.md) | Geschäftsrahmen für den Start: zwei Einzelgewerbe, Code bleibt bei uns, nur AK Physio | akzeptiert |
 | [0013](0013-krs-stufen-nur-anzeige.md) | KRS-Stufen bleiben reine Anzeige | akzeptiert |
 | [0014](0014-mailversender.md) | Mailversender für Benachrichtigungen | vorgeschlagen |
+| [0015](0015-reha-hinter-bestehendem-nginx.md) | Reha-Staging hinter dem bestehenden Nginx auf Rokos Server | akzeptiert |
